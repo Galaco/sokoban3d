@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{9b3e6f5e-164a-426c-8219-4a39af932a0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{475867de-8a47-4953-afe8-4185397e5249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\components">
+      <UniqueIdentifier>{9b60ba39-041b-4397-85ac-93c7b6eb1358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\components">
+      <UniqueIdentifier>{989c3563-870c-4dc8-8a26-2031ac74964d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{9a8eab5c-e6a3-4c95-a156-01a5ac5ffc17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\core">
+      <UniqueIdentifier>{aba73293-5a09-4fed-907c-7003e999c86e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\scripts">
+      <UniqueIdentifier>{b02c90af-efba-4202-949a-10a13d1e526b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\shaders">
+      <UniqueIdentifier>{e0b58572-c783-410f-9543-9618657fc6a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\shaders\deferred">
+      <UniqueIdentifier>{c4d6b67c-f7ff-4189-a930-87ca9d6d3fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\shaders\forward">
+      <UniqueIdentifier>{2f6c91ca-68d5-4cb5-8311-2d9c4b2502d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\components\CTransform.cpp">
+      <Filter>Source Files\core\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Component.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Engine.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Entity.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Input.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Logger.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Config.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Keyboard.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Identifier.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\CTransform.h">
+      <Filter>Header Files\core\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Entity.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Input.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Logger.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Component.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Engine.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Config.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Identifier.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Keyboard.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\core\base.cfg">
+      <Filter>data\core</Filter>
+    </None>
+    <None Include="data\shaders\skybox.fs.glsl">
+      <Filter>data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\skybox.vs.glsl">
+      <Filter>data\shaders</Filter>
+    </None>
+    <None Include="data\shaders\forward\forward.vs.glsl">
+      <Filter>data\shaders\forward</Filter>
+    </None>
+    <None Include="data\shaders\forward\forward.fs.glsl">
+      <Filter>data\shaders\forward</Filter>
+    </None>
+    <None Include="data\shaders\deferred\point_light_pass.fs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\point_light_pass.vs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\stencil.fs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\stencil.vs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\directional_light_pass.fs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\directional_light_pass.vs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\geometry_pass.fs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\shaders\deferred\geometry_pass.vs.glsl">
+      <Filter>data\shaders\deferred</Filter>
+    </None>
+    <None Include="data\scripts\init.lua">
+      <Filter>data\scripts</Filter>
+    </None>
+    <None Include="data\scripts\ent.lua">
+      <Filter>data\scripts</Filter>
+    </None>
+    <None Include="data\scripts\camera.lua">
+      <Filter>data\scripts</Filter>
+    </None>
+  </ItemGroup>
+</Project>

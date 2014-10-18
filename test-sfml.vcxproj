@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\Component.cpp" />
+    <ClCompile Include="src\core\components\CTransform.cpp" />
+    <ClCompile Include="src\core\Config.cpp" />
+    <ClCompile Include="src\core\Engine.cpp" />
+    <ClCompile Include="src\core\Entity.cpp" />
+    <ClCompile Include="src\core\Identifier.cpp" />
+    <ClCompile Include="src\core\Input.cpp" />
+    <ClCompile Include="src\core\Keyboard.cpp" />
+    <ClCompile Include="src\core\Logger.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\core\Component.h" />
+    <ClInclude Include="src\core\components\CTransform.h" />
+    <ClInclude Include="src\core\Config.h" />
+    <ClInclude Include="src\core\Engine.h" />
+    <ClInclude Include="src\core\Entity.h" />
+    <ClInclude Include="src\core\Identifier.h" />
+    <ClInclude Include="src\core\Input.h" />
+    <ClInclude Include="src\core\Keyboard.h" />
+    <ClInclude Include="src\core\Logger.h" />
+    <ClInclude Include="src\Game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\core\base.cfg" />
+    <None Include="data\scripts\camera.lua" />
+    <None Include="data\scripts\ent.lua" />
+    <None Include="data\scripts\init.lua" />
+    <None Include="data\shaders\deferred\directional_light_pass.fs.glsl" />
+    <None Include="data\shaders\deferred\directional_light_pass.vs.glsl" />
+    <None Include="data\shaders\deferred\geometry_pass.fs.glsl" />
+    <None Include="data\shaders\deferred\geometry_pass.vs.glsl" />
+    <None Include="data\shaders\deferred\point_light_pass.fs.glsl" />
+    <None Include="data\shaders\deferred\point_light_pass.vs.glsl" />
+    <None Include="data\shaders\deferred\stencil.fs.glsl" />
+    <None Include="data\shaders\deferred\stencil.vs.glsl" />
+    <None Include="data\shaders\forward\forward.fs.glsl" />
+    <None Include="data\shaders\forward\forward.vs.glsl" />
+    <None Include="data\shaders\skybox.fs.glsl" />
+    <None Include="data\shaders\skybox.vs.glsl" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{78FD7135-30F4-45B4-AFAD-F6E18959FC07}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>testsfml</RootNamespace>
+    <ProjectName>Engine</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 5.5.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)\src\extern;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/boost;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua-5.2.3/include;$(SolutionDir)/libraries/src/extern;$(SolutionDir)/libraries/libnoise/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/TinyXML/include;$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/boost/lib;$(SolutionDir)/libraries/lua-5.2.3/lib;$(SolutionDir)/libraries/libnoise/bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua52.lib;opengl32.lib;glfw3.lib;glew32.lib;glew32s.lib;glu32.lib;libnoise.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;sfml-network-s-d.lib;sfml-main-d.lib;sfml-audio-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/lua-5.2.3/include;$(SolutionDir)/src;$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/libnoise/include;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/boost;$(SolutionDir)/libraries/glfx/include;$(SolutionDir)/libraries/GLEW/include</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/lua-5.2.3/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/boost/lib;$(SolutionDir)/libraries/libnoise/bin</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua52.lib;opengl32.lib;glfw3.lib;glew32.lib;glew32s.lib;sfml-graphics-s.lib;sfml-system-s.lib;sfml-main.lib;%(AdditionalDependencies);glew32.lib;glfw3.lib;libnoise.lib;</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 5.5.targets" />
+  </ImportGroup>
+</Project>
