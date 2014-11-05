@@ -39,6 +39,12 @@
     <Filter Include="data\shaders\forward">
       <UniqueIdentifier>{2f6c91ca-68d5-4cb5-8311-2d9c4b2502d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\resources">
+      <UniqueIdentifier>{8e07c715-9640-4d65-bf05-9b1807f2b077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\resources">
+      <UniqueIdentifier>{e3742b6f-ea19-4c32-9216-7f8cfbfa59ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -74,6 +80,27 @@
     <ClCompile Include="src\core\Identifier.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\resources\Skybox.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Texture.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\DirectionalLight.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Model.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\PointLight.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Camera.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Pipeline.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -104,6 +131,33 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Keyboard.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Skybox.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Texture.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\DirectionalLight.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Mesh.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Model.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\PointLight.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Camera.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Pipeline.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Resource.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
