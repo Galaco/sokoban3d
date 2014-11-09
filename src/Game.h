@@ -7,6 +7,11 @@
 #include <GLFW/glfw3.h>
 
 #include <SFML/System.hpp>
+#include "systems/SGraphics.h"
+
+
+#include <core/StateManager.h>
+#include <core/states/SplashState.h>
 
 
 class Game {
@@ -21,14 +26,17 @@ public:
 
 private:
 	void handleInputs();
-        
-        
+               
 	bool m_isRunning;
     float m_elapsedTime, m_frameTime;
+	static float FRAMELENGTH;
+
 
 	Engine& m_engine;
     sf::Clock m_clock;
 
-    static float FRAMELENGTH;
+
+	SGraphics		m_Graphics;
+	static StateManager STATEMANAGER;
 };
 #endif

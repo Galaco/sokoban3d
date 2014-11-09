@@ -45,6 +45,30 @@
     <Filter Include="Source Files\core\resources">
       <UniqueIdentifier>{e3742b6f-ea19-4c32-9216-7f8cfbfa59ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\core\states">
+      <UniqueIdentifier>{78727d2e-a77c-4038-b6a0-1bf1a7acdab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\states">
+      <UniqueIdentifier>{eeebb1ad-b8de-48e9-b750-91212390f5cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems">
+      <UniqueIdentifier>{1f464951-cdd3-4769-9048-666b4dc1c8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{f270fc04-adad-4891-9344-aa8e4faac3ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\renderer">
+      <UniqueIdentifier>{61a6101e-d7c7-4d16-80d9-7f0d9513643c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems\renderer">
+      <UniqueIdentifier>{ba04291d-25f0-44de-b9fe-47e30814cae7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\components">
+      <UniqueIdentifier>{21dfc8a8-62e3-474b-9221-d3980c0334ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\components">
+      <UniqueIdentifier>{19ee8d89-4162-4571-9157-255ebe4a169b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -99,6 +123,57 @@
       <Filter>Source Files\core</Filter>
     </ClCompile>
     <ClCompile Include="src\core\Pipeline.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\states\SplashState.cpp">
+      <Filter>Source Files\core\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\TextureLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ModelLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ResourceManager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\State.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\StateManager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SGraphics.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\PointLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\StencilPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Shader.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CGraphics.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\EventManager.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -158,6 +233,57 @@
       <Filter>Header Files\core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Resource.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\states\SplashState.h">
+      <Filter>Header Files\core\states</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ModelLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ResourceManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\State.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\StateManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\System.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\TextureLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SGraphics.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\PointLightPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\StencilPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DeferredPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DeferredRenderer.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DirectionalLightPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\GeometryPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Shader.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CGraphics.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\EventManager.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>

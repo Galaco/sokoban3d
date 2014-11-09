@@ -2,12 +2,10 @@
 
 std::map<std::string, CShaderProgram*> ResourceManager::m_shaderList;
 std::map<std::string, Texture*> ResourceManager::m_textureList;
-std::map<std::string, BaseAnimation*> ResourceManager::m_animationList;
 std::map<std::string, Model*> ResourceManager::m_modelList;
 
 ModelLoader ResourceManager::m_modelLoader;
 TextureLoader ResourceManager::m_textureLoader;
-AnimationLoader ResourceManager::m_animationLoader;
 
 ResourceManager::ResourceManager(){
 
@@ -33,15 +31,8 @@ Texture* ResourceManager::getTexture(std::string id){
 	}
 }
 
-BaseAnimation* ResourceManager::getAnimation(std::string id){
-	if(m_animationList.find(id) == m_animationList.end()) { 
-		return nullptr; 
-	} else { 
-		return m_animationList[id];
-	}
-}
-
-CShaderProgram* ResourceManager::getShader(std::string id){
+CShaderProgram* ResourceManager::getShader(std::string id)
+{
 	if(m_shaderList.find(id) == m_shaderList.end()) { 
 		return nullptr; 
 	} else {
@@ -49,7 +40,8 @@ CShaderProgram* ResourceManager::getShader(std::string id){
 	}
 }
 	
-bool ResourceManager::remove(resourceType r, std::string id){
+bool ResourceManager::remove(resourceType r, std::string id)
+{
 	switch(r){
 	case SHADER:
 		delete m_shaderList[id];
@@ -67,6 +59,7 @@ bool ResourceManager::remove(resourceType r, std::string id){
 	return true;
 }
 
-bool ResourceManager::empty(resourceType r){
+bool ResourceManager::empty(resourceType r)
+{
 	return true;
 }

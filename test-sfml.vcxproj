@@ -11,45 +11,79 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\CGraphics.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\Component.cpp" />
     <ClCompile Include="src\core\components\CTransform.cpp" />
     <ClCompile Include="src\core\Config.cpp" />
     <ClCompile Include="src\core\Engine.cpp" />
     <ClCompile Include="src\core\Entity.cpp" />
+    <ClCompile Include="src\core\EventManager.cpp" />
     <ClCompile Include="src\core\Identifier.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\Keyboard.cpp" />
     <ClCompile Include="src\core\Logger.cpp" />
+    <ClCompile Include="src\core\ModelLoader.cpp" />
     <ClCompile Include="src\core\Pipeline.cpp" />
+    <ClCompile Include="src\core\ResourceManager.cpp" />
     <ClCompile Include="src\core\resources\DirectionalLight.cpp" />
     <ClCompile Include="src\core\resources\Model.cpp" />
     <ClCompile Include="src\core\resources\PointLight.cpp" />
+    <ClCompile Include="src\core\resources\Shader.cpp" />
     <ClCompile Include="src\core\resources\Skybox.cpp" />
     <ClCompile Include="src\core\resources\Texture.cpp" />
+    <ClCompile Include="src\core\State.cpp" />
+    <ClCompile Include="src\core\StateManager.cpp" />
+    <ClCompile Include="src\core\states\SplashState.cpp" />
+    <ClCompile Include="src\core\System.cpp" />
+    <ClCompile Include="src\core\TextureLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\systems\renderer\DeferredPass.cpp" />
+    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp" />
+    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp" />
+    <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
+    <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
+    <ClCompile Include="src\systems\renderer\StencilPass.cpp" />
+    <ClCompile Include="src\systems\SGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\CGraphics.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\Component.h" />
     <ClInclude Include="src\core\components\CTransform.h" />
     <ClInclude Include="src\core\Config.h" />
     <ClInclude Include="src\core\Engine.h" />
     <ClInclude Include="src\core\Entity.h" />
+    <ClInclude Include="src\core\EventManager.h" />
     <ClInclude Include="src\core\Identifier.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\Keyboard.h" />
     <ClInclude Include="src\core\Logger.h" />
+    <ClInclude Include="src\core\ModelLoader.h" />
     <ClInclude Include="src\core\Pipeline.h" />
     <ClInclude Include="src\core\Resource.h" />
+    <ClInclude Include="src\core\ResourceManager.h" />
     <ClInclude Include="src\core\resources\DirectionalLight.h" />
     <ClInclude Include="src\core\resources\Mesh.h" />
     <ClInclude Include="src\core\resources\Model.h" />
     <ClInclude Include="src\core\resources\PointLight.h" />
+    <ClInclude Include="src\core\resources\Shader.h" />
     <ClInclude Include="src\core\resources\Skybox.h" />
     <ClInclude Include="src\core\resources\Texture.h" />
+    <ClInclude Include="src\core\State.h" />
+    <ClInclude Include="src\core\StateManager.h" />
+    <ClInclude Include="src\core\states\SplashState.h" />
+    <ClInclude Include="src\core\System.h" />
+    <ClInclude Include="src\core\TextureLoader.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\systems\renderer\DeferredPass.h" />
+    <ClInclude Include="src\systems\renderer\DeferredRenderer.h" />
+    <ClInclude Include="src\systems\renderer\DirectionalLightPass.h" />
+    <ClInclude Include="src\systems\renderer\GeometryPass.h" />
+    <ClInclude Include="src\systems\renderer\PointLightPass.h" />
+    <ClInclude Include="src\systems\renderer\StencilPass.h" />
+    <ClInclude Include="src\systems\SGraphics.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\core\base.cfg" />

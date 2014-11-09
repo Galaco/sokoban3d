@@ -2,7 +2,7 @@
 #define COMPONENT_H
 
 #include <string>
-
+#include <core/ResourceManager.h>
 
 class Entity;
 
@@ -31,5 +31,7 @@ protected:
 	Entity* m_entity;
 
 	std::string m_name;
+
+	ResourceManager m_Resources;
 };
 #endif

@@ -5,7 +5,6 @@
 
 #include <core/Camera.h>
 #include <core/Entity.h>
-#include <core/resources/LuaScript.h>
 
 class State {
 public:
