@@ -8,14 +8,15 @@
 
 #include <core/ModelLoader.h>
 #include <core/TextureLoader.h>
+#include <core/AnimationLoader.h>
+
 #include <core/Resource.h>
 #include <core/resources/Texture.h>
 #include <core/resources/Model.h>
-#include <core/resources/Shader.h>
+#include <core/resources/BaseAnimation.h>
 
 enum resourceType {
 	ALL = 0,
-	SHADER,
 	TEXTURE,
 	MESH
 };
@@ -31,18 +32,19 @@ public:
         
     static Model* getModel(std::string);
 	static Texture* getTexture(std::string);
-    static CShaderProgram* getShader(std::string);
+	static BaseAnimation* getAnimation(std::string);
         
         
 	static bool remove(resourceType r, std::string id);
 	static bool empty(resourceType r);
 private:
-	static std::map<std::string, CShaderProgram*> m_shaderList;
 	static std::map<std::string, Texture*> m_textureList;
 	static std::map<std::string, Model*> m_modelList;
+	static std::map<std::string, BaseAnimation*> m_animationList;
         
 	static ModelLoader m_modelLoader;
 	static TextureLoader m_textureLoader;
+	static AnimationLoader m_animationLoader;
 };
 
 template <> 
@@ -54,6 +56,17 @@ inline Model* ResourceManager::add<Model>(std::string path)
 	Model* m = m_modelLoader.load(path);
     m_modelList[path] = m;
 	return m_modelList[path];
+}
+
+template <>
+inline BaseAnimation* ResourceManager::add<BaseAnimation>(std::string path)
+{
+	if(m_animationList.find(path) != m_animationList.end()) { 
+		return m_animationList[path];
+	}
+	BaseAnimation* t = m_animationLoader.load(path);
+	m_animationList[path] = t;
+	return m_animationList[path];
 }
 
 template <>

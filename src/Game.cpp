@@ -8,7 +8,7 @@ Game::Game(Engine& engine) : m_engine(engine)
 	m_engine = engine;
 	m_isRunning = true;
 
-
+	m_Animation.initialize();
 	m_Graphics.initialize();
 	STATEMANAGER.initialize();
 

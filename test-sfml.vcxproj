@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\components\CAnimation.cpp" />
     <ClCompile Include="src\components\CGraphics.cpp" />
+    <ClCompile Include="src\core\AnimationLoader.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\Component.cpp" />
     <ClCompile Include="src\core\components\CTransform.cpp" />
@@ -22,11 +24,16 @@
     <ClCompile Include="src\core\Identifier.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\Keyboard.cpp" />
+    <ClCompile Include="src\core\loaders\FileTypeLoader.cpp" />
+    <ClCompile Include="src\core\loaders\Md5Loader.cpp" />
+    <ClCompile Include="src\core\loaders\ObjLoader.cpp" />
     <ClCompile Include="src\core\Logger.cpp" />
     <ClCompile Include="src\core\ModelLoader.cpp" />
     <ClCompile Include="src\core\Pipeline.cpp" />
     <ClCompile Include="src\core\ResourceManager.cpp" />
+    <ClCompile Include="src\core\resources\BaseAnimation.cpp" />
     <ClCompile Include="src\core\resources\DirectionalLight.cpp" />
+    <ClCompile Include="src\core\resources\MD5Animation.cpp" />
     <ClCompile Include="src\core\resources\Model.cpp" />
     <ClCompile Include="src\core\resources\PointLight.cpp" />
     <ClCompile Include="src\core\resources\Shader.cpp" />
@@ -45,10 +52,13 @@
     <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
     <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
     <ClCompile Include="src\systems\renderer\StencilPass.cpp" />
+    <ClCompile Include="src\systems\SAnimation.cpp" />
     <ClCompile Include="src\systems\SGraphics.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\components\CAnimation.h" />
     <ClInclude Include="src\components\CGraphics.h" />
+    <ClInclude Include="src\core\AnimationLoader.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\Component.h" />
     <ClInclude Include="src\core\components\CTransform.h" />
@@ -59,12 +69,17 @@
     <ClInclude Include="src\core\Identifier.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\Keyboard.h" />
+    <ClInclude Include="src\core\loaders\FileTypeLoader.h" />
+    <ClInclude Include="src\core\loaders\Md5Loader.h" />
+    <ClInclude Include="src\core\loaders\ObjLoader.h" />
     <ClInclude Include="src\core\Logger.h" />
     <ClInclude Include="src\core\ModelLoader.h" />
     <ClInclude Include="src\core\Pipeline.h" />
     <ClInclude Include="src\core\Resource.h" />
     <ClInclude Include="src\core\ResourceManager.h" />
+    <ClInclude Include="src\core\resources\BaseAnimation.h" />
     <ClInclude Include="src\core\resources\DirectionalLight.h" />
+    <ClInclude Include="src\core\resources\MD5Animation.h" />
     <ClInclude Include="src\core\resources\Mesh.h" />
     <ClInclude Include="src\core\resources\Model.h" />
     <ClInclude Include="src\core\resources\PointLight.h" />
@@ -83,6 +98,7 @@
     <ClInclude Include="src\systems\renderer\GeometryPass.h" />
     <ClInclude Include="src\systems\renderer\PointLightPass.h" />
     <ClInclude Include="src\systems\renderer\StencilPass.h" />
+    <ClInclude Include="src\systems\SAnimation.h" />
     <ClInclude Include="src\systems\SGraphics.h" />
   </ItemGroup>
   <ItemGroup>

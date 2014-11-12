@@ -7,6 +7,7 @@
 #include <GLFW/glfw3.h>
 
 #include <SFML/System.hpp>
+#include "systems/SAnimation.h"
 #include "systems/SGraphics.h"
 
 
@@ -36,6 +37,7 @@ private:
     sf::Clock m_clock;
 
 
+	SAnimation		m_Animation;
 	SGraphics		m_Graphics;
 	static StateManager STATEMANAGER;
 };

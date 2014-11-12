@@ -1,9 +1,10 @@
 #include "ResourceManager.h"
 
-std::map<std::string, CShaderProgram*> ResourceManager::m_shaderList;
-std::map<std::string, Texture*> ResourceManager::m_textureList;
+std::map<std::string, BaseAnimation*> ResourceManager::m_animationList;
 std::map<std::string, Model*> ResourceManager::m_modelList;
+std::map<std::string, Texture*> ResourceManager::m_textureList;
 
+AnimationLoader ResourceManager::m_animationLoader;
 ModelLoader ResourceManager::m_modelLoader;
 TextureLoader ResourceManager::m_textureLoader;
 
@@ -31,22 +32,17 @@ Texture* ResourceManager::getTexture(std::string id){
 	}
 }
 
-CShaderProgram* ResourceManager::getShader(std::string id)
-{
-	if(m_shaderList.find(id) == m_shaderList.end()) { 
+BaseAnimation* ResourceManager::getAnimation(std::string id){
+	if(m_animationList.find(id) == m_animationList.end()) { 
 		return nullptr; 
-	} else {
-		 return m_shaderList[id];
+	} else { 
+		return m_animationList[id];
 	}
 }
 	
 bool ResourceManager::remove(resourceType r, std::string id)
 {
 	switch(r){
-	case SHADER:
-		delete m_shaderList[id];
-		m_shaderList.erase(id);
-		break;
 	case TEXTURE:
 		delete m_textureList[id];
 		m_textureList.erase(id);

@@ -69,6 +69,12 @@
     <Filter Include="Source Files\components">
       <UniqueIdentifier>{19ee8d89-4162-4571-9157-255ebe4a169b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\core\loaders">
+      <UniqueIdentifier>{82e5c461-ab7b-4197-846c-28a8e820c439}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\loaders">
+      <UniqueIdentifier>{7a7b2605-8b41-4d0f-aec3-5ee4d753b0cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -175,6 +181,30 @@
     </ClCompile>
     <ClCompile Include="src\core\EventManager.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\AnimationLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CAnimation.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SAnimation.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\MD5Animation.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\BaseAnimation.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\Md5Loader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\ObjLoader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\FileTypeLoader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,6 +315,30 @@
     </ClInclude>
     <ClInclude Include="src\core\EventManager.h">
       <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\AnimationLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CAnimation.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SAnimation.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\MD5Animation.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\BaseAnimation.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\Md5Loader.h">
+      <Filter>Header Files\core\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\ObjLoader.h">
+      <Filter>Header Files\core\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\FileTypeLoader.h">
+      <Filter>Header Files\core\loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
