@@ -104,7 +104,7 @@ Model* Md5Loader::load(std::string path){
 					}
 
 					Texture* tex = new Texture;
-					mesh.m_TexID = tex->load(texturePath.c_str(), 'd');
+					mesh.m_TexID = tex->load(texturePath.c_str());
 					m->addTexture(texturePath, tex);
 
 					file.ignore(fileLength, '\n' ); // Ignore everything else on the line
