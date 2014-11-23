@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Component Transform
+Description: Requirement of all gameobjects. Stores Position, 
+			 Orientation, Rotation
+*********************************************************************/
 #ifndef CTRANSFORM_H
 #define CTRANSFORM_H
 
@@ -15,7 +23,7 @@ public:
 	glm::vec3& getPosition();
 	void setPosition(glm::vec3 pos);
 
-	glm::vec3& getOrientaton();
+	glm::vec3& getOrientation();
 	void setOrientation(glm::vec3 pos);
 
 	glm::vec3& getScale();

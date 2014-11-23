@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Model
+Description: Contains a list of meshes, textures and joints. 
+			 An instance represents 1 complete exported model.
+*********************************************************************/
 #ifndef MODEL_H
 #define MODEL_H
 

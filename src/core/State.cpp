@@ -7,6 +7,7 @@ State::State()
 	canHalt = false;
 	m_runningTime = 0;
 	m_currentCamera = nullptr;
+	m_directionalLight = new DirectionalLight;
 }
 
 State::~State()
@@ -21,6 +22,9 @@ State::~State()
 	{
 		delete it->second;
 	}
+
+	delete m_currentCamera;
+	delete m_directionalLight;
 }
 
 
@@ -43,6 +47,11 @@ std::map<std::string, Entity*>& State::getEntities()
 std::vector<Camera*>& State::getCameras()
 {
 	return m_mCameraList;
+}
+
+std::vector<PointLight*>& State::getPointLights()
+{
+	return m_listPointLight;
 }
 
 Entity* State::getEntity(std::string name)
@@ -101,6 +110,11 @@ void State::addCamera(Camera* entity){
 Camera* State::getCurrentCamera()
 {
 	return m_currentCamera;
+}
+
+DirectionalLight* State::getDirectionalLight()
+{
+	return m_directionalLight;
 }
 
 bool& State::wantsPriority()

@@ -34,7 +34,7 @@ void DeferredRenderer::initialize(){
 	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (Status != GL_FRAMEBUFFER_COMPLETE) {
 		std::string status = "FrameBuffer error, status code: 0x%x\n: " + std::to_string(static_cast<float>(Status));
-		m_pLogger->log(_FATAL, status.c_str() );
+		m_pLogger->log(FATAL, status.c_str() );
 	}
 	// restore default FBO
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);

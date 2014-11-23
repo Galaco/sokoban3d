@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Engine
+Description: The core engine. Handles very low level functions such
+			 as config loading, input handling & window creation.
+*********************************************************************/
 #ifndef ENGINE_H
 #define ENGINE_H
 
@@ -5,7 +13,7 @@
 #include <gl/wglew.h>
 #include <GLFW/glfw3.h>
 
-#include <core/Config.h>
+#include <core/helpers/Config.h>
 #include <core/Input.h>
 #include <core/Logger.h>
 

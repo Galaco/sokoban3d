@@ -12,7 +12,7 @@ void StencilPass::initialize(){
 	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/stencil.vs.glsl", GL_VERTEX_SHADER);
 	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/stencil.fs.glsl", GL_FRAGMENT_SHADER);
 
-	if (!vsLoad || !fsLoad) m_pLogger->log(_FATAL, "Could not load stencil shader/s.");
+	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load stencil shader/s.");
 
 	m_shaderProg.createProgram();
 	m_shaderProg.addShaderToProgram(&m_shader[0]);
@@ -23,7 +23,7 @@ void StencilPass::initialize(){
 	m_MVPLocation = glGetUniformLocation(m_shaderProg.getProgramID(), "MVP");
 
 	if (m_MVPLocation == 0xFFFFFFFF ) {    
-			m_pLogger->log(_FATAL, "Stencil shader could not be correctly Initialised.");
+			m_pLogger->log(FATAL, "Stencil shader could not be correctly Initialised.");
 	}
 }
 

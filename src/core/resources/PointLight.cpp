@@ -1,15 +1,12 @@
 #include "PointLight.h"
 
-bool PointLight::m_meshLoaded = false;
-Model* PointLight::m_mesh = nullptr;
-
 PointLight::PointLight(){
-	Color = glm::vec3(0.0f, 0.0f, 0.0f);
+	Color = glm::vec3(1.f, 1.f, 1.f);
 	AmbientIntensity = 0.0f;
-	DiffuseIntensity = 0.0f;
+	DiffuseIntensity = 200.0f;
 	Attenuation.Constant = 0.0f;
 	Attenuation.Linear = 0.0f;
-	Attenuation.Exp = 0.0f;
+	Attenuation.Exp = 0.3f;
 }
 
 PointLight::~PointLight(){
@@ -51,13 +48,4 @@ void PointLight::setAttenuationLinear(float l){
 }
 void PointLight::setAttenuationExp(float e){ 
 	Attenuation.Exp = e; 
-}
-
-Model* PointLight::getMesh() { 
-	return m_mesh; 
-}
-
-void PointLight::setMesh(Model* m) {
-    m_mesh = m;
-    m_meshLoaded = true;
 }

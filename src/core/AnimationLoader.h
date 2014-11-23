@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Animation Loader
+Description: Responsible or loading MD5 Foramt Animations
+*********************************************************************/
 #ifndef ANIMATIONLOADER_H
 #define ANIMATIONLOADER_H
 

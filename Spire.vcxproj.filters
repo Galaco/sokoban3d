@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Script">
+      <UniqueIdentifier>{ebe3450d-c779-4c96-8521-7e2f12c16324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds">
+      <UniqueIdentifier>{4f5f6c59-6173-47b5-975a-21e1c4176fdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\components">
+      <UniqueIdentifier>{6c3ff3e3-41b8-4c21-9732-a333f04279f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{66cfccb2-57ce-485e-b77f-4421cf951f24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{b76f4e95-e085-4a62-9614-e94ec02bbdc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems">
+      <UniqueIdentifier>{8a8bdde7-5283-4266-bc05-e37220011ce0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems\lua">
+      <UniqueIdentifier>{05287336-754a-48b2-b6dc-793c790b746d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems\renderer">
+      <UniqueIdentifier>{c565ce9a-847e-4a2e-9757-9cc694553068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\components">
+      <UniqueIdentifier>{31773fa4-8da6-44bf-be4f-bd7d58239fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\core">
+      <UniqueIdentifier>{2038be30-b078-40d6-b382-7590a55da4e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\math">
+      <UniqueIdentifier>{04b13e52-d713-4146-8472-cceeed4de717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\core\components">
+      <UniqueIdentifier>{d5e208d3-3cfb-480f-aa7d-986378eee10c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\core\helpers">
+      <UniqueIdentifier>{fd4e9052-4d57-4c7e-ad14-7400727d4043}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\core\resources">
+      <UniqueIdentifier>{d175d7d2-e98c-443c-b06b-df2308da312a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\core">
+      <UniqueIdentifier>{64a7bc3d-d6a9-4603-86a3-38471b8f009b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\helpers">
+      <UniqueIdentifier>{ae2a2ae2-8974-46e3-b713-de53b90051d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\loaders">
+      <UniqueIdentifier>{7259b13d-a9fe-46f5-afec-6633a8d92c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\resources">
+      <UniqueIdentifier>{b09dadab-ce7d-47b5-a6b2-8a33c97113b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\states">
+      <UniqueIdentifier>{2458a87d-0349-471b-94fc-b1a379c5a3bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds">
+      <UniqueIdentifier>{57002205-11db-42a7-95ba-870f626add57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\components">
+      <UniqueIdentifier>{4b327f92-dc13-4627-9b7f-89834117dbcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{03171d1c-2f85-4e3e-b399-8c21ee25f9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{23a7d1f3-4fcc-4e91-9bc3-64aafe59a870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems">
+      <UniqueIdentifier>{2249ca74-3277-4260-88c0-3e1731cc22b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\lua">
+      <UniqueIdentifier>{504b539a-e7a1-4b8a-993a-9199ad11a361}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\renderer">
+      <UniqueIdentifier>{536fed12-8934-435d-8d93-e36099c76963}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\components">
+      <UniqueIdentifier>{394dfec5-95c4-4f7b-8018-ed05deaa17fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\core">
+      <UniqueIdentifier>{567ed809-c837-4dc5-acad-728f5775fc05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\math">
+      <UniqueIdentifier>{c64aaad2-1669-4030-8a8a-cf01290f8c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\core\components">
+      <UniqueIdentifier>{307225d1-98b3-4884-8508-b73f9a6a17f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\core\helpers">
+      <UniqueIdentifier>{308fda25-64bb-40f0-bd61-4264713c0400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\binds\core\resources">
+      <UniqueIdentifier>{abddab11-d506-40de-8d7c-2c818af74a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\components">
+      <UniqueIdentifier>{b3fcaf9a-bc40-43cd-b3ff-5083459da480}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\helpers">
+      <UniqueIdentifier>{5078de6f-549a-4512-be9e-bbdd7116dd0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\loaders">
+      <UniqueIdentifier>{32e7cb53-c320-4597-876f-2fed17997ee0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\resources">
+      <UniqueIdentifier>{3b7b6117-ed85-442f-aa62-a0dbcac6194b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\states">
+      <UniqueIdentifier>{31605370-99dd-40d7-a44f-74f89b925a66}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CLuaScript.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CAnimation.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CGraphics.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\lua\LuaObjectBinds.h">
+      <Filter>Header Files\systems\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\GeometryPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\PointLightPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\StencilPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DeferredPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DeferredRenderer.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\renderer\DirectionalLightPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SAnimation.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SGraphics.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SLuaScript.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\math\Vec3.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\components\LuaCGraphics.h">
+      <Filter>Header Files\binds\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\components\LuaCLuaScript.h">
+      <Filter>Header Files\binds\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\components\LuaCAnimation.h">
+      <Filter>Header Files\binds\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\components\LuaCTransform.h">
+      <Filter>Header Files\binds\core\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\helpers\LuaKeyboard.h">
+      <Filter>Header Files\binds\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\resources\LuaPointLight.h">
+      <Filter>Header Files\binds\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\resources\LuaDirectionalLight.h">
+      <Filter>Header Files\binds\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\LuaState.h">
+      <Filter>Header Files\binds\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\LuaCamera.h">
+      <Filter>Header Files\binds\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\LuaEntity.h">
+      <Filter>Header Files\binds\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\math\LuaVec3.h">
+      <Filter>Header Files\binds\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\LuaClass.h">
+      <Filter>Header Files\binds</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\System.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\TextureLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\AnimationLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Camera.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Component.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Engine.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Entity.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\EventManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Input.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Logger.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\LuaBinder.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ModelLoader.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Resource.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\ResourceManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\State.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\StateManager.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\components\CTransform.h">
+      <Filter>Header Files\core\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\helpers\Pipeline.h">
+      <Filter>Header Files\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\helpers\Config.h">
+      <Filter>Header Files\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\helpers\Identifier.h">
+      <Filter>Header Files\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\helpers\Keyboard.h">
+      <Filter>Header Files\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\Md5Loader.h">
+      <Filter>Header Files\core\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\ObjLoader.h">
+      <Filter>Header Files\core\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\FileTypeLoader.h">
+      <Filter>Header Files\core\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Skybox.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Texture.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\BaseAnimation.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\DirectionalLight.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\LuaScript.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\MD5Animation.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Mesh.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Model.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\PointLight.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\Shader.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\states\SplashState.h">
+      <Filter>Header Files\core\states</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SAnimation.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SGraphics.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SLuaScript.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\StencilPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\PointLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\lua\LuaObjectBinds.cpp">
+      <Filter>Source Files\systems\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\math\Vec3.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CLuaScript.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CAnimation.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CGraphics.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\LuaClass.cpp">
+      <Filter>Source Files\binds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\math\LuaVec3.cpp">
+      <Filter>Source Files\binds\math</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\components\LuaCGraphics.cpp">
+      <Filter>Source Files\binds\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\components\LuaCLuaScript.cpp">
+      <Filter>Source Files\binds\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\components\LuaCAnimation.cpp">
+      <Filter>Source Files\binds\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\components\LuaCTransform.cpp">
+      <Filter>Source Files\binds\core\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\helpers\LuaKeyboard.cpp">
+      <Filter>Source Files\binds\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\resources\LuaPointLight.cpp">
+      <Filter>Source Files\binds\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\resources\LuaDirectionalLight.cpp">
+      <Filter>Source Files\binds\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\LuaState.cpp">
+      <Filter>Source Files\binds\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\LuaCamera.cpp">
+      <Filter>Source Files\binds\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\LuaEntity.cpp">
+      <Filter>Source Files\binds\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\components\CTransform.cpp">
+      <Filter>Source Files\core\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\helpers\Keyboard.cpp">
+      <Filter>Source Files\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\helpers\Pipeline.cpp">
+      <Filter>Source Files\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\helpers\Config.cpp">
+      <Filter>Source Files\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\helpers\Identifier.cpp">
+      <Filter>Source Files\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\ObjLoader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\FileTypeLoader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\Md5Loader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\states\SplashState.cpp">
+      <Filter>Source Files\core\states</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Skybox.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Texture.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\BaseAnimation.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\DirectionalLight.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\LuaScript.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\MD5Animation.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Model.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\PointLight.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Shader.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ResourceManager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\State.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\StateManager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\System.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\TextureLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\AnimationLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Camera.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Component.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Engine.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Entity.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\EventManager.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Input.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Logger.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\LuaBinder.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ModelLoader.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -1,3 +1,13 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Event Manager
+Description: An implementation of event handling. Objects register to 
+			 a string with a function pointer, then the function is 
+			 called with parameter when an instance publishes to 
+			 subscribed channel
+*********************************************************************/
 #ifndef EVENTMANAGER_H
 #define EVENTMANAGER_H
 

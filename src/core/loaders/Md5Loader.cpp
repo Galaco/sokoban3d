@@ -12,7 +12,7 @@ Model* Md5Loader::load(std::string path){
 	Model* m = new Model;
 	std::ifstream file(path);
 	if ( !file.is_open() ) {
-		m_Logger->log(_ERROR, std::string("Animation: Failed to open "+path).c_str());
+		m_Logger->log(ERROR_, std::string("Animation: Failed to open "+path).c_str());
 		return false;
 	}
 
@@ -104,7 +104,7 @@ Model* Md5Loader::load(std::string path){
 					}
 
 					Texture* tex = new Texture;
-					mesh.m_TexID = tex->load(texturePath.c_str());
+					mesh.m_TexID = tex->load(texturePath.c_str(), 'd');
 					m->addTexture(texturePath, tex);
 
 					file.ignore(fileLength, '\n' ); // Ignore everything else on the line

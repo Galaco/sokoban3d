@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Texture
+Description: Loads and stores a texture from a file. 
+Todo: Material data implementation
+*********************************************************************/
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
@@ -12,14 +20,21 @@ class Texture : public Resource
 {
 public:
 	Texture();
-	Texture(const char* path);
+	Texture(const char*, char);
 	~Texture();
 
-	GLuint&		load(const char* path);
+	GLuint&		load(const char*, char);
 	void		unload();
 	GLuint&		getTexId();
 
+	bool		hasDiffuse();
+
 private:
 	GLuint			diffuse;
+	GLuint			specular;
+	GLuint			normal;
+	bool			has_diffuse;
+	bool			has_specular;
+	bool			has_normal;
 };
 #endif

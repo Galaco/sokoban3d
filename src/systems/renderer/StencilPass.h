@@ -1,10 +1,18 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+Name: Stencil Pass
+Description: An addition to the lightpass. Responsible for fixing 
+			 pointlights not rendering when their origin is behind 
+			 geometry
+*********************************************************************/
 #ifndef STENCILPASS_H
 #define STENCILPASS_H
 
 #include <GL\glew.h>
 #include <GL\wglew.h>
 
-#include <core/Pipeline.h>
+#include <core/helpers/Pipeline.h>
 #include <core/Entity.h>
 #include <core/resources/PointLight.h>
 

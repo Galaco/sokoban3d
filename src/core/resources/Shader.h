@@ -1,13 +1,21 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Shader
+Description: Contains data about 1 loaded shader
+*********************************************************************/
 #ifndef SHADER_H
 #define SHADER_H
 
 #include <string>
 #include <vector>
 
-#include <core/Logger.h>
 
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
+
+#include <core/Logger.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -37,6 +45,13 @@ private:
 #endif;
 
 
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Shader Program
+Description: Stores info about a complete compiled shader
+*********************************************************************/
 #ifndef CSHADERPROGRAM_H
 #define CSHADERPROGRAM_H
 

@@ -1,10 +1,16 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Point Light
+Description: A light emulation non-directional, non-natural light. Is
+			 Color data could be used for any light type, but is 
+			 normally used for spheres.
+*********************************************************************/
 #ifndef POINTLIGHT_H
 #define POINTLIGHT_H
 
 #include <glm/glm.hpp>
-
-#include "Model.h"
-
 class PointLight {
 public:
 	PointLight();
@@ -24,11 +30,6 @@ public:
 	void setAttenuationLinear(float l);
 	void setAttenuationExp(float e);
 
-	Model* getMesh();
-    void setMesh(Model*);
-        
-        
-    static bool m_meshLoaded;
 private:
 	glm::vec3 Color;
 	float AmbientIntensity;
@@ -40,7 +41,5 @@ private:
 		float Linear;
 		float Exp;
 	} Attenuation;
-
-	static Model* m_mesh;
 };
 #endif

@@ -24,9 +24,10 @@ void CGraphics::addModel(const char* dir) {
 	m_pModel = m_Resources.add<Model>(dir);
 }
 void CGraphics::addTexture(const char* dir) { 
-	if (m_pModel != nullptr){
+	/*if (m_pModel != nullptr){
 		m_pModel->addTexture(dir, m_Resources.add<Texture>(dir));
-	}
+		}*/
+	m_pOverrideTextures.push_back(m_Resources.add<Texture>(dir));
 }
 
 void CGraphics::setModel(Model* model) { 
@@ -49,4 +50,14 @@ unsigned int& CGraphics::getRenderMode()
 void CGraphics::setRenderMode(unsigned int renderMode)
 {
 	m_renderMode = renderMode;
+}
+
+
+Texture* CGraphics::getOverrideTexture(unsigned int index){
+	if (m_pOverrideTextures.size() > index) {
+		return m_pOverrideTextures[index];
+	}
+	else {
+		return nullptr;
+	}
 }

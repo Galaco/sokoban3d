@@ -1,10 +1,20 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Entity
+Description: THE game object. Any object in the world will either be,
+			 or inherit from this class. Contains a component list 
+			 used to control the object.
+*********************************************************************/
 #ifndef ENTITY_H
 #define ENTITY_H
 
 #include <vector>
 #include <string>
 
-#include "Identifier.h"
+#include "EventManager.h"
+#include "helpers/Identifier.h"
 #include "Component.h"
 #include "components/CTransform.h"
 
@@ -41,5 +51,7 @@ protected:
 	CTransform* m_transform;
 
 	Entity* m_pParent;
+
+	static EventManager m_EventManager;
 };
 #endif

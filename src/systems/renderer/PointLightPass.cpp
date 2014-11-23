@@ -13,7 +13,7 @@ void PointLightPass::initialize(){
 	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/point_light_pass.vs.glsl", GL_VERTEX_SHADER);
 	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/point_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
 
-	if (!vsLoad || !fsLoad) m_pLogger->log(_FATAL, "Could not load point light shader/s.");
+	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load point light shader/s.");
 
 	m_shaderProg.createProgram();
 	m_shaderProg.addShaderToProgram(&m_shader[0]);
@@ -52,7 +52,7 @@ void PointLightPass::initialize(){
 		Atten.Constant == 0xFFFFFFFF ||
 		Atten.Linear == 0xFFFFFFFF ||
 		Atten.Exp == 0xFFFFFFFF) {    
-			m_pLogger->log(_FATAL, "Point Light shader could not be correctly Initialised.");
+			m_pLogger->log(FATAL, "Point Light shader could not be correctly Initialised.");
 	}
 
 	m_shaderProg.useProgram();

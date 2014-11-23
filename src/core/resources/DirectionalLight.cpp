@@ -1,14 +1,11 @@
 #include "DirectionalLight.h"
 
-Model* DirectionalLight::Quad;
-bool DirectionalLight::m_meshLoaded;
 
 DirectionalLight::DirectionalLight(){
-	if (Quad != nullptr){
-		m_meshLoaded = true;
-	} else {
-		m_meshLoaded = false;
-	}
+	AmbientIntensity = 0.5f;
+	DiffuseIntensity = 0.5f;
+	Color = glm::vec3(0.5f);
+	Direction = glm::vec3(1.f, 0.f, 0.f);
 };
 
 DirectionalLight::~DirectionalLight(){

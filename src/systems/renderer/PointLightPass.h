@@ -1,10 +1,18 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Point Light Pass
+Description: Sets up the point light shaders, and render data for all
+			 point lights.
+*********************************************************************/
 #ifndef POINTLIGHTPASS_H
 #define POINTLIGHTPASS_H
 
 #include <GL\glew.h>
 #include <GL\wglew.h>
 
-#include <core/Pipeline.h>
+#include <core/helpers/Pipeline.h>
 #include <core/Entity.h>
 #include <core/resources/PointLight.h>
 

@@ -1,10 +1,14 @@
 #include "SGraphics.h"
 
+//Initialize statics. Note these aren't required to be static, but for clarity are
 DeferredRenderer SGraphics::m_deferredRenderer;
 GeometryPass	SGraphics::m_geometryPass;
 PointLightPass  SGraphics::m_pointLightPass;
 DirectionalLightPass SGraphics::m_directionalLightPass;
 StencilPass     SGraphics::m_stencilPass;
+ResourceManager SGraphics::m_Resources;
+Model*	SGraphics::m_directionalQuad;
+Model*	SGraphics::m_pointSphere;
 
 SGraphics::SGraphics(){
 }
@@ -12,8 +16,7 @@ SGraphics::SGraphics(){
 SGraphics::~SGraphics(){
 }
 
-void SGraphics::initialize()
-{
+void SGraphics::initialize(){
 	//Initialize the renderer
 	m_deferredRenderer.initialize();
 	m_geometryPass.initialize();
@@ -25,12 +28,18 @@ void SGraphics::initialize()
 	m_stencilPass.initialize();
 	m_stencilPass.setFbo(m_deferredRenderer.getFbo());
 
+	m_directionalQuad = m_Resources.add<Model>("data/resource/model/shapes/quad.obj");
+	m_pointSphere = m_Resources.add<Model>("data/resource/model/shapes/sphere.obj");
+
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	glEnable(GL_CULL_FACE);
+
+	m_EventManager.subscribe(NewActiveCamera, (this->onNewActiveCamera));
 }
 	
 void SGraphics::update(){
 	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	
 	//Begin frame
 	m_deferredRenderer.startFrame();
 
@@ -70,17 +79,16 @@ void SGraphics::update(){
 	glDisable(GL_STENCIL_TEST);
 
 	//Render directional/ambient light
-	drawDirectionalLight(m_directionalLightPass.getLight());
-	
+	drawDirectionalLight();
+
 	//Complete and write out the frame
 	m_deferredRenderer.endFrame();
 }
 
-void SGraphics::drawEntity(CGraphics* it)
-{
+void SGraphics::drawEntity(CGraphics* it){
 	if(it->getModel() != nullptr){
 		Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
-		Pipeline::rotate(it->getOwner()->GetTransform()->getOrientaton().x, it->getOwner()->GetTransform()->getOrientaton().y, it->getOwner()->GetTransform()->getOrientaton().z);
+		Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
 
 		switch(it->getRenderMode())
@@ -102,7 +110,11 @@ void SGraphics::drawEntity(CGraphics* it)
 			glBindVertexArray(m[i].uiVAO); 
 
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture( GL_TEXTURE_2D, m[i].m_TexID );
+			if (it->getOverrideTexture(i)){
+				glBindTexture(GL_TEXTURE_2D, it->getOverrideTexture(i)->getTexId());
+			} else {
+				glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
+			}
 			glDrawElements( GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0 );
 			glBindTexture( GL_TEXTURE_2D, 0 );
 
@@ -111,14 +123,13 @@ void SGraphics::drawEntity(CGraphics* it)
 	}
 }
 
-void SGraphics::drawLight(CGraphics* it)
-{
+void SGraphics::drawLight(CGraphics* it){
 	PointLight* Light = it->getPointLight();
 	if (Light != nullptr){
-		if (Light->getMesh()->getMeshes().size() < 1){
+		if (m_pointSphere->getMeshes().size() < 1){
 			return;
 		}
-		Mesh* lightMesh = &Light->getMesh()->getMeshes()[0];
+		Mesh* lightMesh = &m_pointSphere->getMeshes()[0];
 		/**************************************************************/
 		// Begin Stencil pass for light
 		/**************************************************************/
@@ -146,8 +157,7 @@ void SGraphics::drawLight(CGraphics* it)
 	}
 }
 
-void SGraphics::drawSkybox()
-{
+void SGraphics::drawSkybox(){
 	if (m_currentCamera == nullptr) return;
 	Skybox* sky = m_currentCamera->getSkybox();
 	Pipeline::position(Pipeline::Eye);
@@ -166,17 +176,16 @@ void SGraphics::drawSkybox()
 	glBindVertexArray(0); 
 }
 
-void SGraphics::drawDirectionalLight(const DirectionalLight* light)
-{
-	if (light != nullptr && light->Quad == nullptr) {
+void SGraphics::drawDirectionalLight(){
+	if (m_CurrentState == nullptr || m_CurrentState->getDirectionalLight() == nullptr) {
 		return;
 	}
 	//Begin pass
 	glDrawBuffer(GL_COLOR_ATTACHMENT4);
 	m_deferredRenderer.bindBufferTextures();	
-	m_directionalLightPass.startPass();
+	m_directionalLightPass.startPass(m_CurrentState->getDirectionalLight());
 
-	Mesh& m = light->Quad->getMeshes()[0];
+	Mesh& m = m_directionalQuad->getMeshes()[0];
 	glBindVertexArray(m.uiVAO); 
 
 	glDrawElements(GL_TRIANGLES, m.m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
@@ -185,4 +194,10 @@ void SGraphics::drawDirectionalLight(const DirectionalLight* light)
 
 	//End pass
 	m_directionalLightPass.endPass();
+}
+
+void SGraphics::onNewActiveCamera(const char* c, void* t){
+	Camera* cam = static_cast<Camera*>(t);
+
+	setCurrentCamera(cam);
 }

@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Animation System
+Description: System that updates animations on objects each frame.
+*********************************************************************/
 #ifndef SANIMATION_H
 #define SANIMATION_H
 

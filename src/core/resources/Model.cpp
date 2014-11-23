@@ -37,12 +37,7 @@ void Model::renderMesh( const Mesh& mesh, int i ) {
 	glActiveTexture(GL_TEXTURE0+0);
 	glBindTexture( GL_TEXTURE_2D, mesh.m_TexID );
 
-	glDrawElements(
-		GL_TRIANGLES,      // mode
-		mesh.m_IndexBuffer.size(),    // count
-		GL_UNSIGNED_SHORT,   // type
-		(void*)0           // element array buffer offset
-		);
+	glDrawElements(GL_TRIANGLES, mesh.m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
 
 	glBindTexture( GL_TEXTURE_2D, 0 );
 
@@ -74,8 +69,17 @@ std::vector<Joint>& Model::getJoints(){
 
 void Model::addTexture(std::string id, Texture* tex){
 	m_textureList[id] = tex;
-	if (m_meshList.size() == 1 && m_meshList[0].m_TexID == 99999) {
+	if (m_meshList.size() == 1 && m_meshList[0].m_TexID == 99999) 
+	{
 		m_meshList[0].m_TexID = m_textureList[id]->getTexId();
+	}
+	else 
+	{
+		for (unsigned short i = 0; i < m_meshList.size(); ++i){
+			if (m_meshList[i].m_TexID == 99999) {
+				m_meshList[i].m_TexID = m_textureList[id]->getTexId();
+			}
+		}
 	}
 }
 std::map<std::string, Texture*>& Model::getTextures(){

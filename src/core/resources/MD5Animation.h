@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: .MD5 Animation
+Description: MD5 Animation Format. Ideally would use a generic
+			 skeleton design. MD5 is very weird, hence the specifics
+*********************************************************************/
 #ifndef MD5ANIMATION_H
 #define MD5ANIMATION_H
 

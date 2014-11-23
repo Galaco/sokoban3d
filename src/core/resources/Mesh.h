@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Mesh
+Description: Storage for raw mesh data. Note the differences between
+			 a Model & a Mesh.
+*********************************************************************/
 #ifndef MESH_H
 #define MESH_H
 

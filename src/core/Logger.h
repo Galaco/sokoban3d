@@ -1,14 +1,25 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Logger
+Description: Low level logging class. Outputs to console with 
+			 varying levels of importance.
+*********************************************************************/
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include <iostream>
 #include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <core/helpers/Config.h>
 
 enum e_priority{
-	_FATAL = 0,
-	_ERROR,
-	_WARNING,
-	_INFO
+	FATAL = 0,
+	ERROR_,
+	WARNING,
+	INFO,
+	SUCCESS
 };
 
 class Logger {
@@ -17,9 +28,12 @@ public:
 	
 	~Logger();
 
-	void log(e_priority, const char*);
+	static void log(e_priority priority, const char* msg);
+
+	static void write(const char* msg);
 
 private:
+	static std::fstream m_file;
 };
 
 #endif

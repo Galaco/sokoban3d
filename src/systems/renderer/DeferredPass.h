@@ -1,10 +1,18 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Deferred Pass
+Description: Abstract pass for the deferred renderer. All passes 
+			 extend from this class
+*********************************************************************/
 #ifndef DEFERREDPASS_H
 #define DEFERREDPASS_H
 
 #include <GL\glew.h>
 #include <GL\wglew.h>
 
-#include <core/Config.h>
+#include <core/helpers/Config.h>
 #include <core/Logger.h>
 
 #include <core/resources/Shader.h>

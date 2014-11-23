@@ -1,3 +1,12 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: System
+Description: Abstract System class of the component-system 
+			 architecture. Should never be instantiated itself, only
+			 inherited from.
+*********************************************************************/
 #ifndef SYSTEM_H
 #define SYSTEM_H
 

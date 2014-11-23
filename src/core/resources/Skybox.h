@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Skybox
+Description: Represents a skybox in the world. Is self contained due
+			 custom texture requirements
+*********************************************************************/
 #ifndef SKYBOX_H
 #define SKYBOX_H
 

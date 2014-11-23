@@ -1,4 +1,7 @@
 #include "Entity.h"
+
+EventManager Entity::m_EventManager;
+
 Entity::Entity() {
 	m_transform = new CTransform;
 	m_pParent = nullptr;

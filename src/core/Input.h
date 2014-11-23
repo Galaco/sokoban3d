@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Input
+Description: Responsible for obtaining Input data, and, where relevant
+			 passing it to the Keyboard. Should always be static.
+*********************************************************************/
 #ifndef INPUT_H
 #define INPUT_H
 
@@ -5,8 +13,8 @@
 
 #include <GLFW/glfw3.h>
 
-#include <core/Config.h>
-#include <core/Keyboard.h>
+#include <core/helpers/Config.h>
+#include <core/helpers/Keyboard.h>
 
 class Input {
 public:

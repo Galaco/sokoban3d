@@ -1,3 +1,14 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: State Machine
+Description: Responsible for handling what state is the current state.
+			 A state is rsponsible for its own priority and requesting
+			 priority. The manager determines what should be active.
+			 Only 1 state can be active at once. Non-active states are
+			 on-hold.
+*********************************************************************/
 #ifndef STATEMANAGER_H
 #define STATEMANAGER_H
 

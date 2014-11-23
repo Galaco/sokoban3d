@@ -1,10 +1,18 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Directional Light Pass
+Description: Renders the directional light(s?) stored in the current 
+			 active state
+*********************************************************************/
 #ifndef DIRECTIONALLIGHTPASS_H
 #define DIRECTIONALLIGHTPASS_H
 
 #include <GL\glew.h>
 #include <GL\wglew.h>
 
-#include <core/Pipeline.h>
+#include <core/helpers/Pipeline.h>
 #include <core/resources/Mesh.h>
 #include <core/resources/DirectionalLight.h>
 #include "DeferredPass.h"
@@ -16,11 +24,8 @@ public:
 
 	void initialize();
 	
-	void startPass();
+	void startPass(DirectionalLight* light);
 	void endPass();
-
-	void setLight(DirectionalLight* light);
-	const DirectionalLight* getLight();
 
 private:
 	DirectionalLight* Light;

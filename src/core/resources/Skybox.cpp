@@ -22,11 +22,11 @@ void Skybox::loadTexture(const char* path, int i){
 	std::string str(path);
 	if(!image.loadFromFile( path )) {
 		str =  "Skybox: Failed to load texture: "+ str;
-		m_pLogger->log(_ERROR, str.c_str());
+		m_pLogger->log(ERROR_, str.c_str());
 		return;
 	} else {
 		str =  "Skybox: Loaded texture: "+ str;
-		m_pLogger->log(_INFO, str.c_str());
+		m_pLogger->log(SUCCESS, str.c_str());
 	}
 
 	// allocate a texture name

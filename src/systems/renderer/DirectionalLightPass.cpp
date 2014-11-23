@@ -14,7 +14,7 @@ void DirectionalLightPass::initialize(){
 	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/directional_light_pass.vs.glsl", GL_VERTEX_SHADER);
 	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/directional_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
 
-	if (!vsLoad || !fsLoad) m_pLogger->log(_FATAL, "Could not load directional light shader/s.");
+	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load directional light shader/s.");
 
 	m_shaderProg.createProgram();
 	m_shaderProg.addShaderToProgram(&m_shader[0]);
@@ -47,7 +47,7 @@ void DirectionalLightPass::initialize(){
 		AmbientIntensity == 0xFFFFFFFF ||
 		Direction == 0xFFFFFFFF ||
 		DiffuseIntensity == 0xFFFFFFFF) {    
-			m_pLogger->log(_FATAL, "Directional Light shader could not be correctly Initialised.");
+			m_pLogger->log(FATAL, "Directional Light shader could not be correctly Initialised.");
 	}
 
 	m_shaderProg.useProgram();
@@ -57,10 +57,16 @@ void DirectionalLightPass::initialize(){
 	glUniform2f(m_screenSizeLocation, (float)Config::_WINDOWWIDTH, (float)Config::_WINDOWHEIGHT);
 }
 
-void DirectionalLightPass::startPass() {
+void DirectionalLightPass::startPass(DirectionalLight* light) {
 	m_shaderProg.useProgram();
 	glUniform3f(m_eyeWorldPosLocation, Pipeline::Eye.x, Pipeline::Eye.y, Pipeline::Eye.z);
 	glUniformMatrix4fv(m_MVPLocation, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
+
+	glUniform3f(Color, light->Color.x, light->Color.y, light->Color.z);
+	glUniform1f(AmbientIntensity, light->AmbientIntensity);
+	glm::vec3 dir = glm::normalize(light->Direction);
+	glUniform3f(Direction, dir.x, dir.y, dir.z);
+	glUniform1f(DiffuseIntensity, light->DiffuseIntensity);
 
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -70,21 +76,4 @@ void DirectionalLightPass::startPass() {
 
 void DirectionalLightPass::endPass(){
 	glDisable(GL_BLEND);
-}
-
-void DirectionalLightPass::setLight(DirectionalLight* light){ 
-	if (light == nullptr) return;
-	delete Light; 
-	Light = light;
-
-	m_shaderProg.useProgram();
-	glUniform3f(Color, Light->Color.x, Light->Color.y, Light->Color.z);
-	glUniform1f(AmbientIntensity, Light->AmbientIntensity);
-	glm::vec3 dir = glm::normalize(Light->Direction);
-	glUniform3f(Direction, dir.x, dir.y, dir.z);
-	glUniform1f(DiffuseIntensity, Light->DiffuseIntensity);
-}
-
-const DirectionalLight* DirectionalLightPass::getLight(){ 
-	return Light; 
 }

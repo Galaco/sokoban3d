@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Component Animation
+Description: Holds animation data for AnimationSystem
+*********************************************************************/
 #ifndef CANIMATION_H
 #define CANIMATION_H
 

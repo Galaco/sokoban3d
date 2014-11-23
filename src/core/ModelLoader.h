@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Model Loader
+Description: Responsible for determining filetype, and passing the 
+			 loading to the correct filetype loader
+*********************************************************************/
 #ifndef MODELLOADER_H
 #define MODELLOADER_H
 

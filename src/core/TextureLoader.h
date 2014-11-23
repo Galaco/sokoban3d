@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Texture Loader
+Description: Responsible for loading textures (via SFML Graphics)
+*********************************************************************/
 #ifndef TEXTURELOADER_H
 #define TEXTURELOADER_H
 
@@ -18,5 +25,6 @@ public:
 
     Texture* createTexture(std::string);
 private:
+	Logger m_logger;
 };
 #endif

@@ -30,7 +30,7 @@ void CTransform::setPosition(glm::vec3 pos) {
 	m_position = pos; 
 }
 
-glm::vec3& CTransform::getOrientaton() { 
+glm::vec3& CTransform::getOrientation() { 
 	return m_orientation;
 }
 

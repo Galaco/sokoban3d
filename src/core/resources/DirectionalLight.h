@@ -1,21 +1,25 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Directional Light
+Description: A presentation of the sun. Multiple instance at once are
+			 very uncommon
+*********************************************************************/
 #ifndef DIRECTIONALIGHT_H
 #define DIRECTIONALIGHT_H
 
-#include <core/resources/Model.h>
+#include <glm/glm.hpp>
 
 class DirectionalLight{
 public:
 	DirectionalLight();
 	~DirectionalLight();
 
-
-	static Model* Quad;
 	glm::vec3 Color;
 	float AmbientIntensity;
 	float DiffuseIntensity;
 	glm::vec3 Direction;
-
-	static bool m_meshLoaded;
 
 private:
 };

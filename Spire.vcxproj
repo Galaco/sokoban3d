@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ED255728-27FE-4A3E-BC66-DB2F1E6E7956}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Spire</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>GLEW_STATIC;SFML_STATIC;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua/include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/TinyXML/include;$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/lua/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>lua52.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>MSVCRT; LIBCMT;</IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>GLEW_STATIC;SFML_STATIC;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)\src\extern;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua/include;$(SolutionDir)/libraries/src/extern</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>lua52.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-graphics-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/lua/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\binds\components\LuaCAnimation.h" />
+    <ClInclude Include="src\binds\components\LuaCGraphics.h" />
+    <ClInclude Include="src\binds\components\LuaCLuaScript.h" />
+    <ClInclude Include="src\binds\core\components\LuaCTransform.h" />
+    <ClInclude Include="src\binds\core\helpers\LuaKeyboard.h" />
+    <ClInclude Include="src\binds\core\LuaCamera.h" />
+    <ClInclude Include="src\binds\core\LuaEntity.h" />
+    <ClInclude Include="src\binds\core\LuaState.h" />
+    <ClInclude Include="src\binds\core\resources\LuaDirectionalLight.h" />
+    <ClInclude Include="src\binds\core\resources\LuaPointLight.h" />
+    <ClInclude Include="src\binds\LuaClass.h" />
+    <ClInclude Include="src\binds\math\LuaVec3.h" />
+    <ClInclude Include="src\components\CAnimation.h" />
+    <ClInclude Include="src\components\CGraphics.h" />
+    <ClInclude Include="src\components\CLuaScript.h" />
+    <ClInclude Include="src\core\AnimationLoader.h" />
+    <ClInclude Include="src\core\Camera.h" />
+    <ClInclude Include="src\core\Component.h" />
+    <ClInclude Include="src\core\components\CTransform.h" />
+    <ClInclude Include="src\core\Engine.h" />
+    <ClInclude Include="src\core\Entity.h" />
+    <ClInclude Include="src\core\EventManager.h" />
+    <ClInclude Include="src\core\helpers\Config.h" />
+    <ClInclude Include="src\core\helpers\Identifier.h" />
+    <ClInclude Include="src\core\helpers\Keyboard.h" />
+    <ClInclude Include="src\core\helpers\Pipeline.h" />
+    <ClInclude Include="src\core\Input.h" />
+    <ClInclude Include="src\core\loaders\FileTypeLoader.h" />
+    <ClInclude Include="src\core\loaders\Md5Loader.h" />
+    <ClInclude Include="src\core\loaders\ObjLoader.h" />
+    <ClInclude Include="src\core\Logger.h" />
+    <ClInclude Include="src\core\LuaBinder.h" />
+    <ClInclude Include="src\core\ModelLoader.h" />
+    <ClInclude Include="src\core\Resource.h" />
+    <ClInclude Include="src\core\ResourceManager.h" />
+    <ClInclude Include="src\core\resources\BaseAnimation.h" />
+    <ClInclude Include="src\core\resources\DirectionalLight.h" />
+    <ClInclude Include="src\core\resources\LuaScript.h" />
+    <ClInclude Include="src\core\resources\MD5Animation.h" />
+    <ClInclude Include="src\core\resources\Mesh.h" />
+    <ClInclude Include="src\core\resources\Model.h" />
+    <ClInclude Include="src\core\resources\PointLight.h" />
+    <ClInclude Include="src\core\resources\Shader.h" />
+    <ClInclude Include="src\core\resources\Skybox.h" />
+    <ClInclude Include="src\core\resources\Texture.h" />
+    <ClInclude Include="src\core\State.h" />
+    <ClInclude Include="src\core\StateManager.h" />
+    <ClInclude Include="src\core\states\SplashState.h" />
+    <ClInclude Include="src\core\System.h" />
+    <ClInclude Include="src\core\TextureLoader.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\math\Vec3.h" />
+    <ClInclude Include="src\systems\lua\LuaObjectBinds.h" />
+    <ClInclude Include="src\systems\renderer\DeferredPass.h" />
+    <ClInclude Include="src\systems\renderer\DeferredRenderer.h" />
+    <ClInclude Include="src\systems\renderer\DirectionalLightPass.h" />
+    <ClInclude Include="src\systems\renderer\GeometryPass.h" />
+    <ClInclude Include="src\systems\renderer\PointLightPass.h" />
+    <ClInclude Include="src\systems\renderer\StencilPass.h" />
+    <ClInclude Include="src\systems\SAnimation.h" />
+    <ClInclude Include="src\systems\SGraphics.h" />
+    <ClInclude Include="src\systems\SLuaScript.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\binds\components\LuaCAnimation.cpp" />
+    <ClCompile Include="src\binds\components\LuaCGraphics.cpp" />
+    <ClCompile Include="src\binds\components\LuaCLuaScript.cpp" />
+    <ClCompile Include="src\binds\core\components\LuaCTransform.cpp" />
+    <ClCompile Include="src\binds\core\helpers\LuaKeyboard.cpp" />
+    <ClCompile Include="src\binds\core\LuaCamera.cpp" />
+    <ClCompile Include="src\binds\core\LuaEntity.cpp" />
+    <ClCompile Include="src\binds\core\LuaState.cpp" />
+    <ClCompile Include="src\binds\core\resources\LuaDirectionalLight.cpp" />
+    <ClCompile Include="src\binds\core\resources\LuaPointLight.cpp" />
+    <ClCompile Include="src\binds\LuaClass.cpp" />
+    <ClCompile Include="src\binds\math\LuaVec3.cpp" />
+    <ClCompile Include="src\components\CAnimation.cpp" />
+    <ClCompile Include="src\components\CGraphics.cpp" />
+    <ClCompile Include="src\components\CLuaScript.cpp" />
+    <ClCompile Include="src\core\AnimationLoader.cpp" />
+    <ClCompile Include="src\core\Camera.cpp" />
+    <ClCompile Include="src\core\Component.cpp" />
+    <ClCompile Include="src\core\components\CTransform.cpp" />
+    <ClCompile Include="src\core\Engine.cpp" />
+    <ClCompile Include="src\core\Entity.cpp" />
+    <ClCompile Include="src\core\EventManager.cpp" />
+    <ClCompile Include="src\core\helpers\Config.cpp" />
+    <ClCompile Include="src\core\helpers\Identifier.cpp" />
+    <ClCompile Include="src\core\helpers\Keyboard.cpp" />
+    <ClCompile Include="src\core\helpers\Pipeline.cpp" />
+    <ClCompile Include="src\core\Input.cpp" />
+    <ClCompile Include="src\core\loaders\FileTypeLoader.cpp" />
+    <ClCompile Include="src\core\loaders\Md5Loader.cpp" />
+    <ClCompile Include="src\core\loaders\ObjLoader.cpp" />
+    <ClCompile Include="src\core\Logger.cpp" />
+    <ClCompile Include="src\core\LuaBinder.cpp" />
+    <ClCompile Include="src\core\ModelLoader.cpp" />
+    <ClCompile Include="src\core\ResourceManager.cpp" />
+    <ClCompile Include="src\core\resources\BaseAnimation.cpp" />
+    <ClCompile Include="src\core\resources\DirectionalLight.cpp" />
+    <ClCompile Include="src\core\resources\LuaScript.cpp" />
+    <ClCompile Include="src\core\resources\MD5Animation.cpp" />
+    <ClCompile Include="src\core\resources\Model.cpp" />
+    <ClCompile Include="src\core\resources\PointLight.cpp" />
+    <ClCompile Include="src\core\resources\Shader.cpp" />
+    <ClCompile Include="src\core\resources\Skybox.cpp" />
+    <ClCompile Include="src\core\resources\Texture.cpp" />
+    <ClCompile Include="src\core\State.cpp" />
+    <ClCompile Include="src\core\StateManager.cpp" />
+    <ClCompile Include="src\core\states\SplashState.cpp" />
+    <ClCompile Include="src\core\System.cpp" />
+    <ClCompile Include="src\core\TextureLoader.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\Vec3.cpp" />
+    <ClCompile Include="src\systems\lua\LuaObjectBinds.cpp" />
+    <ClCompile Include="src\systems\renderer\DeferredPass.cpp" />
+    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp" />
+    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp" />
+    <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
+    <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
+    <ClCompile Include="src\systems\renderer\StencilPass.cpp" />
+    <ClCompile Include="src\systems\SAnimation.cpp" />
+    <ClCompile Include="src\systems\SGraphics.cpp" />
+    <ClCompile Include="src\systems\SLuaScript.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

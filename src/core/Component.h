@@ -1,7 +1,16 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Component
+Description: Base component of the component-system architecture.
+			 Essentially a entity specific data-store.
+*********************************************************************/
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
 #include <string>
+
 #include <core/ResourceManager.h>
 
 class Entity;

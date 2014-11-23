@@ -21,11 +21,9 @@ bool MD5Animation::loadAnimation( const std::string& filename )
 
 	std::ifstream file(filename);
 	if (!file.is_open()) {
-		m_pLogger->log(_ERROR, ("Animation: Failed to open "+filename).c_str());
+		m_pLogger->log(ERROR_, ("Animation: Failed to open "+filename).c_str());
         return false;
     }
-
-    //fs::path filePath = filename;
 
     std::string param;
     std::string junk;   // Read junk from the file

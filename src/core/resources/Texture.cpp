@@ -1,19 +1,22 @@
 #include "Texture.h"
 
 Texture::Texture(){
+	has_diffuse = false;
+	has_specular = false;
+	has_normal = false;
 	diffuse = 0;
 }
 
-Texture::Texture(const char* path){
+Texture::Texture(const char* path, char type){
 	diffuse = 0;
-	this->load(path);
+	this->load(path, type);
 }
 
 Texture::~Texture(){
 	unload();
 }
 
-GLuint& Texture::load(const char* path){
+GLuint& Texture::load(const char* path, char type){
 	sf::Image image;
 	if(!image.loadFromFile( path ) )
 	{
@@ -25,9 +28,7 @@ GLuint& Texture::load(const char* path){
 	glGenTextures( 1 , &diffuse );
 	glBindTexture( GL_TEXTURE_2D , diffuse );
 	
-	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, width , height, 0, GL_RGBA
-		, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
-
+	glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, width , height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glTexEnvi( GL_TEXTURE_ENV , GL_TEXTURE_ENV_MODE , GL_MODULATE );
@@ -46,4 +47,8 @@ void Texture::unload(){
 
 GLuint& Texture::getTexId(){ 
 	return diffuse; 
+}
+
+bool Texture::hasDiffuse(){ 
+	return has_diffuse; 
 }

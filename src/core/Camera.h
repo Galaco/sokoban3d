@@ -1,3 +1,11 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Camera
+Description: Representation of the players view.
+Todo: Decouple mouse theft via toggle
+*********************************************************************/
 #ifndef CAMERA_H
 #define CAMERA_H
 
@@ -10,9 +18,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-#include <core/Config.h>
-#include <core/Keyboard.h>
-#include <core/Pipeline.h>
+#include <core/helpers/Config.h>
+#include "helpers/Keyboard.h"
+#include "helpers/Pipeline.h"
 
 #include "Entity.h"
 #include <core/resources/Skybox.h>
@@ -33,6 +41,8 @@ public:
 	void goLeft();
 	void goRight();
 
+	bool toggleMouseControl();
+
 	float horizontalAngle, verticalAngle;
 private:
 	Skybox* m_pSkybox;
@@ -42,6 +52,8 @@ private:
 	float speed, mouseSpeed;
 
 	float oldHorizontalAngle, oldVerticalAngle;
-	glm::vec3 oldPosition;
+	glm::vec3 oldPosition, oldRotation;
+
+	bool useMouse;
 };
 #endif

@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: Component Graphics
+Description: Stores renderable data for use with the render system
+*********************************************************************/
 #ifndef CGRAPHICS_H
 #define CGRAPHICS_H
 
@@ -8,6 +15,7 @@
 #include <core/Component.h>
 #include <core/resources/Model.h>
 #include <core/resources/PointLight.h>
+#include <core/resources/Texture.h>
 
 class CGraphics: public Component {
 public:
@@ -21,11 +29,14 @@ public:
 	void setModel(Model*);
 	Model* getModel();
 
+	Texture* getOverrideTexture(unsigned int);
+
 	unsigned int& getRenderMode();
 	void setRenderMode(unsigned int);
 private:
 	Model* m_pModel;
 	PointLight* m_pPointlight;
+	std::vector<Texture*> m_pOverrideTextures;
 
 	unsigned int m_renderMode;
 };

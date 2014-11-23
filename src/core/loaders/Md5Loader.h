@@ -1,3 +1,10 @@
+/*********************************************************************
+Project: Dissertation
+Author: Josh Martin
+
+Name: MD5 Format Loader
+Description: Loads Doom .md5 meshes only.
+*********************************************************************/
 #ifndef MD5LOADER_H
 #define MD5LOADER_H
 

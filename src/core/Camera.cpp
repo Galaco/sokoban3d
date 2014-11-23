@@ -20,6 +20,8 @@ Camera::Camera(){
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
+
+	useMouse = false;
         
     m_pSkybox = nullptr;
 
@@ -56,28 +58,38 @@ Camera::~Camera(){
 }
 
 void Camera::update(){
-	horizontalAngle += mouseSpeed * float(Config::_WINDOWWIDTH/2 - Keyboard::MOUSEX );
-	verticalAngle   += mouseSpeed * float(Config::_WINDOWHEIGHT/2 - Keyboard::MOUSEY );
+	if (useMouse)
+	{
+		m_transform->getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Keyboard::MOUSEX);
+		m_transform->getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Keyboard::MOUSEY);
+	}
 
 	//Rebuild MVP only when camera moved
-	if (verticalAngle == oldVerticalAngle &&
-		horizontalAngle == oldHorizontalAngle &&
-		m_transform->getPosition() == oldPosition
+	if (m_transform->getOrientation().x == oldVerticalAngle &&
+		m_transform->getOrientation().y == oldHorizontalAngle &&
+		m_transform->getPosition() == oldPosition &&
+		m_transform->getOrientation() == oldRotation
 	) {
+
+
+		oldPosition = m_transform->getPosition();
+		oldRotation = m_transform->getOrientation();
+
 		return;
 	}
-	if (verticalAngle != oldVerticalAngle ||
-		horizontalAngle != oldHorizontalAngle){
+
+	if (m_transform->getOrientation().x != oldVerticalAngle ||
+		m_transform->getOrientation().y != oldHorizontalAngle){
 		m_dir = glm::vec3(
-			-cos(verticalAngle) * sin(horizontalAngle), 
-			sin(verticalAngle),
-			-cos(verticalAngle) * cos(horizontalAngle)
-		);
+			-cos(m_transform->getOrientation().x) * sin(m_transform->getOrientation().y),
+			sin(m_transform->getOrientation().x),
+			-cos(m_transform->getOrientation().x) * cos(m_transform->getOrientation().y)
+			);
 
 		m_right = glm::vec3(
-			-sin(horizontalAngle - 3.1415f/2.0f), 
+			-sin(m_transform->getOrientation().y - 3.1415f / 2.0f),
 			0,
-			-cos(horizontalAngle - 3.1415f/2.0f)
+			-cos(m_transform->getOrientation().y - 3.1415f / 2.0f)
 		);
 		m_up = glm::cross( m_right, m_dir );
 	}
@@ -89,9 +101,10 @@ void Camera::update(){
 	//Pipeline::MVP = Pipeline::VP * ModelMatrix;
 	Pipeline::Eye = m_transform->getPosition();
 
-	oldHorizontalAngle = horizontalAngle;
-	oldVerticalAngle = verticalAngle;
+	oldHorizontalAngle = m_transform->getOrientation().y;
+	oldVerticalAngle = m_transform->getOrientation().x;
 	oldPosition = m_transform->getPosition();
+	oldRotation = m_transform->getOrientation();
 }
 
 void Camera::addSkybox(Skybox* skybox){
@@ -135,4 +148,10 @@ void Camera::goRight(){
 		t->setPosition(t->getPosition() += m_right * speed);
 	}
     m_transform->setPosition(m_transform->getPosition() += m_right * speed);
+}
+
+bool Camera::toggleMouseControl()
+{
+	useMouse = !useMouse;
+	return useMouse;
 }

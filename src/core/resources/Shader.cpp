@@ -7,27 +7,16 @@ CShader::CShader()
 	bLoaded = false;
 }
 
-/*-----------------------------------------------
-
-Name:	loadShader
-
-Params:	sFile - path to a file
-		a_iType - type of shader (fragment, vertex, geometry)
-
-Result:	Loads and compiles shader.
-
-/*---------------------------------------------*/
-
+//Loads and compiles a shader
 bool CShader::loadShader(string sFile, int a_iType)
 {
 	FILE* fp = fopen(sFile.c_str(), "rt");
 	if(!fp){
-		m_logger->log(_ERROR, ("Shader: Could not open: "+sFile).c_str());
+		m_logger->log(ERROR_, ("Shader: Could not open: "+sFile).c_str());
 		return false;
 	}
 
-	// Get all lines from a file
-
+	//Read in a file
 	vector<string> sLines;
 	char sLine[255];
 	while(fgets(sLine, 255, fp))sLines.push_back(sLine);
@@ -52,18 +41,18 @@ bool CShader::loadShader(string sFile, int a_iType)
 		GLint maxLength = 0;
 		glGetShaderiv(uiShader, GL_INFO_LOG_LENGTH, &maxLength);
 
-		//The maxLength includes the NULL character
+		//Output compile error message
 		std::vector<char> errorLog(maxLength);
 		glGetShaderInfoLog(uiShader, maxLength, &maxLength, &errorLog[0]);
-		m_logger->log(_ERROR, ("Shader: Failed to compile: "+sFile).c_str());
+		m_logger->log(ERROR_, ("Shader: Failed to compile: "+sFile).c_str());
 		std::string str(errorLog.data(), errorLog.size());
-		m_logger->log(_ERROR, ("Shader: Error: "+str).c_str());
+		m_logger->log(ERROR_, ("Shader: Error: "+str).c_str());
 		return false;
 	}
 	iType = a_iType;
 	bLoaded = true;
 
-	m_logger->log(_INFO, ("Shader: Loaded successfully: "+sFile).c_str());
+	m_logger->log(SUCCESS, ("Shader: Loaded successfully: "+sFile).c_str());
 	return 1;
 }
 
