@@ -8,7 +8,8 @@ const luaL_Reg LuaCGraphics::luaBinds[] = {
 	{"GetModel", lua_GetModel},
 	{"SetModel", lua_SetModel},
 	{"AddModel", lua_AddModel},
-	{"AddTexture", lua_AddTexture},
+	{"AddTexture", lua_AddTexture },
+	{"SetRenderMode", lua_SetRenderMode },
 	{NULL, NULL}
 };
 
@@ -52,5 +53,19 @@ int LuaCGraphics::lua_AddTexture(lua_State* L)
 	LuaBinder binder(L);
 	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
 	component->addTexture(binder.checkstring(2));
+	return 0;
+}
+
+int LuaCGraphics::lua_SetRenderMode(lua_State* L)
+{
+	LuaBinder binder(L);
+	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
+	unsigned int mode = RENDER_MODE_3D;
+	if (binder.checkstring(2) == "RENDER_2D")
+	{
+		mode = RENDER_MODE_2D;
+	}
+
+	component->setRenderMode(mode);
 	return 0;
 }

@@ -16,7 +16,6 @@ void LuaBinder::setLuaState(lua_State* state){
 }
 
 void LuaBinder::initialize(const char* tname, const luaL_Reg* flist){
-	//-- get global environment table from registry
 	lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 
 	lua_newtable(L);

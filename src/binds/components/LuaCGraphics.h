@@ -17,5 +17,6 @@ public:
 	static int lua_SetModel(lua_State*);
 	static int lua_AddModel(lua_State*);
 	static int lua_AddTexture(lua_State*);
+	static int lua_SetRenderMode(lua_State*);
 };
 #endif
