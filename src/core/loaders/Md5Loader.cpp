@@ -21,7 +21,7 @@ Model* Md5Loader::load(std::string path){
 	std::string parent_path = path.substr(0, found);
 
 	std::string param;
-	std::string junk;   // Read junk from the file
+	std::string junk;   // Read any irellevant data from the file (mostly { & })
 
 	int pos = static_cast<int>(file.tellg());
 	file.seekg(0, std::ios::end );
@@ -40,19 +40,19 @@ Model* Md5Loader::load(std::string path){
 		if (param == "MD5Version") {
 			file >> junk;
 			m->setFileFormatVersion(junk);
-			assert(  m->getFileFormatVersion() == "10" );
+			assert(  m->getFileFormatVersion() == "10" );	//Confirm file is indeed md5. Not concrete as could be manually edited
 		} else if (param == "commandline") {
-			file.ignore( fileLength, '\n' );
+			file.ignore( fileLength, '\n' );				//Doom specific entries it seems. Ignore
 		} else if ( param == "numJoints" ) {
 			file >> m->getJointCount();
-			 m->getJoints().reserve( m->getJointCount());
+			 m->getJoints().reserve( m->getJointCount());	//Joints in the object
 		} else if ( param == "numMeshes" ) {
 			file >>  m->getMeshCount();
-			 m->getMeshes().reserve( m->getMeshCount());
+			 m->getMeshes().reserve( m->getMeshCount());	//Meshes in the object
 		} else if ( param == "joints" ) {
 			Joint joint;
 			file >> junk; // Read the '{' character
-			for ( int i = 0; i <  m->getJointCount(); ++i )
+			for ( int i = 0; i <  m->getJointCount(); ++i )	//Data is:name, parent, pos.xyz, rot.xyz
 			{
 				file >> joint.m_Name >> joint.m_ParentID >> junk
 					>> joint.m_Pos.x >> joint.m_Pos.y >> joint.m_Pos.z >> junk >> junk
@@ -67,7 +67,7 @@ Model* Md5Loader::load(std::string path){
 					joint.m_Orient.w = -sqrtf(t);
 				}
 
-				m->getJoints().push_back(joint);
+				m->getJoints().push_back(joint);	//Add parsed joint to list
 				// Ignore everything else on the line up to the end-of-line character.
 				file.ignore( fileLength, '\n' );
 			}
@@ -75,7 +75,7 @@ Model* Md5Loader::load(std::string path){
 		}
 		else if ( param == "mesh" )
 		{
-			Mesh mesh;
+			Mesh mesh;	//Create mesh on the stack
 
 			int numVerts, numTris, numWeights;
 
@@ -101,9 +101,9 @@ Model* Md5Loader::load(std::string path){
 					int findLastDir = path.find_last_of("/");
 					if ( findExt <= findLastDir ) {
 						texturePath += ".tga";
-					}
+					}	//Get directory info
 
-					Texture* tex = new Texture;
+					Texture* tex = new Texture;	//Create new texture (on the heap?!)
 					mesh.m_TexID = tex->load(texturePath.c_str(), 'd');
 					m->addTexture(texturePath, tex);
 
@@ -160,13 +160,13 @@ Model* Md5Loader::load(std::string path){
 
 			this->prepareMesh(mesh, m);
 
-
+			//Build the buffer object for upload
 			glGenVertexArrays(1, &mesh.uiVAO); 
 			glBindVertexArray(mesh.uiVAO); 
 
 			glGenBuffers(1, &mesh.uiBuffer);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.uiBuffer);
-			glBufferData(GL_ARRAY_BUFFER, mesh.m_PositionBuffer.size() * sizeof(glm::vec3), &mesh.m_PositionBuffer[0] , GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, mesh.m_PositionBuffer.size() * sizeof(glm::vec3), &mesh.m_PositionBuffer[0] , GL_STATIC_DRAW);	//STREAM_DRAW?
 
 			glGenBuffers(1, &mesh.uvBuffer);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.uvBuffer);
@@ -174,7 +174,7 @@ Model* Md5Loader::load(std::string path){
 
 			glGenBuffers(1, &mesh.normalBuffer);
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.normalBuffer);
-			glBufferData(GL_ARRAY_BUFFER, mesh.m_NormalBuffer.size() * sizeof(glm::vec3), &mesh.m_NormalBuffer[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, mesh.m_NormalBuffer.size() * sizeof(glm::vec3), &mesh.m_NormalBuffer[0], GL_STATIC_DRAW);	//STREAM DRAW?
 
 			// Generate a buffer for the indices as well
 			glGenBuffers(1, &mesh.indexBuffer);

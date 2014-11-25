@@ -8,6 +8,7 @@ Model::Model()
 }
 	
 Model::~Model(){
+	//Cleanup
 	auto it = m_meshList.begin();
 	while (it != m_meshList.end()){
 		glDeleteVertexArrays(1, &(*it).uiVAO);
@@ -18,32 +19,7 @@ Model::~Model(){
 		++it;
 	}
 }
-
-void Model::render(){
-	glEnable(GL_TEXTURE_2D);
-
-	// Render the meshes
-	for ( unsigned int i = 0; i < m_meshList.size(); ++i )
-	{
-		renderMesh( m_meshList[i], i );
-	}
-
-	glDisable(GL_TEXTURE_2D);
-}
-
-void Model::renderMesh( const Mesh& mesh, int i ) {
-	glBindVertexArray(mesh.uiVAO); 
-
-	glActiveTexture(GL_TEXTURE0+0);
-	glBindTexture( GL_TEXTURE_2D, mesh.m_TexID );
-
-	glDrawElements(GL_TRIANGLES, mesh.m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
-
-	glBindTexture( GL_TEXTURE_2D, 0 );
-
-	glBindVertexArray(0); 
-}
-        
+      
 void Model::setFormat(std::string f){ 
     m_format = f;
 }

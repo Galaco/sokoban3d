@@ -24,7 +24,6 @@ public:
 	Model();
 	~Model();
 
-	virtual void render();
     
 
     void setFormat(std::string f);
@@ -43,8 +42,6 @@ public:
 	int& getMeshCount();
 	int& getJointCount();
 protected:
-	// Render a single mesh of the model
-	virtual void renderMesh( const Mesh& mesh, int );
 
 	Logger*		m_pLogger;
 
