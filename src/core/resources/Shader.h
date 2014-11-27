@@ -29,6 +29,7 @@ class CShader
 {
 public:
 	bool loadShader(string sFile, int a_iType);
+	bool loadFromString(const char** rawShader, int lines, int a_iType);
 	void deleteShader();
 
 	bool isLoaded();

@@ -9,6 +9,7 @@ TextureLoader::~TextureLoader(){
 }
 
 Texture* TextureLoader::load(std::string path){
+	path = "assets/materials/" + path;
 	unsigned found = path.find_last_of(".");
 	std::string filetype = path.substr(found+1, path.length()-found);
 	if (filetype == "jpg" ||

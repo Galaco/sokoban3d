@@ -11,8 +11,8 @@ DirectionalLightPass::~DirectionalLightPass(){
 }
 
 void DirectionalLightPass::initialize(){
-	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/directional_light_pass.vs.glsl", GL_VERTEX_SHADER);
-	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/directional_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/deferred/directional_light_pass.vs.glsl", GL_VERTEX_SHADER);
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/deferred/directional_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
 
 	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load directional light shader/s.");
 

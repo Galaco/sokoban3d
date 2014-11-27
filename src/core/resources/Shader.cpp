@@ -56,6 +56,35 @@ bool CShader::loadShader(string sFile, int a_iType)
 	return 1;
 }
 
+bool CShader::loadFromString(const char** rawShader, int lines, int a_iType)
+{
+	uiShader = glCreateShader(a_iType);
+
+
+	for (int i = 0; i < 20; ++i)
+		Logger::log(WARNING, rawShader[i]);
+
+	glShaderSource(uiShader, lines, rawShader, NULL);
+	glCompileShader(uiShader);
+
+	int iCompilationStatus;
+	glGetShaderiv(uiShader, GL_COMPILE_STATUS, &iCompilationStatus);
+	if(iCompilationStatus == GL_FALSE){
+		GLint maxLength = 0;
+		glGetShaderiv(uiShader, GL_INFO_LOG_LENGTH, &maxLength);
+
+		//Output compile error message
+		std::vector<char> errorLog(maxLength);
+		glGetShaderInfoLog(uiShader, maxLength, &maxLength, &errorLog[0]);
+		std::string str(errorLog.data(), errorLog.size());
+		m_logger->log(ERROR_, ("Shader: Error: " + str).c_str());
+		return false;
+	}
+
+	m_logger->log(SUCCESS, "Shader: Loaded successfully");
+	return true;
+}
+
 bool CShader::isLoaded() {
 	return bLoaded;
 }
@@ -70,7 +99,6 @@ void CShader::deleteShader() {
 	bLoaded = false;
 	glDeleteShader(uiShader);
 }
-
 CShaderProgram::CShaderProgram() {
 	bLinked = false;
 }

@@ -9,6 +9,7 @@ Skybox::~Skybox(){
 }
 
 void Skybox::load(std::string a_sDirectory) {
+	a_sDirectory = "assets/materials/" + a_sDirectory;
 	loadTexture((a_sDirectory+"_ft.jpg").c_str(), 0); 
 	loadTexture((a_sDirectory+"_bk.jpg").c_str(), 1); 
 	loadTexture((a_sDirectory+"_lf.jpg").c_str(), 2); 

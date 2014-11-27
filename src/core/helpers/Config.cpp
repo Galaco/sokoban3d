@@ -36,7 +36,7 @@ bool Config::load() {
     std::map<std::string, std::string> m;
     std::ifstream f;
     std::string d, holder;
-    f.open( "data/core/base.cfg" );
+    f.open( "config/default.cfg" );
     if( f.is_open() )
     {
 	while( f >> holder )

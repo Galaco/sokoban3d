@@ -10,8 +10,8 @@ PointLightPass::~PointLightPass(){
 }
 
 void PointLightPass::initialize(){
-	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/point_light_pass.vs.glsl", GL_VERTEX_SHADER);
-	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/point_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/deferred/point_light_pass.vs.glsl", GL_VERTEX_SHADER);
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/deferred/point_light_pass.fs.glsl", GL_FRAGMENT_SHADER);
 
 	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load point light shader/s.");
 

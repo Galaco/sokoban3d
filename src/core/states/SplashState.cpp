@@ -6,9 +6,9 @@ SplashState::SplashState()
 
 	Entity* e = new Entity("splashLogo");
 	CGraphics* c = new CGraphics();
-	c->addModel("data/resource/model/shapes/quad.obj");
+	c->addModel("shapes/quad.obj");
 	c->setRenderMode(RENDER_MODE_2D);
-	c->addTexture("data/resource/materials/core/splash.jpg");
+	c->addTexture("res/splash.jpg");
 	e->addComponent(c, "Graphics");
 
 	e->GetTransform()->setScale(glm::vec3(0.2f / ((float)Config::_WINDOWWIDTH / (float)Config::_WINDOWHEIGHT), 0.2f, 1.f));

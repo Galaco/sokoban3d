@@ -312,6 +312,9 @@
     <ClInclude Include="src\core\states\SplashState.h">
       <Filter>Header Files\core\states</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\renderer\DeferredShaders.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">

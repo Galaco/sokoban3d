@@ -142,6 +142,7 @@
     <ClInclude Include="src\systems\lua\LuaObjectBinds.h" />
     <ClInclude Include="src\systems\renderer\DeferredPass.h" />
     <ClInclude Include="src\systems\renderer\DeferredRenderer.h" />
+    <ClInclude Include="src\systems\renderer\DeferredShaders.h" />
     <ClInclude Include="src\systems\renderer\DirectionalLightPass.h" />
     <ClInclude Include="src\systems\renderer\GeometryPass.h" />
     <ClInclude Include="src\systems\renderer\PointLightPass.h" />

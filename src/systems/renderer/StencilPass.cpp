@@ -9,8 +9,8 @@ StencilPass::~StencilPass(){
 }
 
 void StencilPass::initialize(){
-	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/stencil.vs.glsl", GL_VERTEX_SHADER);
-	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/stencil.fs.glsl", GL_FRAGMENT_SHADER);
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/deferred/stencil.vs.glsl", GL_VERTEX_SHADER);
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/deferred/stencil.fs.glsl", GL_FRAGMENT_SHADER);
 
 	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load stencil shader/s.");
 

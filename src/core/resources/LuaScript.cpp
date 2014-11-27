@@ -30,7 +30,7 @@ void LuaScript::runString(const char*){
 void LuaScript::runFile(std::string fileName, std::string global, bool autorun){
 	assert(m_masterLuaState);
 	assert(threadState);
-	FILE* fp = fopen(("data/scripts/" + fileName).c_str(), "rt");
+	FILE* fp = fopen(("scripts/" + fileName).c_str(), "rt");
 	if(!fp){
 		return;
 	}

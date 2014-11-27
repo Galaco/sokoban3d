@@ -12,6 +12,7 @@ ModelLoader::~ModelLoader(){
 }
 
 Model* ModelLoader::load(std::string path){
+	path = "assets/models/" + path;
 	unsigned found = path.find_last_of(".");
 	std::string filetype = path.substr(found+1, path.length()-found);
 

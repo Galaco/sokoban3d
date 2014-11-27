@@ -28,8 +28,8 @@ void SGraphics::initialize(){
 	m_stencilPass.initialize();
 	m_stencilPass.setFbo(m_deferredRenderer.getFbo());
 
-	m_directionalQuad = m_Resources.add<Model>("data/resource/model/shapes/quad.obj");
-	m_pointSphere = m_Resources.add<Model>("data/resource/model/shapes/sphere.obj");
+	m_directionalQuad = m_Resources.add<Model>("shapes/quad.obj");
+	m_pointSphere = m_Resources.add<Model>("shapes/sphere.obj");
 
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	glEnable(GL_CULL_FACE);

@@ -1,5 +1,7 @@
 #include "GeometryPass.h"
 
+#include "DeferredShaders.h"
+
 GeometryPass::GeometryPass(){
 }
 
@@ -10,10 +12,12 @@ GeometryPass::~GeometryPass(){
 }
 
 void GeometryPass::initialize(){
-	bool vsLoad = m_shader[0].loadShader("data/shaders/deferred/geometry_pass.vs.glsl", GL_VERTEX_SHADER);
-	bool fsLoad = m_shader[1].loadShader("data/shaders/deferred/geometry_pass.fs.glsl", GL_FRAGMENT_SHADER);
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/deferred/geometry_pass.vs.glsl", GL_VERTEX_SHADER);
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/deferred/geometry_pass.fs.glsl", GL_FRAGMENT_SHADER);
+	//bool fsLoad = m_shader[1].loadFromString(spire::deferred::geometryFrag, spire::deferred::geometryFragLines, GL_FRAGMENT_SHADER);
 
-	if (!vsLoad || !fsLoad) m_pLogger->log(FATAL, "Could not load core geometry shader/s.");
+	if (!vsLoad || !fsLoad) 
+		m_pLogger->log(FATAL, "Could not load core geometry shader/s.");
 
 	m_shaderProg.createProgram();
 	m_shaderProg.addShaderToProgram(&m_shader[0]);
