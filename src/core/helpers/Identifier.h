@@ -27,7 +27,7 @@ public:
 
 private:
     static int m_nextId;
-    static std::map<std::string, bool> m_manualList;
+    static std::map<std::string, int> m_manualList;
     
     std::string m_id;
     
