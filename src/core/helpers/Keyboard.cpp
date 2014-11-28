@@ -78,7 +78,7 @@ Keyboard::~Keyboard(){
 
 
 Key Keyboard::ascii(std::string charcode){
-	//converts and aascii key to Apex Key
+	//converts and ascii key to Apex Key
 	std::transform(charcode.begin(), charcode.end(), charcode.begin(), ::tolower);
 	if (charcode == "f1") return Key::KEY_F1;
 	if (charcode == "f2") return Key::KEY_F2;
@@ -139,5 +139,5 @@ Key Keyboard::ascii(std::string charcode){
 	if (charcode == "right") return Key::KEY_RIGHT;
 	if (charcode == "esc") return Key::KEY_ESC;
 
-	return Key::KEY_F1;
+	return Key::KEY_RCTRL;
 }

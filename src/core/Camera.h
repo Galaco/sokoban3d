@@ -40,6 +40,8 @@ public:
 	void goBackward();
 	void goLeft();
 	void goRight();
+	void goUp();
+	void goDown();
 
 	bool toggleMouseControl();
 	void rebuildView();

@@ -26,7 +26,7 @@ std::string Identifier::gen(const char* id ){
 		m_manualList[id] += 1;
 
 		m_id = std::string(id) + std::to_string(m_manualList[id]);
-		m_pLogger->log(WARNING, ("Unique id: " + std::string(id) + "in use. Object has renamed to: " + (id + m_nextId)).c_str());
+		m_pLogger->log(WARNING, ("ID: \"" + std::string(id) + "\" in use. Object renamed to: " + (std::string(id) + std::to_string(m_manualList[id]))).c_str());
     } else {
 		m_manualList[id] = 1;
 		m_id = std::string(id);

@@ -129,9 +129,21 @@ int LuaKeyboard::lua_KeyDown(lua_State* L)
 		case Key::KEY_ESC:
 			return Keyboard::KEY_ESC;
 			break;
+		case Key::KEY_UP:
+			return Keyboard::KEY_UP;
+			break;
+		case Key::KEY_DOWN:
+			return Keyboard::KEY_DOWN;
+			break;
+		case Key::KEY_LEFT:
+			return Keyboard::KEY_LEFT;
+			break;
+		case Key::KEY_RIGHT:
+			return Keyboard::KEY_RIGHT;
+			break;
 		default:
 			return 0;
 	}
 	
-	return 1;
+	return 0;
 }

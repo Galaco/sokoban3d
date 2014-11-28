@@ -130,27 +130,23 @@ void Camera::goForward(){
 }
 
 void Camera::goBackward(){
-	if (m_pParent != nullptr){
-		CTransform* t = m_pParent->GetTransform();
-		t->setPosition(t->getPosition() -= m_dir * speed);
-	}
     m_transform->setPosition(m_transform->getPosition() -= m_dir * speed);
 }
 
 void Camera::goLeft(){
-	if (m_pParent != nullptr){
-		CTransform* t = m_pParent->GetTransform();
-		t->setPosition(t->getPosition() -= m_right * speed);
-	}
     m_transform->setPosition(m_transform->getPosition() -= m_right * speed);
 }
 
 void Camera::goRight(){
-	if (m_pParent != nullptr){
-		CTransform* t = m_pParent->GetTransform();
-		t->setPosition(t->getPosition() += m_right * speed);
-	}
-    m_transform->setPosition(m_transform->getPosition() += m_right * speed);
+	m_transform->setPosition(m_transform->getPosition() += m_right * speed);
+}
+
+void Camera::goUp(){
+	m_transform->setPosition(m_transform->getPosition() += m_up * speed);
+}
+
+void Camera::goDown(){
+	m_transform->setPosition(m_transform->getPosition() -= m_up * speed);
 }
 
 bool Camera::toggleMouseControl()

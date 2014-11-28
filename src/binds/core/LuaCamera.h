@@ -23,6 +23,8 @@ public:
 	static int lua_GoBackward(lua_State*);
 	static int lua_GoLeft(lua_State*);
 	static int lua_GoRight(lua_State*);
+	static int lua_GoUp(lua_State*);
+	static int lua_GoDown(lua_State*);
 	static int lua_GetTransform(lua_State*);
 	static int lua_SetTransform(lua_State*);
 	static int lua_ToggleMouse(lua_State*);

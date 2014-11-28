@@ -15,7 +15,9 @@ const luaL_Reg LuaCamera::luaBinds[] = {
 	{"GoForward", lua_GoForward},
 	{"GoBackward", lua_GoBackward},
 	{"GoLeft", lua_GoLeft},
-	{"GoRight", lua_GoRight},
+	{"GoRight", lua_GoRight },
+	{"GoUp", lua_GoUp },
+	{"GoDown", lua_GoDown },
 	{"GetTransform", lua_GetTransform},
 	{"SetTransform", lua_SetTransform},
 	{ "ToggleMouseControl", lua_ToggleMouse },
@@ -95,6 +97,22 @@ int LuaCamera::lua_GoRight(lua_State* L)
 	LuaBinder binder(L);
 	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
 	entity->goRight();
+	return 0;
+}
+
+int LuaCamera::lua_GoUp(lua_State* L)
+{
+	LuaBinder binder(L);
+	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
+	entity->goUp();
+	return 0;
+}
+
+int LuaCamera::lua_GoDown(lua_State* L)
+{
+	LuaBinder binder(L);
+	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
+	entity->goDown();
 	return 0;
 }
 
