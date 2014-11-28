@@ -107,6 +107,10 @@ void State::addCamera(Camera* entity){
 	}
 }
 
+void State::addPointLight(PointLight* light){
+	m_listPointLight.push_back(light);
+}
+
 Camera* State::getCurrentCamera()
 {
 	return m_currentCamera;

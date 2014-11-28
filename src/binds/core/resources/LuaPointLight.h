@@ -20,6 +20,8 @@ public:
 	static int lua_GetAmbience(lua_State*);
 	static int lua_SetDiffuse(lua_State*);
 	static int lua_GetDiffuse(lua_State*);
+	static int lua_SetPosition(lua_State*);
+	static int lua_GetPosition(lua_State*);
 
 
 

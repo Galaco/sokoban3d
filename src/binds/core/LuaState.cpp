@@ -13,7 +13,8 @@ const luaL_Reg LuaState::luaBinds[] = {
 	{"AddCamera", lua_AddCamera },
 	{"GetDirectionalLight", lua_GetDirectionalLight },
 	{"GetState", lua_GetState},
-	{"RequestPriority", lua_RequestPriority},
+	{ "RequestPriority", lua_RequestPriority },
+	{ "AddPointLight", lua_AddPointLight },
 	{NULL, NULL}
 };
 
@@ -107,4 +108,17 @@ int LuaState::lua_RequestPriority(lua_State* L)
 	}
 
 	return 0;
+}
+
+int LuaState::lua_AddPointLight(lua_State* L){
+	LuaBinder binder(L);
+	State* state = StateManager::getState(binder.checkstring(1));
+	if (state == nullptr) {
+		return 0;
+	}
+	PointLight* light = new PointLight;
+	state->addPointLight(light);
+	binder.pushusertype(light, "PointLight");
+
+	return 1;
 }

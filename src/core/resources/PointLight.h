@@ -30,7 +30,11 @@ public:
 	void setAttenuationLinear(float l);
 	void setAttenuationExp(float e);
 
+	void setPosition(glm::vec3 pos);
+	glm::vec3 getPosition();
+
 private:
+	glm::vec3 Position;
 	glm::vec3 Color;
 	float AmbientIntensity;
 	float DiffuseIntensity;

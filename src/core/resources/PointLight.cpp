@@ -49,3 +49,13 @@ void PointLight::setAttenuationLinear(float l){
 void PointLight::setAttenuationExp(float e){ 
 	Attenuation.Exp = e; 
 }
+
+void PointLight::setPosition(glm::vec3 pos)
+{
+	Position = pos;
+}
+
+glm::vec3 PointLight::getPosition()
+{
+	return Position;
+}

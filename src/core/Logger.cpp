@@ -29,9 +29,7 @@ void Logger::log(e_priority priority, const char* msg){
 		SetConsoleTextAttribute(hConsole, 15);
 		break;
 	case INFO:
-		SetConsoleTextAttribute(hConsole, 15);
 		std::cout << msg << "\n";
-		SetConsoleTextAttribute(hConsole, 15);
 		break;
 	case SUCCESS:
 		SetConsoleTextAttribute(hConsole, 10);

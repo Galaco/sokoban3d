@@ -31,6 +31,7 @@ public:
 
 	void addEntity(Entity*);
 	void addCamera(Camera*);
+	void addPointLight(PointLight*);
 
 	Entity* getEntity(std::string);
 	Camera* getCamera(std::string);

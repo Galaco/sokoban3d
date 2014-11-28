@@ -17,6 +17,8 @@ const luaL_Reg LuaPointLight::luaBinds[] = {
 	{ "GetAmbience", lua_GetAmbience },
 	{ "SetDiffuse", lua_SetDiffuse },
 	{ "GetDiffuse", lua_GetDiffuse },
+	{ "SetPosition", lua_SetPosition },
+	{ "GetPosition", lua_GetPosition },
 	{ NULL, NULL }
 };
 
@@ -90,6 +92,25 @@ int LuaPointLight::lua_GetDiffuse(lua_State* L)
 	LuaBinder binder(L);
 	PointLight* light = (PointLight*)binder.checkusertype(1, "PointLight");
 	binder.pushnumber(light->getDiffuse());
+
+	return 1;
+}
+
+
+int LuaPointLight::lua_SetPosition(lua_State* L)
+{
+	LuaBinder binder(L);
+	PointLight* light = (PointLight*)binder.checkusertype(1, "PointLight");
+	light->setPosition(*static_cast<glm::vec3*>(binder.checkusertype(2, "Vec3")));
+
+	return 0;
+}
+
+int LuaPointLight::lua_GetPosition(lua_State* L)
+{
+	LuaBinder binder(L);
+	PointLight* light = (PointLight*)binder.checkusertype(1, "PointLight");
+	binder.pushusertype(&light->getPosition(), "Vec3");
 
 	return 1;
 }
