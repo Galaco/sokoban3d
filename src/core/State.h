@@ -36,6 +36,7 @@ public:
 	Entity* getEntity(std::string);
 	Camera* getCamera(std::string);
 	Camera* getCurrentCamera();
+	void setCurrentCamera(Camera* camera);
 	DirectionalLight* getDirectionalLight();
 
 

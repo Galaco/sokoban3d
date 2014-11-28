@@ -41,16 +41,17 @@ void SLuaScript::update(float dt){
 	}
 
 
-	Camera* cam = m_CurrentState->getCurrentCamera();
-	if (cam != nullptr)
+	auto it2 = m_CurrentState->getCameras().begin();
+	while (it2 != m_CurrentState->getCameras().end())
 	{
-		std::vector<Component*> cList = cam->getComponentsByType("LuaScript");
+		std::vector<Component*> cList = (*it2)->getComponentsByType("LuaScript");
 		auto CIterator = cList.begin();
-		while(CIterator != cList.end())
+		while (CIterator != cList.end())
 		{
 			static_cast<CLuaScript*>((*CIterator))->getScript()->update(dt);
 			++CIterator;
 		}
+		++it2;
 	}
 	
 

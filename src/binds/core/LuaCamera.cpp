@@ -18,7 +18,9 @@ const luaL_Reg LuaCamera::luaBinds[] = {
 	{"GoRight", lua_GoRight},
 	{"GetTransform", lua_GetTransform},
 	{"SetTransform", lua_SetTransform},
-	{"ToggleMouseControl", lua_ToggleMouse},
+	{ "ToggleMouseControl", lua_ToggleMouse },
+	{ "Find", lua_Find },
+	{ "SetActive", lua_SetActive },
 	{NULL, NULL}
 };
 
@@ -124,5 +126,27 @@ int LuaCamera::lua_ToggleMouse(lua_State* L)
 	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
 
 	entity->toggleMouseControl();
+	return 0;
+}
+
+int LuaCamera::lua_Find(lua_State* L){
+	LuaBinder binder(L);
+
+	State* state = StateManager::getActiveState();
+	Camera* e = state->getCamera(binder.checkstring(1));
+
+	binder.pushusertype(e, "Camera");
+	return 1;
+}
+
+int LuaCamera::lua_SetActive(lua_State* L){
+	LuaBinder binder(L);
+
+	State* state = StateManager::getActiveState();
+	Camera* e = state->getCamera(binder.checkstring(1));
+	if (e != nullptr) {
+		state->setCurrentCamera(e);
+	}
+
 	return 0;
 }

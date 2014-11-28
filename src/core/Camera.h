@@ -42,6 +42,7 @@ public:
 	void goRight();
 
 	bool toggleMouseControl();
+	void rebuildView();
 
 	float horizontalAngle, verticalAngle;
 private:

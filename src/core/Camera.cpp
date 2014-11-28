@@ -14,7 +14,8 @@ Camera::Camera(){
 	mouseSpeed = 0.010f;
 
 	m_target = glm::vec3(0.0f, 0.0f, 1.0f);
-	m_up     = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	this->fov = 70.f;
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
@@ -29,6 +30,7 @@ Camera::Camera(){
 
 	m_id.gen();
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
+	rebuildView();
 }
 
 
@@ -52,6 +54,7 @@ Camera::Camera(const char* name){
 
 	m_id.gen(name);
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
+	rebuildView();
 }
 
 Camera::~Camera(){
@@ -154,4 +157,23 @@ bool Camera::toggleMouseControl()
 {
 	useMouse = !useMouse;
 	return useMouse;
+}
+
+void Camera::rebuildView()
+{
+	m_dir = glm::vec3(
+		-cos(m_transform->getOrientation().x) * sin(m_transform->getOrientation().y),
+		sin(m_transform->getOrientation().x),
+		-cos(m_transform->getOrientation().x) * cos(m_transform->getOrientation().y)
+		);
+
+	m_right = glm::vec3(
+		-sin(m_transform->getOrientation().y - 3.1415f / 2.0f),
+		0,
+		-cos(m_transform->getOrientation().y - 3.1415f / 2.0f)
+		);
+	m_up = glm::cross(m_right, m_dir);
+
+	Pipeline::setViewMatrix(glm::lookAt(m_transform->getPosition(), m_transform->getPosition() + m_dir, m_up));
+	Pipeline::Eye = m_transform->getPosition();
 }

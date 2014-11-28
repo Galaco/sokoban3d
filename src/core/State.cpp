@@ -1,4 +1,5 @@
 #include "State.h"
+#include <core/System.h>
 
 State::State()
 {
@@ -31,11 +32,12 @@ State::~State()
 void State::update(float dt = 0)
 {
 	m_runningTime += dt;
-	auto it = m_mCameraList.begin();
+	/*auto it = m_mCameraList.begin();
 	while(it != m_mCameraList.end()) {
 		(*it)->update();
 		++it;
-	}
+	}*/
+	m_currentCamera->update();
 }
 
 
@@ -76,6 +78,7 @@ Camera* State::getCamera(std::string name)
 		{
 			return (*it);
 		}
+		++it;
 	}
 	return nullptr;
 
@@ -114,6 +117,15 @@ void State::addPointLight(PointLight* light){
 Camera* State::getCurrentCamera()
 {
 	return m_currentCamera;
+}
+
+void State::setCurrentCamera(Camera* camera)
+{
+	if (camera != nullptr) {
+		m_currentCamera = camera;
+		System::setCurrentCamera(m_currentCamera);
+		m_currentCamera->rebuildView();
+	}
 }
 
 DirectionalLight* State::getDirectionalLight()
