@@ -43,26 +43,39 @@
 	
 	
 	
---buttons	
+--buttons
+  --Classic button	
 	local e = Entity.Create("classic")	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(-0.2,0,-0.5))
-	--Transform.SetOrientation(trans, Vec3.Create(0, 0, 0))
 	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
-	Entity.SetTransform(e,trans)
-	
+	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
 	CGraphics.AddModel(g, "shapes/quad.obj")
 	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
-	CGraphics.SetRenderMode(g, "RENDER_2D")
-	
+	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
+	local script = CScript.Create()
+	CScript.AddScript(script, "objects/menu/classic.lua")
+	Entity.AddComponent(e, script, "LuaScript")
 	State.AddEntity(e, "mainmenu")
 	
+  --Extended button	
+	local e = Entity.Create("three3")	
+	local trans = Transform.Create();
+	Transform.SetPosition(trans, Vec3.Create(-0.2,-0.1,-0.5))
+	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
+	Entity.SetTransform(e,trans)	
+	local g = CGraphics.Create()
+	CGraphics.AddModel(g, "shapes/quad.obj")
+	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
+	CGraphics.SetRenderMode(g, "RENDER_2D")	
+	Entity.AddComponent(e, g, "Graphics")
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/menu/extended.lua")
+	State.AddEntity(e, "mainmenu")
 	
-	local script = LuaScript.Create()
-	LuaScript.Load(script, "states/menu_update.lua")
-	State.AddScript(script, "mainmenu");
 	
 	Mouse.Show()
 	Mouse.Unlock()

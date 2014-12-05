@@ -27,13 +27,11 @@ void LuaScript::runString(const char*){
 
 }
 
-void LuaScript::runFile(std::string fileName, std::string global, bool autorun){
+void LuaScript::runFile(std::string fileName, std::string globalName, bool autorun){
 	assert(m_masterLuaState);
 	assert(threadState);
 	FILE* fp = fopen(("scripts/" + fileName).c_str(), "rt");
-	if(!fp){
-		return;
-	}
+	if(!fp) return;
 
 	std::vector<std::string> sLines;
 	char sLine[255];
@@ -45,16 +43,29 @@ void LuaScript::runFile(std::string fileName, std::string global, bool autorun){
 		max = max + sLines[i];
 	}
 
+	if (globalName != "")
+	{
+		std::string whiteList(
+			"print = print,"
+			"os = os,"
+			"dofile = dofile,"
+			"string = string,"
+			"Mouse = Mouse"
+		);
+
+		std::string lua_sandbox(
+			globalName + " = { " + whiteList + " }  "
+			"_ENV = " + globalName + " "
+		);
+		max = lua_sandbox + max;
+
+		m_environmentId = globalName;
+	}
 
 	const char* rawScript = max.c_str();
 
-	status = luaL_loadstring( threadState, rawScript );
+	status = luaL_loadstring(threadState, rawScript);
 	if (status == 0){
-		if (global != "") {
-			m_environmentId = global;
-			lua_getglobal(threadState, global.c_str());
-			lua_setupvalue(threadState, -2, 1);
-		}
 		if (autorun){
 			resumeScript(0.0f);
 		}
@@ -128,7 +139,15 @@ void LuaScript::callFn(const char* fnName, int iParam){
 	int         status;
 
 	// find the lua function and push it on the stack
-	lua_getglobal (threadState, fnName);
+
+	if (m_environmentId != "")
+	{
+		lua_getglobal(threadState, m_environmentId.c_str());
+		lua_getfield(threadState, -1, fnName);
+	}
+	else {
+		lua_getglobal(threadState, fnName);
+	}
 
 	// push our single argument
 	lua_pushnumber(threadState, iParam);

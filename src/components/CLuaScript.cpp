@@ -28,5 +28,10 @@ LuaScript* CLuaScript::getScript(){
 
 void CLuaScript::addScript(const char* file){
 	m_script = new LuaScript(m_masterLuaState);
-	m_script->runFile(file);
+	std::string envName = "";
+	if (m_entity != nullptr)
+	{
+		envName = m_entity->getId();
+	}
+	m_script->runFile(file, envName);
 }

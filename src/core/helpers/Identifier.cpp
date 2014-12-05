@@ -23,11 +23,11 @@ std::string Identifier::gen(){
 std::string Identifier::gen(const char* id ){
 	//If a custom name requested, use that if it is available.
     if (m_manualList.find(std::string(id)) != m_manualList.end()) {
-		//m_manualList[id] += 1;
-		//m_id = std::string(id) + std::to_string(m_manualList[id]);
-		//m_pLogger->log(WARNING, ("ID: \"" + std::string(id) + "\" in use. Object renamed to: " + (std::string(id) + std::to_string(m_manualList[id]))).c_str());
+		m_manualList[id] += 1;
+		m_id = std::string(id) + std::to_string(m_manualList[id]);
+		m_pLogger->log(WARNING, ("ID: \"" + std::string(id) + "\" in use. Object renamed to: " + (std::string(id) + std::to_string(m_manualList[id]))).c_str());
 
-		m_id = std::string(id);
+		//m_id = std::string(id);
     } else {
 		m_manualList[id] = 1;
 		m_id = std::string(id);

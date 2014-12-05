@@ -25,6 +25,6 @@
 -- end
 
 
-	local script = LuaScript.Create()
-	LuaScript.Load(script, "states/game_update.lua")
-	State.AddScript(script, "game");
+	--local script = LuaScript.Create()
+	--LuaScript.Load(script, "states/game_update.lua")
+	--State.AddScript(script, "game");
