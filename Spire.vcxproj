@@ -97,6 +97,7 @@
     <ClInclude Include="src\binds\core\LuaEntity.h" />
     <ClInclude Include="src\binds\core\LuaState.h" />
     <ClInclude Include="src\binds\core\resources\LuaDirectionalLight.h" />
+    <ClInclude Include="src\binds\core\resources\LuaLuaScript.h" />
     <ClInclude Include="src\binds\core\resources\LuaPointLight.h" />
     <ClInclude Include="src\binds\LuaClass.h" />
     <ClInclude Include="src\binds\math\LuaVec3.h" />
@@ -165,6 +166,7 @@
     <ClCompile Include="src\binds\core\LuaEntity.cpp" />
     <ClCompile Include="src\binds\core\LuaState.cpp" />
     <ClCompile Include="src\binds\core\resources\LuaDirectionalLight.cpp" />
+    <ClCompile Include="src\binds\core\resources\LuaLuaScript.cpp" />
     <ClCompile Include="src\binds\core\resources\LuaPointLight.cpp" />
     <ClCompile Include="src\binds\LuaClass.cpp" />
     <ClCompile Include="src\binds\math\LuaVec3.cpp" />

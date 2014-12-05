@@ -1,7 +1,7 @@
-dofile("scripts/objects/player/controller.lua")
-dofile("scripts/objects/camera/controller.lua")
-
 function Update()
-	UpdatePlayer()
-	UpdateCamera()
+	if Mouse.Pressed("left")
+	then 
+		dofile("scripts/states/game.lua")
+		dofile("scripts/levels/main.lua")
+	end
 end

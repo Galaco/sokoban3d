@@ -25,6 +25,7 @@ public:
 
 	void		pollEvents();
 	static void keyCallback(GLFWwindow*, int, int, int, int);
+	static void mouseKeyCallback(GLFWwindow*, int, int, int);
 	static void cursorCallback(GLFWwindow*, double, double);
 	static void windowsizeCallback(GLFWwindow*, int, int);
 

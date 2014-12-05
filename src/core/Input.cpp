@@ -13,6 +13,7 @@ bool Input::initialize(GLFWwindow* window){
 	mRenderWindow = window;
 	if(window){
 		glfwSetKeyCallback(this->mRenderWindow, keyCallback);
+		glfwSetMouseButtonCallback(this->mRenderWindow, mouseKeyCallback);
 		glfwSetCursorPosCallback(this->mRenderWindow, cursorCallback);
 		Mouse::setWindow(this->mRenderWindow);
 	} else {
@@ -21,6 +22,21 @@ bool Input::initialize(GLFWwindow* window){
 	}
 	this->mDebugger->log(INFO, "Input handler successfully initialised");
 	return true;
+}
+
+void Input::mouseKeyCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT) Mouse::_LEFT = true; else
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) Mouse::_RIGHT = true;
+	}
+	else
+	if (action == GLFW_RELEASE)
+	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT) Mouse::_LEFT = false; else
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) Mouse::_RIGHT = false;
+	}
 }
 
 void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -150,12 +166,6 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		case GLFW_KEY_RIGHT:
 			Keyboard::KEY_RIGHT = true;
 			break;
-		case GLFW_MOUSE_BUTTON_LEFT:
-			Mouse::_LEFT = true;
-			break;
-		case GLFW_MOUSE_BUTTON_RIGHT:
-			Mouse::_RIGHT = true;
-			break;
 		}
 	}
 	if (action == GLFW_RELEASE) {
@@ -283,12 +293,6 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 			break;
 		case GLFW_KEY_RIGHT:
 			Keyboard::KEY_RIGHT = false;
-			break;
-		case GLFW_MOUSE_BUTTON_LEFT:
-			Mouse::_LEFT = false;
-			break;
-		case GLFW_MOUSE_BUTTON_RIGHT:
-			Mouse::_RIGHT = false;
 			break;
 		}
 	}

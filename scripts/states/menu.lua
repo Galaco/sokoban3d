@@ -59,5 +59,10 @@
 	Entity.AddComponent(e, g, "Graphics")
 	State.AddEntity(e, "mainmenu")
 	
+	
+	local script = LuaScript.Create()
+	LuaScript.Load(script, "states/menu_update.lua")
+	State.AddScript(script, "mainmenu");
+	
 	Mouse.Show()
 	Mouse.Unlock()

@@ -21,6 +21,7 @@ Description: Pushes lua bindings to the global table of the lua stack.
 #include <binds/core/helpers/LuaKeyboard.h>
 #include <binds/core/helpers/LuaMouse.h>
 #include <binds/core/resources/LuaDirectionalLight.h>
+#include <binds/core/resources/LuaLuaScript.h>
 #include <binds/core/resources/LuaPointLight.h>
 
 #include <binds/core/LuaEntity.h>

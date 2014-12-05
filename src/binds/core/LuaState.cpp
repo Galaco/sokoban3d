@@ -15,6 +15,7 @@ const luaL_Reg LuaState::luaBinds[] = {
 	{"GetState", lua_GetState},
 	{ "RequestPriority", lua_RequestPriority },
 	{ "AddPointLight", lua_AddPointLight },
+	{ "AddScript", lua_AddScript },
 	{NULL, NULL}
 };
 
@@ -128,7 +129,7 @@ int LuaState::lua_AddScript(lua_State* L){
 	State* state = StateManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
-		//state->addScript(script);
+		state->addScript(script);
 	}
 
 	return 0;

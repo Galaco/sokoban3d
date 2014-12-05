@@ -32,6 +32,7 @@ public:
 	void addEntity(Entity*);
 	void addCamera(Camera*);
 	void addPointLight(PointLight*);
+	void addScript(LuaScript*);
 
 	Entity* getEntity(std::string);
 	Camera* getCamera(std::string);
@@ -58,5 +59,6 @@ protected:
 	std::vector<Camera*>	m_mCameraList;
 	std::vector<PointLight*>	m_listPointLight;
 	DirectionalLight*	m_directionalLight;
+	std::vector<LuaScript *>	m_listScript;
 };
 #endif

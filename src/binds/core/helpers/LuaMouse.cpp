@@ -76,11 +76,11 @@ int LuaMouse::lua_Pressed(lua_State* L)
 
 	if (button == "left")
 	{
-		return 1;
+		return Mouse::_LEFT;
 	}
 	if (button == "right")
 	{
-		return 1;
+		return Mouse::_RIGHT;
 	}
 
 	return 0;

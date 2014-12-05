@@ -327,6 +327,9 @@
     <ClInclude Include="src\binds\core\helpers\LuaMouse.h">
       <Filter>Header Files\binds\core\helpers</Filter>
     </ClInclude>
+    <ClInclude Include="src\binds\core\resources\LuaLuaScript.h">
+      <Filter>Header Files\binds\core\resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -520,6 +523,9 @@
     </ClCompile>
     <ClCompile Include="src\binds\core\helpers\LuaMouse.cpp">
       <Filter>Source Files\binds\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\resources\LuaLuaScript.cpp">
+      <Filter>Source Files\binds\core\resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

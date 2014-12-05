@@ -25,7 +25,6 @@
 -- end
 
 
-	local script = CScript.Create()
+	local script = LuaScript.Create()
+	LuaScript.Load(script, "states/game_update.lua")
 	State.AddScript(script, "game");
-	Entity.AddComponent(e, script, "LuaScript")
-	CScript.AddScript(script, "states/game_update.lua")

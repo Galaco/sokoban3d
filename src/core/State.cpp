@@ -38,6 +38,12 @@ void State::update(float dt = 0)
 		++it;
 	}*/
 	m_currentCamera->update();
+	auto it = m_listScript.begin();
+	while (it != m_listScript.end())
+	{
+		(*it)->update(dt);
+		++it;
+	}
 }
 
 
@@ -112,6 +118,10 @@ void State::addCamera(Camera* entity){
 
 void State::addPointLight(PointLight* light){
 	m_listPointLight.push_back(light);
+}
+
+void State::addScript(LuaScript* script){
+	m_listScript.push_back(script);
 }
 
 Camera* State::getCurrentCamera()
