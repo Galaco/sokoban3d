@@ -5,7 +5,7 @@
 --Set the states ambient light
 	local dirLight = State.GetDirectionalLight("game")
 	DirectionalLight.SetColor(dirLight, Vec3.Create(0.9, 0.9, 0.9))
-	DirectionalLight.SetAmbience(dirLight, 1)
+	DirectionalLight.SetAmbience(dirLight, 0.2)
 	DirectionalLight.SetDiffuse(dirLight, 1)
 
 	State.RequestPriority("game")
@@ -23,3 +23,9 @@
 	Camera.SetTransform(camera, trans);
 	State.AddCamera(camera, "game")
 -- end
+
+
+	local script = CScript.Create()
+	State.AddScript(script, "game");
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "states/game_update.lua")

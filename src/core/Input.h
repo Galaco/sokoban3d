@@ -15,6 +15,7 @@ Description: Responsible for obtaining Input data, and, where relevant
 
 #include <core/helpers/Config.h>
 #include <core/helpers/Keyboard.h>
+#include <core/helpers/Mouse.h>
 
 class Input {
 public:

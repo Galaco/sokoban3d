@@ -14,6 +14,7 @@ bool Input::initialize(GLFWwindow* window){
 	if(window){
 		glfwSetKeyCallback(this->mRenderWindow, keyCallback);
 		glfwSetCursorPosCallback(this->mRenderWindow, cursorCallback);
+		Mouse::setWindow(this->mRenderWindow);
 	} else {
 		this->mDebugger->log(FATAL, "Error: Input handler failed to initialise");
 		return false;
@@ -149,6 +150,12 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		case GLFW_KEY_RIGHT:
 			Keyboard::KEY_RIGHT = true;
 			break;
+		case GLFW_MOUSE_BUTTON_LEFT:
+			Mouse::_LEFT = true;
+			break;
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			Mouse::_RIGHT = true;
+			break;
 		}
 	}
 	if (action == GLFW_RELEASE) {
@@ -277,17 +284,27 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		case GLFW_KEY_RIGHT:
 			Keyboard::KEY_RIGHT = false;
 			break;
+		case GLFW_MOUSE_BUTTON_LEFT:
+			Mouse::_LEFT = false;
+			break;
+		case GLFW_MOUSE_BUTTON_RIGHT:
+			Mouse::_RIGHT = false;
+			break;
 		}
 	}
 }
 
 void Input::cursorCallback(GLFWwindow* window, double width, double height){
-	glfwGetCursorPos(window, &Keyboard::MOUSEX, &Keyboard::MOUSEY);
+	glfwGetCursorPos(window, &Mouse::_X, &Mouse::_Y);
 
 	// Reset mouse position for next frame
-	int w, h;
-	glfwGetWindowSize(window, &w, &h);
-	glfwSetCursorPos(window, w/2, h/2);
+
+	if (Mouse::_LOCKED)
+	{
+		int w, h;
+		glfwGetWindowSize(window, &w, &h);
+		glfwSetCursorPos(window, w / 2, h / 2);
+	}
 }
 
 void Input::pollEvents(){
@@ -296,8 +313,10 @@ void Input::pollEvents(){
 }
 
 void Input::resetPoll(){
-	Keyboard::MOUSEX = Config::_WINDOWWIDTH/2;
-	Keyboard::MOUSEY = Config::_WINDOWHEIGHT/2;
+	if (Mouse::_LOCKED){
+		Mouse::_X = Config::_WINDOWWIDTH / 2;
+		Mouse::_Y = Config::_WINDOWHEIGHT / 2;
+	}
 }
 
 bool Input::shutdown(){

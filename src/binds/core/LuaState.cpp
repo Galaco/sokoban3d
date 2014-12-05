@@ -112,13 +112,24 @@ int LuaState::lua_RequestPriority(lua_State* L)
 
 int LuaState::lua_AddPointLight(lua_State* L){
 	LuaBinder binder(L);
-	State* state = StateManager::getState(binder.checkstring(1));
-	if (state == nullptr) {
-		return 0;
+	PointLight* light = static_cast<PointLight*>(binder.checkusertype(1, "PointLight"));
+	State* state = StateManager::getState(binder.checkstring(2));
+	if (state != nullptr)
+	{
+		state->addPointLight(light);
 	}
-	PointLight* light = new PointLight;
-	state->addPointLight(light);
-	binder.pushusertype(light, "PointLight");
 
-	return 1;
+	return 0;
+}
+
+int LuaState::lua_AddScript(lua_State* L){
+	LuaBinder binder(L);
+	LuaScript* script = static_cast<LuaScript*>(binder.checkusertype(1, "LuaScript"));
+	State* state = StateManager::getState(binder.checkstring(2));
+	if (state != nullptr)
+	{
+		//state->addScript(script);
+	}
+
+	return 0;
 }

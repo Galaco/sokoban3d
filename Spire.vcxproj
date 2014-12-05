@@ -92,6 +92,7 @@
     <ClInclude Include="src\binds\components\LuaCLuaScript.h" />
     <ClInclude Include="src\binds\core\components\LuaCTransform.h" />
     <ClInclude Include="src\binds\core\helpers\LuaKeyboard.h" />
+    <ClInclude Include="src\binds\core\helpers\LuaMouse.h" />
     <ClInclude Include="src\binds\core\LuaCamera.h" />
     <ClInclude Include="src\binds\core\LuaEntity.h" />
     <ClInclude Include="src\binds\core\LuaState.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="src\core\helpers\Config.h" />
     <ClInclude Include="src\core\helpers\Identifier.h" />
     <ClInclude Include="src\core\helpers\Keyboard.h" />
+    <ClInclude Include="src\core\helpers\Mouse.h" />
     <ClInclude Include="src\core\helpers\Pipeline.h" />
     <ClInclude Include="src\core\Input.h" />
     <ClInclude Include="src\core\loaders\FileTypeLoader.h" />
@@ -144,6 +146,7 @@
     <ClInclude Include="src\systems\renderer\DeferredRenderer.h" />
     <ClInclude Include="src\systems\renderer\DeferredShaders.h" />
     <ClInclude Include="src\systems\renderer\DirectionalLightPass.h" />
+    <ClInclude Include="src\systems\renderer\forward\ForwardRenderer.h" />
     <ClInclude Include="src\systems\renderer\GeometryPass.h" />
     <ClInclude Include="src\systems\renderer\PointLightPass.h" />
     <ClInclude Include="src\systems\renderer\StencilPass.h" />
@@ -157,6 +160,7 @@
     <ClCompile Include="src\binds\components\LuaCLuaScript.cpp" />
     <ClCompile Include="src\binds\core\components\LuaCTransform.cpp" />
     <ClCompile Include="src\binds\core\helpers\LuaKeyboard.cpp" />
+    <ClCompile Include="src\binds\core\helpers\LuaMouse.cpp" />
     <ClCompile Include="src\binds\core\LuaCamera.cpp" />
     <ClCompile Include="src\binds\core\LuaEntity.cpp" />
     <ClCompile Include="src\binds\core\LuaState.cpp" />
@@ -177,6 +181,7 @@
     <ClCompile Include="src\core\helpers\Config.cpp" />
     <ClCompile Include="src\core\helpers\Identifier.cpp" />
     <ClCompile Include="src\core\helpers\Keyboard.cpp" />
+    <ClCompile Include="src\core\helpers\Mouse.cpp" />
     <ClCompile Include="src\core\helpers\Pipeline.cpp" />
     <ClCompile Include="src\core\Input.cpp" />
     <ClCompile Include="src\core\loaders\FileTypeLoader.cpp" />
@@ -207,6 +212,7 @@
     <ClCompile Include="src\systems\renderer\DeferredPass.cpp" />
     <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp" />
     <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp" />
+    <ClCompile Include="src\systems\renderer\forward\ForwardRenderer.cpp" />
     <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
     <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
     <ClCompile Include="src\systems\renderer\StencilPass.cpp" />

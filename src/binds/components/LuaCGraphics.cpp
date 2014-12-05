@@ -61,7 +61,8 @@ int LuaCGraphics::lua_SetRenderMode(lua_State* L)
 	LuaBinder binder(L);
 	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
 	unsigned int mode = RENDER_MODE_3D;
-	if (binder.checkstring(2) == "RENDER_2D")
+	std::string mo = binder.checkstring(2);
+	if (mo == "RENDER_2D")
 	{
 		mode = RENDER_MODE_2D;
 	}

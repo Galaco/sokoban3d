@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Script">
-      <UniqueIdentifier>{ebe3450d-c779-4c96-8521-7e2f12c16324}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\binds">
       <UniqueIdentifier>{4f5f6c59-6173-47b5-975a-21e1c4176fdc}</UniqueIdentifier>
     </Filter>
@@ -123,6 +120,12 @@
     </Filter>
     <Filter Include="Source Files\core\states">
       <UniqueIdentifier>{31605370-99dd-40d7-a44f-74f89b925a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\renderer\forward">
+      <UniqueIdentifier>{d5e26497-e1b5-43d7-b7c7-a11841c34992}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\systems\renderer\forward">
+      <UniqueIdentifier>{a66af16e-8a15-4993-978b-5c042dd78b45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +318,15 @@
     <ClInclude Include="src\systems\renderer\DeferredShaders.h">
       <Filter>Header Files\systems\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\renderer\forward\ForwardRenderer.h">
+      <Filter>Header Files\systems\renderer\forward</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\helpers\Mouse.h">
+      <Filter>Header Files\core\helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\core\helpers\LuaMouse.h">
+      <Filter>Header Files\binds\core\helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -499,6 +511,15 @@
     </ClCompile>
     <ClCompile Include="src\core\ModelLoader.cpp">
       <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\forward\ForwardRenderer.cpp">
+      <Filter>Source Files\systems\renderer\forward</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\helpers\Mouse.cpp">
+      <Filter>Source Files\core\helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\helpers\LuaMouse.cpp">
+      <Filter>Source Files\binds\core\helpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

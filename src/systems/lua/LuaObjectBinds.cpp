@@ -33,6 +33,7 @@ void LuaObjectBinds::bindObjects(){
 
 	/*	\core\helpers */
 	binder.initialize("Keyboard", LuaKeyboard::luaBinds);
+	binder.initialize("Mouse", LuaMouse::luaBinds);
 
 	/*	\core\resources */
 	binder.initialize("DirectionalLight", LuaDirectionalLight::luaBinds);

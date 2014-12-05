@@ -98,7 +98,11 @@
 	constructWall(1,-6)
 	constructWall(2,-6)
 	
+	local light = PointLight.Create()
+	local pos = Vec3.Create(0, 16, 0)
+	PointLight.SetPosition(light, pos)
 	
+	State.AddPointLight(light, "game")
 	
 	
 	

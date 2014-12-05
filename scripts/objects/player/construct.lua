@@ -16,9 +16,5 @@
 	local animation = CAnimation.Create()
 	CAnimation.AddAnimation(animation, "player/boblampclean.md5anim")
 	Entity.AddComponent(e, animation, "Animation")
-	
-	local script = CScript.Create()
-	Entity.AddComponent(e, script, "LuaScript")
-	CScript.AddScript(script, "update.lua")
 
 	State.AddEntity(e, "game")
