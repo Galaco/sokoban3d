@@ -53,5 +53,8 @@ private:
 
     static float m_FRAMELENGTH;
 	static StateManager m_stateManager;
+
+	float fps_timer;
+	int fps_count;
 };
 #endif

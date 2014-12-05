@@ -1,21 +1,3 @@
- -- Create a sample ground
-    local e = Entity.Create("1")
-	local trans = Transform.Create()	
-	
-	Transform.SetPosition(trans, Vec3.Create(0, 0, 0))	
-	Transform.SetOrientation(trans, Vec3.Create(0, 0, 0))	
-	Transform.SetScale(trans, Vec3.Create(512, 1, 512))
-	Entity.SetTransform(e,trans)
-	
-	local graphics = CGraphics.Create()
-	CGraphics.AddModel(graphics, "shapes/plane.obj")
-	CGraphics.AddTexture(graphics, "ground/white.jpg")
-	
-	Entity.AddComponent(e, graphics, "Graphics")
-	State.AddEntity(e, "game")
-	
-	
-	
 	constructWall(-4,4)
 	constructWall(-3,4)
 	constructWall(-2,4)
@@ -97,12 +79,6 @@
 	constructWall(0,-6)
 	constructWall(1,-6)
 	constructWall(2,-6)
-	
-	local light = PointLight.Create()
-	local pos = Vec3.Create(0, 16, 0)
-	PointLight.SetPosition(light, pos)
-	
-	State.AddPointLight(light, "game")
 	
 	
 	

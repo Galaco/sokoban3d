@@ -48,7 +48,7 @@ protected:
 
 
 	std::map<std::string, Component*>::iterator m_mComponentListIterator;
-	CTransform* m_transform;
+	CTransform m_transform;
 
 	Entity* m_pParent;
 

@@ -134,6 +134,7 @@
     <ClInclude Include="src\core\resources\PointLight.h" />
     <ClInclude Include="src\core\resources\Shader.h" />
     <ClInclude Include="src\core\resources\Skybox.h" />
+    <ClInclude Include="src\core\resources\Text.h" />
     <ClInclude Include="src\core\resources\Texture.h" />
     <ClInclude Include="src\core\State.h" />
     <ClInclude Include="src\core\StateManager.h" />
@@ -201,6 +202,7 @@
     <ClCompile Include="src\core\resources\PointLight.cpp" />
     <ClCompile Include="src\core\resources\Shader.cpp" />
     <ClCompile Include="src\core\resources\Skybox.cpp" />
+    <ClCompile Include="src\core\resources\Text.cpp" />
     <ClCompile Include="src\core\resources\Texture.cpp" />
     <ClCompile Include="src\core\State.cpp" />
     <ClCompile Include="src\core\StateManager.cpp" />

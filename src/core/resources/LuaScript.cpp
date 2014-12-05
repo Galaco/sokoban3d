@@ -50,7 +50,11 @@ void LuaScript::runFile(std::string fileName, std::string globalName, bool autor
 			"os = os,"
 			"dofile = dofile,"
 			"string = string,"
-			"Mouse = Mouse"
+			"Mouse = Mouse,"
+			"Keyboard = Keyboard,"
+			"Entity = Entity,"
+			"Transform = Transform,"
+			"Vec3 = Vec3"
 		);
 
 		std::string lua_sandbox(
@@ -86,17 +90,6 @@ void LuaScript::resumeScript(float param){
 		//FormatError();
 		//OutputError("Runtime Error:");
 	}
-}
-
-void LuaScript::handleError(){
-	const char* msg;
-
-	msg = lua_tostring(threadState, -1);
-	if (msg == NULL)
-		msg = "(error with no message)";
-	lua_pop(threadState, 1);
-	m_Logger->log(WARNING, "Lua Error:");
-	m_Logger->log(WARNING, msg);
 }
 
 void LuaScript::update(float dt){
@@ -142,11 +135,25 @@ void LuaScript::callFn(const char* fnName, int iParam){
 
 	if (m_environmentId != "")
 	{
-		lua_getglobal(threadState, m_environmentId.c_str());
-		lua_getfield(threadState, -1, fnName);
+		try{
+			lua_getglobal(threadState, m_environmentId.c_str());
+			lua_getfield(threadState, -1, fnName);
+		}
+		catch (int e)
+		{
+			Logger::log(ERROR_, "unspecified lua error occurred");
+			return;
+		}
 	}
 	else {
-		lua_getglobal(threadState, fnName);
+		try{
+			lua_getglobal(threadState, fnName);
+		}
+		catch (int e)
+		{
+			Logger::log(ERROR_, "unspecified lua error occurred");
+			return;
+		}
 	}
 
 	// push our single argument
@@ -158,4 +165,15 @@ void LuaScript::callFn(const char* fnName, int iParam){
 	if (status){
 		handleError();
 	}
+}
+
+void LuaScript::handleError(){
+	const char* msg;
+
+	msg = lua_tostring(threadState, -1);
+	if (msg == NULL)
+		msg = "Error with no message";
+	lua_pop(threadState, 1);
+	m_Logger->log(WARNING, "Lua Error:");
+	m_Logger->log(WARNING, msg);
 }

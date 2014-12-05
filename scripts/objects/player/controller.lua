@@ -101,7 +101,7 @@ local function movePlayer(direction)
 end
 
 
-function UpdatePlayer()
+function Update()
 	--If necessary check movement inputs
 	if (moving == 0) 
 	then 

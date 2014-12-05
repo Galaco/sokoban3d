@@ -15,6 +15,7 @@ const luaL_Reg LuaState::luaBinds[] = {
 	{"GetState", lua_GetState},
 	{ "RequestPriority", lua_RequestPriority },
 	{ "AddPointLight", lua_AddPointLight },
+	{ "Deprioritise", lua_Deprioritise },
 	{ "AddScript", lua_AddScript },
 	{NULL, NULL}
 };
@@ -130,6 +131,18 @@ int LuaState::lua_AddScript(lua_State* L){
 	if (state != nullptr)
 	{
 		state->addScript(script);
+	}
+
+	return 0;
+}
+
+int LuaState::lua_Deprioritise(lua_State* L)
+{
+	LuaBinder binder(L);
+	State* s = StateManager::getState(binder.checkstring(1));
+	if (s != nullptr)
+	{
+		s->canDeprioritise() = true;
 	}
 
 	return 0;

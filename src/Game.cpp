@@ -22,6 +22,10 @@ Game::Game(Engine& engine) : m_engine(engine){
 	LuaScript* l = m_sLuaScript.createScript();
 	l->runFile("init.lua");	
 	m_sLuaScript.deleteScript(l);
+
+
+	fps_count = 0;
+	fps_timer = 0;
 }
 
 Game::~Game(){
@@ -32,22 +36,34 @@ Game::~Game(){
 
 void Game::update(){
 	m_frameTime = m_clock.getElapsedTime().asMilliseconds()/1000.f;
-	if (m_frameTime*1000 >= m_FRAMELENGTH) {
+	//if (m_frameTime*1000 >= m_FRAMELENGTH) {
 		m_clock.restart();
 
+
 		m_engine.update();
-		m_stateManager.update(m_frameTime);
-		handleInputs();
 
 		// update systems
 		m_sAnimation.update(m_frameTime);
 		m_sLuaScript.update(m_frameTime);
-	}
+
+		m_stateManager.update(m_frameTime);
+
+		handleInputs();
+	//}
 
 	// render
 	m_sGraphics.update();
 	// swap buffers for render
-	glfwSwapBuffers(m_engine.getCurrentContext());
+	glfwSwapBuffers(m_engine.getCurrentContext()); 
+	
+	fps_timer += m_frameTime;
+	fps_count++;
+	if (fps_timer >= 1.f){
+		std::cout << "Average frame time: " << (fps_timer/fps_count)*1000 << "ms" << std::endl;
+		std::cout << "Frames per second: " << fps_count << std::endl;
+		fps_count = 0;
+		fps_timer = 0;
+	}
 }
 
 void Game::handleInputs(){

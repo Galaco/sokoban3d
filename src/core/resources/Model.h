@@ -34,7 +34,7 @@ public:
 	std::vector<Joint>& getJoints();
 
 	void addTexture(std::string, Texture*);
-	std::map<std::string, Texture*>& getTextures();
+	std::map<std::string, Texture>& getTextures();
 	Texture* getTexture(std::string);
 
 	std::string& getFileFormatVersion();
@@ -47,7 +47,7 @@ protected:
 
 	MeshList m_meshList;
 	JointList m_JointList;
-	std::map<std::string, Texture*> m_textureList;
+	std::map<std::string, Texture> m_textureList;
 
 	std::string m_format;
 

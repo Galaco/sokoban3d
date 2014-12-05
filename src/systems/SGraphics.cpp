@@ -83,9 +83,28 @@ void SGraphics::update(){
 
 	//Complete and write out the frame
 	m_deferredRenderer.endFrame();
+
+	it = entityList.begin();
+	while (it != entityList.end())
+	{
+		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
+		auto CIterator = cList.begin();
+		while (CIterator != cList.end())
+		{
+			CGraphics* g = static_cast<CGraphics*>((*CIterator));
+			if (g->getText() != nullptr)
+			{
+				drawText(g);
+			}
+			++CIterator;
+		}
+		++it;
+	}
+
 }
 
-void SGraphics::drawEntity(CGraphics* it){
+void SGraphics::drawEntity(CGraphics* it)
+{
 	if(it->getModel() != nullptr){
 		Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
 		Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
@@ -123,7 +142,8 @@ void SGraphics::drawEntity(CGraphics* it){
 	}
 }
 
-void SGraphics::drawLight(CGraphics* it){
+void SGraphics::drawLight(CGraphics* it)
+{
 	PointLight* Light = it->getPointLight();
 	if (Light != nullptr){
 		if (m_pointSphere->getMeshes().size() < 1){
@@ -157,9 +177,11 @@ void SGraphics::drawLight(CGraphics* it){
 	}
 }
 
-void SGraphics::drawSkybox(){
+void SGraphics::drawSkybox()
+{
 	if (m_currentCamera == nullptr) return;
 	Skybox* sky = m_currentCamera->getSkybox();
+	if (sky == nullptr) return;
 	Pipeline::position(Pipeline::Eye);
 
 	glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
@@ -176,7 +198,8 @@ void SGraphics::drawSkybox(){
 	glBindVertexArray(0); 
 }
 
-void SGraphics::drawDirectionalLight(){
+void SGraphics::drawDirectionalLight()
+{
 	if (m_CurrentState == nullptr || m_CurrentState->getDirectionalLight() == nullptr) {
 		return;
 	}
@@ -194,6 +217,11 @@ void SGraphics::drawDirectionalLight(){
 
 	//End pass
 	m_directionalLightPass.endPass();
+}
+
+void SGraphics::drawText(CGraphics* graphics)
+{
+
 }
 
 void SGraphics::onNewActiveCamera(const char* c, void* t){

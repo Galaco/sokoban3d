@@ -26,6 +26,7 @@ public:
 	//StateManager requests
 	static int lua_GetState(lua_State*);
 	static int lua_RequestPriority(lua_State*);
+	static int lua_Deprioritise(lua_State*);
 
 	static const luaL_Reg luaBinds[];
 };

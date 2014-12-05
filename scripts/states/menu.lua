@@ -20,7 +20,7 @@
 	Transform.SetPosition(trans, Vec3.Create(0, 800, 0))
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
 	--Camera.ToggleMouseControl(camera);
-	Camera.SetTransform(camera, trans);
+	Camera.SetTransform(camera, trans)
 	State.AddCamera(camera, "mainmenu")
 -- end
 
@@ -61,7 +61,7 @@
 	State.AddEntity(e, "mainmenu")
 	
   --Extended button	
-	local e = Entity.Create("three3")	
+	local e = Entity.Create("extended")	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(-0.2,-0.1,-0.5))
 	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
@@ -71,10 +71,10 @@
 	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
-	local script = CScript.Create()
-	Entity.AddComponent(e, script, "LuaScript")
-	CScript.AddScript(script, "objects/menu/extended.lua")
-	State.AddEntity(e, "mainmenu")
+	--local script = CScript.Create()
+	--Entity.AddComponent(e, script, "LuaScript")
+	--CScript.AddScript(script, "objects/menu/extended.lua")
+	--State.AddEntity(e, "mainmenu")
 	
 	
 	Mouse.Show()

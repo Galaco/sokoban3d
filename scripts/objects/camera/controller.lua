@@ -4,7 +4,7 @@ local dir = "up"
 
 
 local function moveCamera(direction)
-	local e = Camera.Find("defaultCamera")
+	local e = Camera.Find("classicCamera")
 	if (direction == "up")
 	then
 		Camera.GoUp(e)
@@ -20,7 +20,7 @@ local function moveCamera(direction)
 	end
 end
 
-local function handleKeys()
+local function Update()
 	if(Keyboard.KeyDown("up")) 
 	then 
 		moveCamera("up")
@@ -41,6 +41,6 @@ local function handleKeys()
 end
 
 
-function UpdateCamera()
+function Update()
 	handleKeys()
 end

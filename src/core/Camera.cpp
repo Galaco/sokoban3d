@@ -26,7 +26,7 @@ Camera::Camera(){
         
     m_pSkybox = nullptr;
 
-	m_transform = new CTransform();
+	//m_transform = new CTransform();
 
 	m_id.gen();
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
@@ -50,7 +50,7 @@ Camera::Camera(const char* name){
 
 	m_pSkybox = nullptr;
 
-	m_transform = new CTransform();
+	//m_transform = new CTransform();
 
 	m_id.gen(name);
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
@@ -63,51 +63,51 @@ Camera::~Camera(){
 void Camera::update(){
 	if (useMouse)
 	{
-		m_transform->getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Keyboard::MOUSEX);
-		m_transform->getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Keyboard::MOUSEY);
+		m_transform.getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Keyboard::MOUSEX);
+		m_transform.getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Keyboard::MOUSEY);
 	}
 
 	//Rebuild MVP only when camera moved
-	if (m_transform->getOrientation().x == oldVerticalAngle &&
-		m_transform->getOrientation().y == oldHorizontalAngle &&
-		m_transform->getPosition() == oldPosition &&
-		m_transform->getOrientation() == oldRotation
+	if (m_transform.getOrientation().x == oldVerticalAngle &&
+		m_transform.getOrientation().y == oldHorizontalAngle &&
+		m_transform.getPosition() == oldPosition &&
+		m_transform.getOrientation() == oldRotation
 	) {
 
 
-		oldPosition = m_transform->getPosition();
-		oldRotation = m_transform->getOrientation();
+		oldPosition = m_transform.getPosition();
+		oldRotation = m_transform.getOrientation();
 
 		return;
 	}
 
-	if (m_transform->getOrientation().x != oldVerticalAngle ||
-		m_transform->getOrientation().y != oldHorizontalAngle){
+	if (m_transform.getOrientation().x != oldVerticalAngle ||
+		m_transform.getOrientation().y != oldHorizontalAngle){
 		m_dir = glm::vec3(
-			-cos(m_transform->getOrientation().x) * sin(m_transform->getOrientation().y),
-			sin(m_transform->getOrientation().x),
-			-cos(m_transform->getOrientation().x) * cos(m_transform->getOrientation().y)
+			-cos(m_transform.getOrientation().x) * sin(m_transform.getOrientation().y),
+			sin(m_transform.getOrientation().x),
+			-cos(m_transform.getOrientation().x) * cos(m_transform.getOrientation().y)
 			);
 
 		m_right = glm::vec3(
-			-sin(m_transform->getOrientation().y - 3.1415f / 2.0f),
+			-sin(m_transform.getOrientation().y - 3.1415f / 2.0f),
 			0,
-			-cos(m_transform->getOrientation().y - 3.1415f / 2.0f)
+			-cos(m_transform.getOrientation().y - 3.1415f / 2.0f)
 		);
 		m_up = glm::cross( m_right, m_dir );
 	}
 
 	
 	
-	Pipeline::setViewMatrix(glm::lookAt(m_transform->getPosition(), m_transform->getPosition()+m_dir, m_up));
+	Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition()+m_dir, m_up));
 
 	//Pipeline::MVP = Pipeline::VP * ModelMatrix;
-	Pipeline::Eye = m_transform->getPosition();
+	Pipeline::Eye = m_transform.getPosition();
 
-	oldHorizontalAngle = m_transform->getOrientation().y;
-	oldVerticalAngle = m_transform->getOrientation().x;
-	oldPosition = m_transform->getPosition();
-	oldRotation = m_transform->getOrientation();
+	oldHorizontalAngle = m_transform.getOrientation().y;
+	oldVerticalAngle = m_transform.getOrientation().x;
+	oldPosition = m_transform.getPosition();
+	oldRotation = m_transform.getOrientation();
 }
 
 void Camera::addSkybox(Skybox* skybox){
@@ -122,31 +122,27 @@ Skybox* Camera::getSkybox(){
 }
 
 void Camera::goForward(){
-	if (m_pParent != nullptr){
-		CTransform* t = m_pParent->GetTransform();
-		t->setPosition(t->getPosition() += m_dir * speed);
-	}
-    m_transform->setPosition(m_transform->getPosition() += m_dir * speed);
+    m_transform.getPosition() += (m_dir * speed);
 }
 
 void Camera::goBackward(){
-    m_transform->setPosition(m_transform->getPosition() -= m_dir * speed);
+    m_transform.getPosition() -= (m_dir * speed);
 }
 
 void Camera::goLeft(){
-    m_transform->setPosition(m_transform->getPosition() -= m_right * speed);
+    m_transform.getPosition() -= (m_right * speed);
 }
 
 void Camera::goRight(){
-	m_transform->setPosition(m_transform->getPosition() += m_right * speed);
+	m_transform.getPosition() += (m_right * speed);
 }
 
 void Camera::goUp(){
-	m_transform->setPosition(m_transform->getPosition() += m_up * speed);
+	m_transform.getPosition() += (m_up * speed);
 }
 
 void Camera::goDown(){
-	m_transform->setPosition(m_transform->getPosition() -= m_up * speed);
+	m_transform.getPosition() -= (m_up * speed);
 }
 
 bool Camera::toggleMouseControl()
@@ -158,18 +154,18 @@ bool Camera::toggleMouseControl()
 void Camera::rebuildView()
 {
 	m_dir = glm::vec3(
-		-cos(m_transform->getOrientation().x) * sin(m_transform->getOrientation().y),
-		sin(m_transform->getOrientation().x),
-		-cos(m_transform->getOrientation().x) * cos(m_transform->getOrientation().y)
+		-cos(m_transform.getOrientation().x) * sin(m_transform.getOrientation().y),
+		sin(m_transform.getOrientation().x),
+		-cos(m_transform.getOrientation().x) * cos(m_transform.getOrientation().y)
 		);
 
 	m_right = glm::vec3(
-		-sin(m_transform->getOrientation().y - 3.1415f / 2.0f),
+		-sin(m_transform.getOrientation().y - 3.1415f / 2.0f),
 		0,
-		-cos(m_transform->getOrientation().y - 3.1415f / 2.0f)
+		-cos(m_transform.getOrientation().y - 3.1415f / 2.0f)
 		);
 	m_up = glm::cross(m_right, m_dir);
 
-	Pipeline::setViewMatrix(glm::lookAt(m_transform->getPosition(), m_transform->getPosition() + m_dir, m_up));
-	Pipeline::Eye = m_transform->getPosition();
+	Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition() + m_dir, m_up));
+	Pipeline::Eye = m_transform.getPosition();
 }

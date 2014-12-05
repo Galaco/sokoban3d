@@ -3,6 +3,7 @@
 CGraphics::CGraphics(){
 	m_pModel = nullptr;
 	m_pPointlight = nullptr;
+	m_pText = nullptr;
 	m_type = "Graphics";
 
 	m_renderMode = RENDER_MODE_3D;
@@ -11,6 +12,7 @@ CGraphics::CGraphics(){
 CGraphics::~CGraphics(){
 	if (m_pModel != nullptr) delete m_pModel;
 	if (m_pPointlight != nullptr) delete m_pPointlight;
+	if (m_pText != nullptr) delete m_pText;
 }
 
 void CGraphics::setPointLight(PointLight* light) {
@@ -60,4 +62,20 @@ Texture* CGraphics::getOverrideTexture(unsigned int index){
 	else {
 		return nullptr;
 	}
+}
+
+
+void CGraphics::addText(const char* string, double size)
+{
+	m_pText = new Text(string, size);
+
+	m_pText->texture = m_Resources.add<Texture>("res/font.png");
+}
+void CGraphics::setText(Text* text)
+{
+	m_pText = text;
+}
+Text* CGraphics::getText()
+{
+	return m_pText;
 }

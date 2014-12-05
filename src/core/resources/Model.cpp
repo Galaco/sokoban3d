@@ -4,7 +4,6 @@ Model::Model()
 : m_LocalToWorldMatrix(1)
 , m_jointCount(0)
 , m_meshCount(0) { 
-	m_textureList["Default"] = nullptr;
 }
 	
 Model::~Model(){
@@ -30,9 +29,8 @@ std::string Model::getFormat(){
 
 void Model::addMesh(Mesh& mesh){
 	if (m_textureList.find("Default") != m_textureList.end() &&
-		m_textureList["Default"] != nullptr &&
 		mesh.m_TexID == 99999){
-			mesh.m_TexID = m_textureList["Default"]->getTexId();
+			mesh.m_TexID = m_textureList["Default"].getTexId();
 	}
 	m_meshList.push_back(mesh);
 }
@@ -44,25 +42,25 @@ std::vector<Joint>& Model::getJoints(){
 }
 
 void Model::addTexture(std::string id, Texture* tex){
-	m_textureList[id] = tex;
+	m_textureList[id] = *tex;
 	if (m_meshList.size() == 1 && m_meshList[0].m_TexID == 99999) 
 	{
-		m_meshList[0].m_TexID = m_textureList[id]->getTexId();
+		m_meshList[0].m_TexID = m_textureList[id].getTexId();
 	}
 	else 
 	{
 		for (unsigned short i = 0; i < m_meshList.size(); ++i){
 			if (m_meshList[i].m_TexID == 99999) {
-				m_meshList[i].m_TexID = m_textureList[id]->getTexId();
+				m_meshList[i].m_TexID = m_textureList[id].getTexId();
 			}
 		}
 	}
 }
-std::map<std::string, Texture*>& Model::getTextures(){
+std::map<std::string, Texture>& Model::getTextures(){
 	return m_textureList;
 }
 Texture* Model::getTexture(std::string id){
-	return m_textureList[id];
+	return &m_textureList[id];
 }
 
 std::string& Model::getFileFormatVersion(){

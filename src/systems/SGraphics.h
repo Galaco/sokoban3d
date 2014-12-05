@@ -51,6 +51,7 @@ public:
 private:
 	void drawEntity(CGraphics*);
 	void drawLight(CGraphics*);
+	void drawText(CGraphics*);
 	void drawSkybox();
 	void drawDirectionalLight();
 

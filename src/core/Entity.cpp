@@ -3,22 +3,22 @@
 EventManager Entity::m_EventManager;
 
 Entity::Entity() {
-	m_transform = new CTransform;
+	//m_transform = new CTransform;
 	m_pParent = nullptr;
 	m_id.gen();
 }
 
 Entity::Entity(const char* name) {
-	m_transform = new CTransform;
+	//m_transform = new CTransform;
 	m_pParent = nullptr;
 	m_id.gen(name);
 }
 
 Entity::~Entity(){
 	//m_EventManager.publish(DestroyEntity, "Entity", this);
-	if (m_transform != nullptr) {
-		delete m_transform;
-	}
+	//if (m_transform != nullptr) {
+	//	delete m_transform;
+	//}
 
 	m_pParent = nullptr;
 }
@@ -68,15 +68,13 @@ void Entity::setId(std::string id) {
 }
 
 CTransform* Entity::GetTransform() { 
-	return m_transform; 
+	return &m_transform; 
 }
 
 void Entity::SetTransform(CTransform* newTransform){
-	if (m_transform == newTransform || newTransform == nullptr)
+	if (&m_transform == newTransform || newTransform == nullptr)
 		return;
-
-	delete m_transform; 
-	m_transform = newTransform; 
+	m_transform = *newTransform; 
 }
 
 Entity* Entity::getParent(){

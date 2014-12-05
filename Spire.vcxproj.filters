@@ -330,6 +330,9 @@
     <ClInclude Include="src\binds\core\resources\LuaLuaScript.h">
       <Filter>Header Files\binds\core\resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\resources\Text.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -526,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="src\binds\core\resources\LuaLuaScript.cpp">
       <Filter>Source Files\binds\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Text.cpp">
+      <Filter>Source Files\core\resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

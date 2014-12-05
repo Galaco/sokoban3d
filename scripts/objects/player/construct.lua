@@ -1,5 +1,4 @@
 --Create the player object
-	local script = CScript.Create()
     local e = Entity.Create("player")
 	local trans = Transform.Create()	
 	
@@ -13,8 +12,12 @@
 	Entity.AddComponent(e, graphics, "Graphics")
 	
 	
-	local animation = CAnimation.Create()
-	CAnimation.AddAnimation(animation, "player/boblampclean.md5anim")
-	Entity.AddComponent(e, animation, "Animation")
+	--local animation = CAnimation.Create()
+	--CAnimation.AddAnimation(animation, "player/boblampclean.md5anim")
+	--Entity.AddComponent(e, animation, "Animation")
+	
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/player/controller.lua")
 
 	State.AddEntity(e, "game")
