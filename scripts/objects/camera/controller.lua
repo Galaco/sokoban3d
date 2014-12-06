@@ -20,7 +20,7 @@ local function moveCamera(direction)
 	end
 end
 
-local function Update()
+local function handleKeys()
 	if(Keyboard.KeyDown("up")) 
 	then 
 		moveCamera("up")
@@ -42,5 +42,6 @@ end
 
 
 function Update()
+print("moshi")
 	handleKeys()
 end
