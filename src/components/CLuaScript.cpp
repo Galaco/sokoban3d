@@ -19,19 +19,19 @@ void CLuaScript::setLuaState(lua_State* s){
 
 
 void CLuaScript::setScript(LuaScript* script){
-	m_script = script;
+	m_script = *script;
 }
 
 LuaScript* CLuaScript::getScript(){
-	return m_script;
+	return &m_script;
 }
 
 void CLuaScript::addScript(const char* file){
-	m_script = new LuaScript(m_masterLuaState);
+	m_script.prepare(m_masterLuaState);
 	std::string envName = "";
 	if (m_entity != nullptr)
 	{
 		envName = m_entity->getId();
 	}
-	m_script->runFile(file, envName);
+	m_script.runFile(file, envName);
 }

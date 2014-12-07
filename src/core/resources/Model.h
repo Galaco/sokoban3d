@@ -42,9 +42,6 @@ public:
 	int& getMeshCount();
 	int& getJointCount();
 protected:
-
-	Logger*		m_pLogger;
-
 	MeshList m_meshList;
 	JointList m_JointList;
 	std::map<std::string, Texture> m_textureList;

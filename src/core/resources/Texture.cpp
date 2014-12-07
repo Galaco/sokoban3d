@@ -2,8 +2,6 @@
 
 Texture::Texture(){
 	has_diffuse = false;
-	has_specular = false;
-	has_normal = false;
 	diffuse = 0;
 }
 

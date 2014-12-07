@@ -4,7 +4,7 @@ Author: Josh Martin
 
 Name: Lua Object Binds
 Description: Pushes lua bindings to the global table of the lua stack.
-			 Bindings pushed are accessable in lua script.
+			 Bindings pushed are accessible in lua script.
 *********************************************************************/
 #ifndef LUAOBJECTBINDS_H
 #define LUAOBJECTBINDS_H
@@ -12,6 +12,7 @@ Description: Pushes lua bindings to the global table of the lua stack.
 #include <Lua.hpp>
 #include <core/LuaBinder.h>
 
+#include <binds\LuaGame.h>
 
 #include <binds/components/LuaCAnimation.h>
 #include <binds/components/LuaCGraphics.h>

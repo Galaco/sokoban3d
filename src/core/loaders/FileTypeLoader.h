@@ -26,6 +26,5 @@ public:
 protected:
 	virtual bool prepareMesh( Mesh&, Model* );
 	virtual bool prepareNormals( Mesh&, Model* );
-	Logger m_logger;
 };
 #endif

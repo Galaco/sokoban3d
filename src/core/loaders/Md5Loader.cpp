@@ -12,7 +12,7 @@ Model* Md5Loader::load(std::string path){
 	Model* m = new Model;
 	std::ifstream file(path);
 	if ( !file.is_open() ) {
-		m_Logger->log(ERROR_, std::string("Animation: Failed to open "+path).c_str());
+		Logger::log(ERROR_, std::string("Animation: Failed to open " + path).c_str());
 		return false;
 	}
 

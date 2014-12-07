@@ -74,7 +74,23 @@
 	--local script = CScript.Create()
 	--Entity.AddComponent(e, script, "LuaScript")
 	--CScript.AddScript(script, "objects/menu/extended.lua")
-	--State.AddEntity(e, "mainmenu")
+	State.AddEntity(e, "mainmenu")
+	
+  --Exit button	
+	local e = Entity.Create("quit")	
+	local trans = Transform.Create();
+	Transform.SetPosition(trans, Vec3.Create(-0.2,-0.2,-0.5))
+	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
+	Entity.SetTransform(e,trans)	
+	local g = CGraphics.Create()
+	CGraphics.AddModel(g, "shapes/quad.obj")
+	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
+	CGraphics.SetRenderMode(g, "RENDER_2D")	
+	Entity.AddComponent(e, g, "Graphics")
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/menu/exit.lua")
+	State.AddEntity(e, "mainmenu")
 	
 	
 	Mouse.Show()

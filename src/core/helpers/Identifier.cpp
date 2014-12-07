@@ -25,7 +25,7 @@ std::string Identifier::gen(const char* id ){
     if (m_manualList.find(std::string(id)) != m_manualList.end()) {
 		m_manualList[id] += 1;
 		m_id = std::string(id) + std::to_string(m_manualList[id]);
-		m_pLogger->log(WARNING, ("ID: \"" + std::string(id) + "\" in use. Object renamed to: " + (std::string(id) + std::to_string(m_manualList[id]))).c_str());
+		Logger::log(WARNING, ("ID: \"" + std::string(id) + "\" in use. Object renamed to: " + (std::string(id) + std::to_string(m_manualList[id]))).c_str());
 
 		//m_id = std::string(id);
     } else {

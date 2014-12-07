@@ -8,7 +8,7 @@ SplashState::SplashState()
 	CGraphics* c = new CGraphics();
 	c->addModel("shapes/quad.obj");
 	c->setRenderMode(RENDER_MODE_2D);
-	c->addTexture("res/splash.jpg");
+	c->addTexture("vgui/backgrounds/splash.jpg");
 	e->addComponent(c, "Graphics");
 
 	e->GetTransform()->setScale(glm::vec3(0.2f / ((float)Config::_WINDOWWIDTH / (float)Config::_WINDOWHEIGHT), 0.2f, 1.f));

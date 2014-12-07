@@ -31,10 +31,6 @@ public:
 
 private:
 	GLuint			diffuse;
-	GLuint			specular;
-	GLuint			normal;
 	bool			has_diffuse;
-	bool			has_specular;
-	bool			has_normal;
 };
 #endif

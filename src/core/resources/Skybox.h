@@ -44,7 +44,5 @@ private:
 	std::vector<glm::vec3> vertices, normals;
 	std::vector<glm::vec2> uvs;
 	float zFar;
-
-	Logger* m_pLogger;
 };
 #endif

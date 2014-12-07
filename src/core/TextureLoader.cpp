@@ -28,7 +28,7 @@ Texture* TextureLoader::createTexture(std::string path){
 	Texture* t = new Texture;
 	if(!image.loadFromFile( path ) ){
 		std::string err = "Failed to load image: " + path;
-		m_logger.log(ERROR_, err.c_str());
+		Logger::log(ERROR_, err.c_str());
 		return nullptr;
 	}
 	int width = image.getSize().x;
@@ -48,7 +48,7 @@ Texture* TextureLoader::createTexture(std::string path){
 	glTexParameteri(GL_TEXTURE_2D , GL_TEXTURE_MAG_FILTER , GL_LINEAR);
 
 	std::string msg = "Loaded image: " + path;
-	m_logger.log(SUCCESS, msg.c_str());
+	Logger::log(SUCCESS, msg.c_str());
 
 	return t;
 }

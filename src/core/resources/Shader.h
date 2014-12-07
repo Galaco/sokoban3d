@@ -41,7 +41,6 @@ private:
 	GLuint uiShader; // ID of shader
 	int iType; // GL_VERTEX_SHADER, GL_FRAGMENT_SHADER...
 	bool bLoaded; // Whether shader was loaded and compiled
-	Logger* m_logger;
 };
 #endif;
 

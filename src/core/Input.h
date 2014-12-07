@@ -37,7 +37,6 @@ private:
 
 
 	Config      m_config;
-	Logger*		mDebugger;
 	GLFWwindow*	mRenderWindow;
 };
 #endif

@@ -12,7 +12,7 @@ bool CShader::loadShader(string sFile, int a_iType)
 {
 	FILE* fp = fopen(sFile.c_str(), "rt");
 	if(!fp){
-		m_logger->log(ERROR_, ("Shader: Could not open: "+sFile).c_str());
+		Logger::log(ERROR_, ("Shader: Could not open: " + sFile).c_str());
 		return false;
 	}
 
@@ -44,15 +44,15 @@ bool CShader::loadShader(string sFile, int a_iType)
 		//Output compile error message
 		std::vector<char> errorLog(maxLength);
 		glGetShaderInfoLog(uiShader, maxLength, &maxLength, &errorLog[0]);
-		m_logger->log(ERROR_, ("Shader: Failed to compile: "+sFile).c_str());
+		Logger::log(ERROR_, ("Shader: Failed to compile: " + sFile).c_str());
 		std::string str(errorLog.data(), errorLog.size());
-		m_logger->log(ERROR_, ("Shader: Error: "+str).c_str());
+		Logger::log(ERROR_, ("Shader: Error: " + str).c_str());
 		return false;
 	}
 	iType = a_iType;
 	bLoaded = true;
 
-	m_logger->log(SUCCESS, ("Shader: Loaded successfully: "+sFile).c_str());
+	Logger::log(SUCCESS, ("Shader: Loaded successfully: " + sFile).c_str());
 	return 1;
 }
 
@@ -77,11 +77,11 @@ bool CShader::loadFromString(const char** rawShader, int lines, int a_iType)
 		std::vector<char> errorLog(maxLength);
 		glGetShaderInfoLog(uiShader, maxLength, &maxLength, &errorLog[0]);
 		std::string str(errorLog.data(), errorLog.size());
-		m_logger->log(ERROR_, ("Shader: Error: " + str).c_str());
+		Logger::log(ERROR_, ("Shader: Error: " + str).c_str());
 		return false;
 	}
 
-	m_logger->log(SUCCESS, "Shader: Loaded successfully");
+	Logger::log(SUCCESS, "Shader: Loaded successfully");
 	return true;
 }
 

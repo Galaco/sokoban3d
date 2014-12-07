@@ -9,7 +9,7 @@ Engine::Engine(){
 	GLFWwindow* pWindow = nullptr;
 
 	if (m_config.load()){
-		m_pLogger->log(SUCCESS, "Configuration: Loaded data/core/base.cfg");
+		Logger::log(SUCCESS, "Configuration: Loaded data/core/base.cfg");
 		if (Config::_FULLSCREEN) {
 			pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "Sokoban", glfwGetPrimaryMonitor(), NULL);
 		} else {
@@ -17,7 +17,7 @@ Engine::Engine(){
 		}
 	}
 	else {
-		m_pLogger->log(WARNING, "Configuration: Failed to load 'data/core/base.cfg'. Using defaults.");
+		Logger::log(WARNING, "Configuration: Failed to load 'data/core/base.cfg'. Using defaults.");
 		pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "Sokoban", NULL, NULL);
 	}
 	
@@ -46,14 +46,14 @@ Engine::~Engine(){
 }
 
 bool Engine::initialize(){
-	m_pLogger->log(INFO, "Engine start");
+	Logger::log(INFO, "Engine start");
 
 	if(glfwWindowShouldClose(m_pWindow)) return false;
 	m_pInput.initialize(m_pWindow);
 
 	glClearColor(0.f, 0.f, 0.f, 0.0f);
 	glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	m_pLogger->log(INFO, "Finished engine initialisations\n");
+	Logger::log(INFO, "Finished engine initialisations\n");
 
 	glfwSetInputMode(m_pWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 

@@ -25,6 +25,5 @@ public:
 
     Texture* createTexture(std::string);
 private:
-	Logger m_logger;
 };
 #endif

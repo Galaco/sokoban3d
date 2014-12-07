@@ -3,6 +3,13 @@
 
 lua_State* LuaScript::m_masterLuaState = nullptr;
 
+LuaScript::LuaScript(){
+	state = LSS_NOTLOADED;
+	time = 0.f;
+	waitTimestamp = 0.f;
+	waitFrame = 0;
+}
+
 LuaScript::LuaScript(lua_State* s){
 	if (m_masterLuaState == nullptr) {
 		m_masterLuaState = s;
@@ -17,6 +24,17 @@ LuaScript::LuaScript(lua_State* s){
 	time = 0.f;
 	waitTimestamp = 0.f;
 	waitFrame = 0;
+}
+
+void LuaScript::prepare(lua_State* s){
+	if (m_masterLuaState == nullptr) {
+		m_masterLuaState = s;
+	}
+
+	threadState = lua_newthread(s);
+	lua_pushlightuserdata(s, threadState);
+	lua_pushlightuserdata(s, this);
+	//lua_settable(s, LUA_RIDX_GLOBALS);
 }
 
 LuaScript::~LuaScript(){
@@ -54,7 +72,8 @@ void LuaScript::runFile(std::string fileName, std::string globalName, bool autor
 			"Keyboard = Keyboard,"
 			"Entity = Entity,"
 			"Transform = Transform,"
-			"Vec3 = Vec3"
+			"Vec3 = Vec3,"
+			"Game = Game"
 		);
 
 		std::string lua_sandbox(
@@ -132,28 +151,30 @@ void LuaScript::callFn(const char* fnName, int iParam){
 	int         status;
 
 	// find the lua function and push it on the stack
-
-	if (m_environmentId != "")
-	{
-		try{
+	char error_buf[1024];
+	bool error = false;
+	
+	try{
+		if (m_environmentId != "")
+		{
 			lua_getglobal(threadState, m_environmentId.c_str());
 			lua_getfield(threadState, -1, fnName);
 		}
-		catch (int e)
-		{
-			Logger::log(ERROR_, "unspecified lua error occurred");
-			return;
-		}
-	}
-	else {
-		try{
+		else {
 			lua_getglobal(threadState, fnName);
 		}
-		catch (int e)
-		{
-			Logger::log(ERROR_, "unspecified lua error occurred");
-			return;
-		}
+	}
+	catch (const std::exception& e)
+	{
+		std::strncpy(error_buf, "Unhandled exception in Lua C++ hook", sizeof(error_buf));
+		error = true;
+		Logger::log(ERROR_, std::string(error_buf).c_str());
+		return;
+	}
+
+	if (error)
+	{
+		luaL_error(threadState, "%s", error_buf);
 	}
 
 	// push our single argument
@@ -174,6 +195,6 @@ void LuaScript::handleError(){
 	if (msg == NULL)
 		msg = "Error with no message";
 	lua_pop(threadState, 1);
-	m_Logger->log(WARNING, "Lua Error:");
-	m_Logger->log(WARNING, msg);
+	Logger::log(WARNING, "Lua Error:");
+	Logger::log(WARNING, msg);
 }

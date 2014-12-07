@@ -28,7 +28,7 @@ public:
 	
 private:
 	lua_State* m_masterLuaState;
-	LuaScript* m_script;
+	LuaScript m_script;
 
 };
 #endif

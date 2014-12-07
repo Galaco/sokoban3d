@@ -17,10 +17,10 @@ bool Input::initialize(GLFWwindow* window){
 		glfwSetCursorPosCallback(this->mRenderWindow, cursorCallback);
 		Mouse::setWindow(this->mRenderWindow);
 	} else {
-		this->mDebugger->log(FATAL, "Error: Input handler failed to initialise");
+		Logger::log(FATAL, "Error: Input handler failed to initialise");
 		return false;
 	}
-	this->mDebugger->log(INFO, "Input handler successfully initialised");
+	Logger::log(INFO, "Input handler successfully initialised");
 	return true;
 }
 

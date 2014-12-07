@@ -30,7 +30,5 @@ private:
     static std::map<std::string, int> m_manualList;
     
     std::string m_id;
-    
-    Logger* m_pLogger;
 };
 #endif

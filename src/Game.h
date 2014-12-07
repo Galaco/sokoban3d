@@ -35,12 +35,13 @@ public:
 
 	void update();
 
+	static void close();
 
 private:
 	void handleInputs();
         
         
-	bool m_isRunning;
+	static bool m_isRunning;
     float m_elapsedTime, m_frameTime;
 
 	Engine& m_engine;

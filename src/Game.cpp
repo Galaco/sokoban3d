@@ -1,5 +1,6 @@
 #include "Game.h"
 
+bool Game::m_isRunning;
 float Game::m_FRAMELENGTH = 16.667f;
 StateManager Game::m_stateManager;
 
@@ -74,4 +75,8 @@ void Game::handleInputs(){
 
 bool Game::running(){ 
     return m_isRunning; 
+}
+
+void Game::close(){
+	m_isRunning = false;
 }

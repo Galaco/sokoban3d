@@ -28,8 +28,11 @@ typedef enum luaScriptStateTag
 
 class LuaScript{
 public:
+	LuaScript();
 	LuaScript(lua_State*);
 	~LuaScript();
+
+	void prepare(lua_State*);
 
 	void runString(const char*);
 	void runFile(std::string filename, std::string global = "", bool autorun = true);
@@ -48,7 +51,6 @@ private:
 	lua_State* threadState;
 	int status;
 
-	Logger* m_Logger;
 	float time;
 	float waitTimestamp;
 	int waitFrame;

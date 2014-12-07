@@ -112,7 +112,7 @@ Model* ObjLoader::load(std::string path){
 		if (type == "o" && localVertices.size() != 0)
 		{
 			file >> d;
-			m_logger.log(INFO, d.c_str());
+			Logger::log(INFO, d.c_str());
 			Mesh nthMesh;
 			for (unsigned int i = 0; i < localVertices.size(); ++i){
 				Vertex v;

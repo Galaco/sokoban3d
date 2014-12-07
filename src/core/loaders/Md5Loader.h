@@ -31,7 +31,5 @@ public:
 private:
 	bool prepareMesh( Mesh&, Model* );
 	bool prepareNormals( Mesh&, Model* );
-
-	Logger* m_Logger;
 };
 #endif

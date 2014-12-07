@@ -32,7 +32,6 @@ private:
     static Input m_pInput;
 	static GLFWwindow* m_pWindow;
 
-	Logger* m_pLogger;
     Config  m_config;
 };
 #endif

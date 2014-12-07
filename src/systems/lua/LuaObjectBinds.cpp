@@ -18,6 +18,10 @@ LuaObjectBinds::~LuaObjectBinds(){
 void LuaObjectBinds::bindObjects(){
     LuaBinder binder(m_masterState);
 
+
+	/*  \ */
+	binder.initialize("Game", LuaGame::luaBinds);
+
 	/*	\components */
 	binder.initialize("CAnimation", LuaCAnimation::luaBinds);
 	binder.initialize("CGraphics", LuaCGraphics::luaBinds);
