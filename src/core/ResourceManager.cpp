@@ -54,6 +54,6 @@ bool ResourceManager::remove(resourceType r, std::string id){
 	return true;
 }
 
-bool ResourceManager::empty(resourceType r){
-	return true;
+void ResourceManager::empty(){
+
 }

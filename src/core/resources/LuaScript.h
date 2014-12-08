@@ -13,8 +13,13 @@ Description: Responsible for loading and running lua scripts. Is not
 #include <vector>
 #include <assert.h>
 
-#include <Lua.hpp>
-
+//#include <Lua.hpp>
+extern "C"{
+	#include <lua.h>
+	#include <lualib.h>
+	#include <lauxlib.h>
+	#include <luaconf.h>
+}
 #include <core/Logger.h>
 
 typedef enum luaScriptStateTag
@@ -35,7 +40,7 @@ public:
 	void prepare(lua_State*);
 
 	void runString(const char*);
-	void runFile(std::string filename, std::string global = "", bool autorun = true);
+	void runFile(std::string filename, std::string global = "");
 	void callFunction(const char*);
 
 	void update(float);
@@ -48,6 +53,7 @@ private:
 	void handleError();
 	void callFn( const char*, int);
 	static lua_State* m_masterLuaState;
+	lua_State* m_controlState;
 	lua_State* threadState;
 	int status;
 

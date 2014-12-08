@@ -55,12 +55,13 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ExceptionHandling>SyncCThrow</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/libraries/TinyXML/include;$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/lua/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>lua52.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua5.2.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT; LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -143,6 +144,7 @@
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\TextureLoader.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\lua\LuaException.h" />
     <ClInclude Include="src\math\Vec3.h" />
     <ClInclude Include="src\systems\lua\LuaObjectBinds.h" />
     <ClInclude Include="src\systems\renderer\DeferredPass.h" />
@@ -212,6 +214,7 @@
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\TextureLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\lua\LuaException.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\Vec3.cpp" />
     <ClCompile Include="src\systems\lua\LuaObjectBinds.cpp" />

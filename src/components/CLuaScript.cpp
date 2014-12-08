@@ -1,12 +1,16 @@
 #include "CLuaScript.h"
 #include <core/Entity.h>
 
+lua_State* CLuaScript::m_masterLuaState;
+
 CLuaScript::CLuaScript(){
 	m_type="LuaScript";
 }
 
 CLuaScript::CLuaScript(lua_State* s){
-	m_masterLuaState = s;
+	if (!m_masterLuaState){
+		m_masterLuaState = s;
+	}
 }
 
 CLuaScript::~CLuaScript(){
@@ -29,7 +33,7 @@ LuaScript* CLuaScript::getScript(){
 void CLuaScript::addScript(const char* file){
 	m_script.prepare(m_masterLuaState);
 	std::string envName = "";
-	if (m_entity != nullptr)
+	if (m_entity)
 	{
 		envName = m_entity->getId();
 	}

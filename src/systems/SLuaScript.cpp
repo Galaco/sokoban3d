@@ -34,7 +34,10 @@ void SLuaScript::update(float dt){
 		auto CIterator = cList.begin();
 		while(CIterator != cList.end())
 		{
-			static_cast<CLuaScript*>((*CIterator))->getScript()->update(dt);
+			CLuaScript* l = static_cast<CLuaScript*>((*CIterator));
+			if (l != nullptr) {
+				l->getScript()->update(dt);
+			}
 			++CIterator;
 		}
 		++it;

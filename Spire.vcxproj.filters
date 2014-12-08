@@ -127,6 +127,12 @@
     <Filter Include="Header Files\systems\renderer\forward">
       <UniqueIdentifier>{a66af16e-8a15-4993-978b-5c042dd78b45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\lua">
+      <UniqueIdentifier>{a465fa7d-77e1-400c-b7f3-f938c2438ffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lua">
+      <UniqueIdentifier>{4a187223-47df-4848-beaf-a707cd741038}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -336,6 +342,9 @@
     <ClInclude Include="src\binds\LuaGame.h">
       <Filter>Header Files\binds</Filter>
     </ClInclude>
+    <ClInclude Include="src\lua\LuaException.h">
+      <Filter>Header Files\lua</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -538,6 +547,9 @@
     </ClCompile>
     <ClCompile Include="src\binds\LuaGame.cpp">
       <Filter>Source Files\binds</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\LuaException.cpp">
+      <Filter>Source Files\lua</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

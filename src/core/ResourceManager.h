@@ -39,6 +39,8 @@ public:
 
 	~ResourceManager();
 
+	void empty();
+
     template <class Resource>
     static Resource* add(std::string);
         
@@ -46,9 +48,8 @@ public:
 	static Texture* getTexture(std::string);
 	static BaseAnimation* getAnimation(std::string);
         
-        
+
 	static bool remove(resourceType r, std::string id);
-	static bool empty(resourceType r);
 private:
 	static std::map<std::string, Texture> m_textureList;
 	static std::map<std::string, BaseAnimation> m_animationList;

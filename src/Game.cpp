@@ -43,11 +43,11 @@ void Game::update(){
 
 		m_engine.update();
 
+		m_stateManager.update(m_frameTime);
 		// update systems
 		m_sAnimation.update(m_frameTime);
 		m_sLuaScript.update(m_frameTime);
 
-		m_stateManager.update(m_frameTime);
 
 		handleInputs();
 	//}

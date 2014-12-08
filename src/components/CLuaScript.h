@@ -27,7 +27,7 @@ public:
 	void addScript(const char* file);
 	
 private:
-	lua_State* m_masterLuaState;
+	static lua_State* m_masterLuaState;
 	LuaScript m_script;
 
 };

@@ -1,7 +1,7 @@
 #include "LuaScript.h"
 
 
-lua_State* LuaScript::m_masterLuaState = nullptr;
+lua_State* LuaScript::m_masterLuaState;
 
 LuaScript::LuaScript(){
 	state = LSS_NOTLOADED;
@@ -11,14 +11,15 @@ LuaScript::LuaScript(){
 }
 
 LuaScript::LuaScript(lua_State* s){
-	if (m_masterLuaState == nullptr) {
+	if (!m_masterLuaState) {
 		m_masterLuaState = s;
 	}
 
-	threadState = lua_newthread(s);
-	lua_pushlightuserdata(s, threadState);
-	lua_pushlightuserdata(s, this);
-	//lua_settable(s, LUA_RIDX_GLOBALS);
+	m_controlState = s;
+
+	threadState = lua_newthread(m_masterLuaState);
+	//lua_pushlightuserdata(s, threadState);
+	//lua_pushlightuserdata(s, this);
 
 	state = LSS_NOTLOADED;
 	time = 0.f;
@@ -27,25 +28,25 @@ LuaScript::LuaScript(lua_State* s){
 }
 
 void LuaScript::prepare(lua_State* s){
-	if (m_masterLuaState == nullptr) {
+	if (!m_masterLuaState) {
 		m_masterLuaState = s;
 	}
+	m_controlState = s;
 
-	threadState = lua_newthread(s);
-	lua_pushlightuserdata(s, threadState);
-	lua_pushlightuserdata(s, this);
-	//lua_settable(s, LUA_RIDX_GLOBALS);
+	if (!threadState)
+		threadState = lua_newthread(m_masterLuaState);
+	//lua_pushlightuserdata(s, threadState);
+	//lua_pushlightuserdata(s, this);
 }
 
 LuaScript::~LuaScript(){
-	m_masterLuaState = nullptr;
 }
 
 void LuaScript::runString(const char*){
 
 }
 
-void LuaScript::runFile(std::string fileName, std::string globalName, bool autorun){
+void LuaScript::runFile(std::string fileName, std::string globalName){
 	assert(m_masterLuaState);
 	assert(threadState);
 	FILE* fp = fopen(("scripts/" + fileName).c_str(), "rt");
@@ -73,7 +74,8 @@ void LuaScript::runFile(std::string fileName, std::string globalName, bool autor
 			"Entity = Entity,"
 			"Transform = Transform,"
 			"Vec3 = Vec3,"
-			"Game = Game"
+			"Game = Game,"
+			"State = State"
 		);
 
 		std::string lua_sandbox(
@@ -89,9 +91,7 @@ void LuaScript::runFile(std::string fileName, std::string globalName, bool autor
 
 	status = luaL_loadstring(threadState, rawScript);
 	if (status == 0){
-		if (autorun){
-			resumeScript(0.0f);
-		}
+		resumeScript(0.0f);
 	} else {
 		handleError();
 	}
@@ -106,8 +106,6 @@ void LuaScript::resumeScript(float param){
 	if (status)
 	{
 		handleError();
-		//FormatError();
-		//OutputError("Runtime Error:");
 	}
 }
 
@@ -125,18 +123,9 @@ void LuaScript::update(float dt){
 			resumeScript(0.0f);
 		break;
 	case LSS_NOTLOADED:
+		return;
 		break;
-		//        case LSS_DONE:
 	default :
-		// if we aren't waiting and we get here, the script must be done
-		//            if (autoDelete)
-		//                {
-		//                LUASCRIPT*  sNext;
-		//
-		//                sNext = next;
-		//                delete(this);
-		//                return(sNext);
-		//                }
 		callFn("Update", 0);
 		break;
 	}
@@ -151,40 +140,49 @@ void LuaScript::callFn(const char* fnName, int iParam){
 	int         status;
 
 	// find the lua function and push it on the stack
-	char error_buf[1024];
-	bool error = false;
-	
 	try{
-		if (m_environmentId != "")
+		assert(threadState);
+		if (m_environmentId.c_str())
 		{
 			lua_getglobal(threadState, m_environmentId.c_str());
+			if (!lua_istable(threadState, 1)) return;
 			lua_getfield(threadState, -1, fnName);
 		}
 		else {
 			lua_getglobal(threadState, fnName);
+			if (!lua_istable(threadState, 1)) return;
 		}
 	}
 	catch (const std::exception& e)
 	{
-		std::strncpy(error_buf, "Unhandled exception in Lua C++ hook", sizeof(error_buf));
-		error = true;
+		char error_buf[1024];
+		std::strncpy(error_buf, "Unhandled exception in Lua hook", sizeof(error_buf));
 		Logger::log(ERROR_, std::string(error_buf).c_str());
+		e.what();
+
+		luaL_error(threadState, "%s", error_buf);
 		return;
 	}
 
-	if (error)
-	{
-		luaL_error(threadState, "%s", error_buf);
-	}
-
-	// push our single argument
-	lua_pushnumber(threadState, iParam);
-
 	// now, call into Lua
-	status = lua_pcall(threadState, 1, 0, 0);
+	try {
+		// push our single argument
+		//lua_pushnumber(threadState, iParam);
 
-	if (status){
-		handleError();
+		if (0 != lua_pcall(threadState, 0, 0, 0)){
+			handleError();
+		}
+		else {
+			status = 0;
+		}
+
+		if (status){
+			handleError();
+		}
+	}
+	catch (const std::exception& e)
+	{
+		e.what();
 	}
 }
 

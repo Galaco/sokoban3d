@@ -56,8 +56,8 @@
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()
-	CScript.AddScript(script, "objects/menu/classic.lua")
 	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/menu/classic.lua")
 	State.AddEntity(e, "mainmenu")
 	
   --Extended button	
