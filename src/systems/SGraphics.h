@@ -37,6 +37,7 @@ Description: Responsible for rendering all objects to screen. Uses a
 #include "renderer/PointLightPass.h"
 #include "renderer/DirectionalLightPass.h"
 #include "renderer/StencilPass.h"
+#include "renderer/TransparencyPass.h"
 
 class SGraphics: public System{
 public:
@@ -59,7 +60,7 @@ private:
     static PointLightPass  m_pointLightPass;
 	static DirectionalLightPass m_directionalLightPass;
     static StencilPass     m_stencilPass;
-
+	static TransparencyPass m_transparencyPass;
 
 	static ResourceManager m_Resources;
 	static Model*	m_directionalQuad;

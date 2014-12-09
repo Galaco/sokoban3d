@@ -6,6 +6,7 @@ GeometryPass	SGraphics::m_geometryPass;
 PointLightPass  SGraphics::m_pointLightPass;
 DirectionalLightPass SGraphics::m_directionalLightPass;
 StencilPass     SGraphics::m_stencilPass;
+TransparencyPass SGraphics::m_transparencyPass;
 ResourceManager SGraphics::m_Resources;
 Model*	SGraphics::m_directionalQuad;
 Model*	SGraphics::m_pointSphere;
@@ -27,6 +28,7 @@ void SGraphics::initialize(){
 	m_directionalLightPass.setFbo(m_deferredRenderer.getFbo());
 	m_stencilPass.initialize();
 	m_stencilPass.setFbo(m_deferredRenderer.getFbo());
+	m_transparencyPass.initialize();
 
 	m_directionalQuad = m_Resources.add<Model>("shapes/quad.obj");
 	m_pointSphere = m_Resources.add<Model>("shapes/sphere.obj");
@@ -51,7 +53,7 @@ void SGraphics::update(){
 		while(CIterator != cList.end())
 		{
 			drawEntity(static_cast<CGraphics*>((*CIterator)));
-			drawText(static_cast<CGraphics*>((*CIterator)));
+			//drawText(static_cast<CGraphics*>((*CIterator)));
 			++CIterator;
 		}
 		++it;
@@ -83,6 +85,8 @@ void SGraphics::update(){
 	//Complete and write out the frame
 	m_deferredRenderer.endFrame();
 
+
+	m_transparencyPass.startPass();
 	it = entityList.begin();
 	while (it != entityList.end())
 	{
@@ -91,7 +95,7 @@ void SGraphics::update(){
 		while (CIterator != cList.end())
 		{
 			CGraphics* g = static_cast<CGraphics*>((*CIterator));
-			if (g->getText() != nullptr)
+			if (g->getText())
 			{
 				drawText(g);
 			}
@@ -99,6 +103,7 @@ void SGraphics::update(){
 		}
 		++it;
 	}
+	m_transparencyPass.endPass();
 
 }
 
@@ -232,8 +237,9 @@ void SGraphics::drawText(CGraphics* it)
 	{
 	case RENDER_MODE_2D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x / 120, it->getOwner()->GetTransform()->getScale().y / 120, it->getOwner()->GetTransform()->getScale().z);
-		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
-		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
+		//glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
+		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix2D());
+		//glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
 		break;
 	case RENDER_MODE_3D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);

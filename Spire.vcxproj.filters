@@ -339,6 +339,9 @@
     <ClInclude Include="src\binds\core\resources\LuaText.h">
       <Filter>Header Files\binds\core\resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\systems\renderer\TransparencyPass.h">
+      <Filter>Header Files\systems\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -543,6 +546,9 @@
       <Filter>Source Files\systems\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\TransparencyPass.cpp">
       <Filter>Source Files\systems\renderer</Filter>
     </ClCompile>
   </ItemGroup>

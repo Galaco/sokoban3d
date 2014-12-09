@@ -155,6 +155,7 @@
     <ClInclude Include="src\systems\renderer\GeometryPass.h" />
     <ClInclude Include="src\systems\renderer\PointLightPass.h" />
     <ClInclude Include="src\systems\renderer\StencilPass.h" />
+    <ClInclude Include="src\systems\renderer\TransparencyPass.h" />
     <ClInclude Include="src\systems\SAnimation.h" />
     <ClInclude Include="src\systems\SGraphics.h" />
     <ClInclude Include="src\systems\SLuaScript.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
     <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
     <ClCompile Include="src\systems\renderer\StencilPass.cpp" />
+    <ClCompile Include="src\systems\renderer\TransparencyPass.cpp" />
     <ClCompile Include="src\systems\SAnimation.cpp" />
     <ClCompile Include="src\systems\SGraphics.cpp" />
     <ClCompile Include="src\systems\SLuaScript.cpp" />
