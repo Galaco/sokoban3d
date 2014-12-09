@@ -43,6 +43,7 @@ void LuaObjectBinds::bindObjects(){
 	binder.initialize("DirectionalLight", LuaDirectionalLight::luaBinds);
 	binder.initialize("LuaScript", LuaLuaScript::luaBinds);
 	binder.initialize("PointLight", LuaPointLight::luaBinds);
+	binder.initialize("Text", LuaText::luaBinds);
 
 
 

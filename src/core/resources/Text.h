@@ -11,6 +11,8 @@ Description: A text class for holding inforamtion for font rendering
 #include <glm/glm.hpp>
 
 #include "Texture.h"
+#include "Model.h"
+#include "Mesh.h"
 
 #include <string>
 
@@ -26,10 +28,15 @@ public:
 	double getScale();
 
 	std::string& getString();
+	Model& getModel();
 
 	static Texture* texture;
 
 private:
+	void generate();
+
+	Model m_model;
+
 	std::string m_string;
 	glm::vec3 m_color;
 	double m_height;

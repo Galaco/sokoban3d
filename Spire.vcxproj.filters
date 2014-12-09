@@ -345,6 +345,9 @@
     <ClInclude Include="src\lua\LuaException.h">
       <Filter>Header Files\lua</Filter>
     </ClInclude>
+    <ClInclude Include="src\binds\core\resources\LuaText.h">
+      <Filter>Header Files\binds\core\resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -550,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="src\lua\LuaException.cpp">
       <Filter>Source Files\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\core\resources\LuaText.cpp">
+      <Filter>Source Files\binds\core\resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

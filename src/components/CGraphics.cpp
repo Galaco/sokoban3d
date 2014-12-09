@@ -69,7 +69,7 @@ void CGraphics::addText(const char* string, double size)
 {
 	m_pText = new Text(string, size);
 
-	m_pText->texture = m_Resources.add<Texture>("res/font.png");
+	m_pText->texture = m_Resources.add<Texture>("vgui/fonts/default.png");
 }
 void CGraphics::setText(Text* text)
 {

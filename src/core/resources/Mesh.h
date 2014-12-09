@@ -83,6 +83,7 @@ struct Mesh
 	GLuint				uiVAO, uiBuffer, indexBuffer, uvBuffer, normalBuffer;
 	int iSize, iBufferType;
 	bool bDataUploaded;
+	unsigned int m_vertexCount;
 };
 typedef std::vector<Mesh> MeshList;
 

@@ -24,8 +24,6 @@ public:
 	Model();
 	~Model();
 
-    
-
     void setFormat(std::string f);
     std::string getFormat();
 
@@ -41,6 +39,7 @@ public:
 	void setFileFormatVersion(std::string);
 	int& getMeshCount();
 	int& getJointCount();
+
 protected:
 	MeshList m_meshList;
 	JointList m_JointList;

@@ -53,6 +53,7 @@ void SGraphics::update(){
 		while(CIterator != cList.end())
 		{
 			drawEntity(static_cast<CGraphics*>((*CIterator)));
+			drawText(static_cast<CGraphics*>((*CIterator)));
 			++CIterator;
 		}
 		++it;
@@ -105,40 +106,41 @@ void SGraphics::update(){
 
 void SGraphics::drawEntity(CGraphics* it)
 {
-	if(it->getModel() != nullptr){
-		Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
-		Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
-		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
+	if (!it->getModel())
+		return;
 
-		switch(it->getRenderMode())
-		{
-		case RENDER_MODE_2D:
-			glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
-			glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
-			break;
-		case RENDER_MODE_3D:
-			glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
-			glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
-			break;
+	Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
+	Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
+	Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
+
+	switch(it->getRenderMode())
+	{
+	case RENDER_MODE_2D:
+		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
+		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
+		break;
+	case RENDER_MODE_3D:
+		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
+		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
+		break;
+	}
+
+	// Render the meshes
+	MeshList& m = it->getModel()->getMeshes();
+	for ( unsigned int i = 0; i < m.size(); ++i )
+	{
+		glBindVertexArray(m[i].uiVAO); 
+
+		glActiveTexture(GL_TEXTURE0);
+		if (it->getOverrideTexture(i)){
+			glBindTexture(GL_TEXTURE_2D, it->getOverrideTexture(i)->getTexId());
+		} else {
+			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
 		}
+		glDrawElements( GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0 );
+		glBindTexture( GL_TEXTURE_2D, 0 );
 
-		// Render the meshes
-		MeshList& m = it->getModel()->getMeshes();
-		for ( unsigned int i = 0; i < m.size(); ++i )
-		{
-			glBindVertexArray(m[i].uiVAO); 
-
-			glActiveTexture(GL_TEXTURE0);
-			if (it->getOverrideTexture(i)){
-				glBindTexture(GL_TEXTURE_2D, it->getOverrideTexture(i)->getTexId());
-			} else {
-				glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
-			}
-			glDrawElements( GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0 );
-			glBindTexture( GL_TEXTURE_2D, 0 );
-
-			glBindVertexArray(0); 
-		}
+		glBindVertexArray(0); 
 	}
 }
 
@@ -219,9 +221,42 @@ void SGraphics::drawDirectionalLight()
 	m_directionalLightPass.endPass();
 }
 
-void SGraphics::drawText(CGraphics* graphics)
+void SGraphics::drawText(CGraphics* it)
 {
+	Text* t = it->getText();
+	if (!t) 
+		return;
 
+	Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
+	Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
+	Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
+
+	switch (it->getRenderMode())
+	{
+	case RENDER_MODE_2D:
+		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
+		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
+		break;
+	case RENDER_MODE_3D:
+		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
+		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
+		break;
+	}
+
+	// Render the meshes
+	MeshList& m = t->getModel().getMeshes();
+	for (unsigned int i = 0; i < m.size(); ++i)
+	{
+		glBindVertexArray(m[i].uiVAO);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, t->texture->getTexId());
+
+		glDrawArrays(GL_TRIANGLES, 0, m[i].m_vertexCount);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glBindVertexArray(0);
+	}
 }
 
 void SGraphics::onNewActiveCamera(const char* c, void* t){

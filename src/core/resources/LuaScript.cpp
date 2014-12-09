@@ -75,7 +75,8 @@ void LuaScript::runFile(std::string fileName, std::string globalName){
 			"Transform = Transform,"
 			"Vec3 = Vec3,"
 			"Game = Game,"
-			"State = State"
+			"State = State,"
+			"Camera = Camera"
 		);
 
 		std::string lua_sandbox(
@@ -137,7 +138,7 @@ void LuaScript::callFunction(const char* funcName){
 }
 
 void LuaScript::callFn(const char* fnName, int iParam){
-	int         status;
+	int         status = 0;
 
 	// find the lua function and push it on the stack
 	try{
@@ -170,13 +171,6 @@ void LuaScript::callFn(const char* fnName, int iParam){
 		//lua_pushnumber(threadState, iParam);
 
 		if (0 != lua_pcall(threadState, 0, 0, 0)){
-			handleError();
-		}
-		else {
-			status = 0;
-		}
-
-		if (status){
 			handleError();
 		}
 	}
