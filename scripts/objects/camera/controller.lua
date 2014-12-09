@@ -42,6 +42,5 @@ end
 
 
 function Update()
-print("moshi")
 	handleKeys()
 end

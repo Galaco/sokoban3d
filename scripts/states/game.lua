@@ -16,7 +16,7 @@
 	local camera = Camera.Create("classicCamera")
 	
 	local trans = Transform.Create();
-	Transform.SetPosition(trans, Vec3.Create(0, 800, 0))
+	Transform.SetPosition(trans, Vec3.Create(0, 500, 0))
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
 	--Camera.ToggleMouseControl(camera);
 	Camera.SetTransform(camera, trans);

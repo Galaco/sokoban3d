@@ -77,9 +77,9 @@
 	CGraphics.AddText(g, "Play Extended", 8)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
-	--local script = CScript.Create()
-	--Entity.AddComponent(e, script, "LuaScript")
-	--CScript.AddScript(script, "objects/menu/extended.lua")
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/menu/extended.lua")
 	State.AddEntity(e, "mainmenu")
 	
   --Exit button	

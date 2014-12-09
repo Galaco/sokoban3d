@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#define PI 3.14159265359
+#define TO_RAD(x) (x*(PI/180))
 
 const static float StepScale = 0.1f;
 const static glm::mat4 ModelMatrix = glm::mat4(1.0);
@@ -17,7 +19,7 @@ Camera::Camera(){
 	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
 	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-	this->fov = 70.f;
+	this->fov = TO_RAD(90.f);
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
@@ -43,7 +45,7 @@ Camera::Camera(const char* name){
 	m_target = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_up     = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	this->fov = 70.f;
+	this->fov = TO_RAD(90.f);
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
