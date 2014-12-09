@@ -21,19 +21,19 @@ local function moveCamera(direction)
 end
 
 local function handleKeys()
-	if(Keyboard.KeyDown("up")) 
+	if(Keyboard.KeyDown("i")) 
 	then 
 		moveCamera("up")
 
-	elseif(Keyboard.KeyDown("left")) 
+	elseif(Keyboard.KeyDown("j")) 
 	then
 		moveCamera("lf")
 
-	elseif(Keyboard.KeyDown("down")) 
+	elseif(Keyboard.KeyDown("k")) 
 	then
 		moveCamera("dn")
 		
-	elseif(Keyboard.KeyDown("right")) 
+	elseif(Keyboard.KeyDown("l")) 
 	then
 		moveCamera("rt")
 

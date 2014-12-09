@@ -46,8 +46,6 @@ public:
 	void initialize();
 	void update();
 
-	static void onNewActiveCamera(const char*, void*);
-
 private:
 	void drawEntity(CGraphics*);
 	void drawLight(CGraphics*);

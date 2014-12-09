@@ -64,17 +64,18 @@ Texture* CGraphics::getOverrideTexture(unsigned int index){
 	}
 }
 
-
 void CGraphics::addText(const char* string, double size)
 {
 	m_pText = new Text(string, size);
 
 	m_pText->texture = m_Resources.add<Texture>("vgui/fonts/default.png");
 }
+
 void CGraphics::setText(Text* text)
 {
 	m_pText = text;
 }
+
 Text* CGraphics::getText()
 {
 	return m_pText;

@@ -85,9 +85,6 @@
     <Filter Include="Source Files\systems\lua">
       <UniqueIdentifier>{504b539a-e7a1-4b8a-993a-9199ad11a361}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\systems\renderer">
-      <UniqueIdentifier>{536fed12-8934-435d-8d93-e36099c76963}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\binds\components">
       <UniqueIdentifier>{394dfec5-95c4-4f7b-8018-ed05deaa17fa}</UniqueIdentifier>
     </Filter>
@@ -121,17 +118,14 @@
     <Filter Include="Source Files\core\states">
       <UniqueIdentifier>{31605370-99dd-40d7-a44f-74f89b925a66}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\systems\renderer\forward">
-      <UniqueIdentifier>{d5e26497-e1b5-43d7-b7c7-a11841c34992}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\systems\renderer\forward">
-      <UniqueIdentifier>{a66af16e-8a15-4993-978b-5c042dd78b45}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\lua">
       <UniqueIdentifier>{a465fa7d-77e1-400c-b7f3-f938c2438ffa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\lua">
       <UniqueIdentifier>{4a187223-47df-4848-beaf-a707cd741038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\systems\renderer">
+      <UniqueIdentifier>{7837302e-22e6-4383-ac34-0f9e957de625}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,9 +318,6 @@
     <ClInclude Include="src\systems\renderer\DeferredShaders.h">
       <Filter>Header Files\systems\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\systems\renderer\forward\ForwardRenderer.h">
-      <Filter>Header Files\systems\renderer\forward</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\helpers\Mouse.h">
       <Filter>Header Files\core\helpers</Filter>
     </ClInclude>
@@ -364,24 +355,6 @@
     </ClCompile>
     <ClCompile Include="src\systems\SLuaScript.cpp">
       <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\StencilPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DeferredPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\PointLightPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\systems\lua\LuaObjectBinds.cpp">
       <Filter>Source Files\systems\lua</Filter>
@@ -533,9 +506,6 @@
     <ClCompile Include="src\core\ModelLoader.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\systems\renderer\forward\ForwardRenderer.cpp">
-      <Filter>Source Files\systems\renderer\forward</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\helpers\Mouse.cpp">
       <Filter>Source Files\core\helpers</Filter>
     </ClCompile>
@@ -556,6 +526,24 @@
     </ClCompile>
     <ClCompile Include="src\binds\core\resources\LuaText.cpp">
       <Filter>Source Files\binds\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\PointLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\StencilPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
+      <Filter>Source Files\systems\renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

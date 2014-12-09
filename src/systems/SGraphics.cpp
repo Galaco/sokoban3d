@@ -33,8 +33,6 @@ void SGraphics::initialize(){
 
 	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
 	glEnable(GL_CULL_FACE);
-
-	m_EventManager.subscribe(NewActiveCamera, (this->onNewActiveCamera));
 }
 	
 void SGraphics::update(){
@@ -229,15 +227,16 @@ void SGraphics::drawText(CGraphics* it)
 
 	Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);
 	Pipeline::rotate(it->getOwner()->GetTransform()->getOrientation().x, it->getOwner()->GetTransform()->getOrientation().y, it->getOwner()->GetTransform()->getOrientation().z);
-	Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
 
 	switch (it->getRenderMode())
 	{
 	case RENDER_MODE_2D:
+		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x / 120, it->getOwner()->GetTransform()->getScale().y / 120, it->getOwner()->GetTransform()->getScale().z);
 		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
 		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
 		break;
 	case RENDER_MODE_3D:
+		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
 		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
 		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
 		break;
@@ -257,10 +256,4 @@ void SGraphics::drawText(CGraphics* it)
 
 		glBindVertexArray(0);
 	}
-}
-
-void SGraphics::onNewActiveCamera(const char* c, void* t){
-	Camera* cam = static_cast<Camera*>(t);
-
-	setCurrentCamera(cam);
 }

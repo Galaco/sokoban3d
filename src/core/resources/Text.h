@@ -40,6 +40,5 @@ private:
 	std::string m_string;
 	glm::vec3 m_color;
 	double m_height;
-
 };
 #endif

@@ -21,9 +21,9 @@
 	--Camera.ToggleMouseControl(camera);
 	Camera.SetTransform(camera, trans);
 	
-	--local script = CScript.Create()
-	--Entity.AddComponent(camera, script, "LuaScript")
-	--CScript.AddScript(script, "objects/camera/controller.lua")
+	local script = CScript.Create()
+	Entity.AddComponent(camera, script, "LuaScript")
+	CScript.AddScript(script, "objects/camera/controller.lua")
 	
 	State.AddCamera(camera, "game")
 -- end

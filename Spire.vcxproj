@@ -152,7 +152,6 @@
     <ClInclude Include="src\systems\renderer\DeferredRenderer.h" />
     <ClInclude Include="src\systems\renderer\DeferredShaders.h" />
     <ClInclude Include="src\systems\renderer\DirectionalLightPass.h" />
-    <ClInclude Include="src\systems\renderer\forward\ForwardRenderer.h" />
     <ClInclude Include="src\systems\renderer\GeometryPass.h" />
     <ClInclude Include="src\systems\renderer\PointLightPass.h" />
     <ClInclude Include="src\systems\renderer\StencilPass.h" />
@@ -223,7 +222,6 @@
     <ClCompile Include="src\systems\renderer\DeferredPass.cpp" />
     <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp" />
     <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp" />
-    <ClCompile Include="src\systems\renderer\forward\ForwardRenderer.cpp" />
     <ClCompile Include="src\systems\renderer\GeometryPass.cpp" />
     <ClCompile Include="src\systems\renderer\PointLightPass.cpp" />
     <ClCompile Include="src\systems\renderer\StencilPass.cpp" />

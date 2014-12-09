@@ -41,20 +41,27 @@
 	Entity.AddComponent(e, g, "Graphics")
 	State.AddEntity(e, "mainmenu")
 	
+-- Create the title	
+	local e = Entity.Create("title")	
+	local trans = Transform.Create();
+	Transform.SetPosition(trans, Vec3.Create(-0.4,0.15,-0.5))
+	Entity.SetTransform(e,trans)	
+	local g = CGraphics.Create()
+	CGraphics.SetRenderMode(g, "RENDER_2D")	
+	CGraphics.AddText(g, "3D|SOKOBAN", 14)
+	Entity.AddComponent(e, g, "Graphics")
+	State.AddEntity(e, "mainmenu")
 	
 	
 --buttons
   --Classic button	
 	local e = Entity.Create("classic")	
 	local trans = Transform.Create();
-	Transform.SetPosition(trans, Vec3.Create(-0.2,0,-0.5))
-	Transform.SetScale(trans, Vec3.Create(0.075, 0.075, 1))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,0,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
-	--CGraphics.AddModel(g, "shapes/quad.obj")
-	--CGraphics.AddTexture(g, "vgui/sample_button.jpg")
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
-	CGraphics.AddText(g, "Play Classic", 1)
+	CGraphics.AddText(g, "Play Classic", 8)
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()
 	Entity.AddComponent(e, script, "LuaScript")
@@ -64,12 +71,10 @@
   --Extended button	
 	local e = Entity.Create("extended")	
 	local trans = Transform.Create();
-	Transform.SetPosition(trans, Vec3.Create(-0.2,-0.1,-0.5))
-	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.1,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
-	CGraphics.AddModel(g, "shapes/quad.obj")
-	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
+	CGraphics.AddText(g, "Play Extended", 8)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
 	--local script = CScript.Create()
@@ -80,12 +85,10 @@
   --Exit button	
 	local e = Entity.Create("quit")	
 	local trans = Transform.Create();
-	Transform.SetPosition(trans, Vec3.Create(-0.2,-0.2,-0.5))
-	Transform.SetScale(trans, Vec3.Create(0.15, 0.035, 1))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.2,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
-	CGraphics.AddModel(g, "shapes/quad.obj")
-	CGraphics.AddTexture(g, "vgui/sample_button.jpg")
+	CGraphics.AddText(g, "Quit", 8)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()
