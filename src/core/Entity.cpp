@@ -3,23 +3,16 @@
 EventManager Entity::m_EventManager;
 
 Entity::Entity() {
-	//m_transform = new CTransform;
 	m_pParent = nullptr;
 	m_id.gen();
 }
 
 Entity::Entity(const char* name) {
-	//m_transform = new CTransform;
 	m_pParent = nullptr;
 	m_id.gen(name);
 }
 
 Entity::~Entity(){
-	//m_EventManager.publish(DestroyEntity, "Entity", this);
-	//if (m_transform != nullptr) {
-	//	delete m_transform;
-	//}
-
 	m_pParent = nullptr;
 }
 

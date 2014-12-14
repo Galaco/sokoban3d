@@ -11,11 +11,11 @@ Description: Contains data about 1 loaded shader
 #include <string>
 #include <vector>
 
+#include <core/Logger.h>
 
 #include <gl/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <core/Logger.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

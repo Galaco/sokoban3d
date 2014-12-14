@@ -12,8 +12,8 @@ Description: A state within the state machine. Could also be referred
 
 #include <string>
 
-#include <core/Camera.h>
 #include <core/Entity.h>
+#include <core/Camera.h>
 #include <core/resources/DirectionalLight.h>
 #include <core/resources/PointLight.h>
 #include <core/resources/LuaScript.h>

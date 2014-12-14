@@ -8,13 +8,13 @@ Description: A text class for holding inforamtion for font rendering
 #ifndef TEXT_H
 #define TEXT_H
 
+#include <string>
+
 #include <glm/glm.hpp>
 
-#include "Texture.h"
 #include "Model.h"
 #include "Mesh.h"
-
-#include <string>
+#include "Texture.h"
 
 class Text {
 public:

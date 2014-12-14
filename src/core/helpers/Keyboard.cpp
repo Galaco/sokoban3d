@@ -88,11 +88,11 @@ bool Keyboard::get(std::string charcode){
 		return Keys[code];
 	}
 	else {
-		if (charcode == "up") return Key::KEY_UP;
-		if (charcode == "down") return Key::KEY_DOWN;
-		if (charcode == "left") return Key::KEY_LEFT;
-		if (charcode == "right") return Key::KEY_RIGHT;
-		if (charcode == "esc") return Key::KEY_ESC;
+		if (charcode == "up") return (bool)Key::KEY_UP;
+		if (charcode == "down") return (bool)Key::KEY_DOWN;
+		if (charcode == "left") return (bool)Key::KEY_LEFT;
+		if (charcode == "right") return (bool)Key::KEY_RIGHT;
+		if (charcode == "esc") return (bool)Key::KEY_ESC;
 	}
 	return 0;
 }

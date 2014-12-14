@@ -56,3 +56,8 @@ bool Config::load() {
     
     return true;
 }
+
+void Config::write()
+{
+	//@TODO: Write current config back to config file
+}

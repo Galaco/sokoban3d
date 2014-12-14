@@ -1,5 +1,4 @@
 #include "State.h"
-#include <core/System.h>
 
 State::State()
 {
@@ -133,7 +132,7 @@ void State::setCurrentCamera(Camera* camera)
 {
 	if (camera != nullptr) {
 		m_currentCamera = camera;
-		System::setCurrentCamera(m_currentCamera);
+		//System::setCurrentCamera(m_currentCamera);
 		m_currentCamera->rebuildView();
 	}
 }

@@ -1,11 +1,11 @@
 #include "System.h"
 
 EventManager System::m_EventManager;
-Camera* System::m_currentCamera;
+//Camera* System::m_currentCamera;
 State*	System::m_CurrentState;
 
 System::System(){
-    m_currentCamera = nullptr;
+    //m_currentCamera = nullptr;
 }
 
 System::~System(){
@@ -24,9 +24,9 @@ void System::terminate(){
     
 }
 
-void System::setCurrentCamera(Camera* camera){
-	m_currentCamera = camera;
-}
+//void System::setCurrentCamera(Camera* camera){
+//	m_currentCamera = camera;
+//}
 
 
 void System::setCurrentState(State* state){

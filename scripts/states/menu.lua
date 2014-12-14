@@ -43,7 +43,7 @@
 	
 -- Create the title	
 	local e = Entity.Create("title")	
-	local trans = Transform.Create();
+	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.4,0.15,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
@@ -56,12 +56,12 @@
 --buttons
   --Classic button	
 	local e = Entity.Create("classic")	
-	local trans = Transform.Create();
+	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.35,0,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
-	CGraphics.AddText(g, "Play Classic", 8)
+	CGraphics.AddText(g, "Play Classic", 6)
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()
 	Entity.AddComponent(e, script, "LuaScript")
@@ -70,11 +70,11 @@
 	
   --Extended button	
 	local e = Entity.Create("extended")	
-	local trans = Transform.Create();
+	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.1,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
-	CGraphics.AddText(g, "Play Extended", 8)
+	CGraphics.AddText(g, "Play Extended", 6)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()
@@ -82,13 +82,27 @@
 	CScript.AddScript(script, "objects/menu/extended.lua")
 	State.AddEntity(e, "mainmenu")
 	
-  --Exit button	
-	local e = Entity.Create("quit")	
-	local trans = Transform.Create();
+  --Options button
+	local e = Entity.Create("options")	
+	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.2,-0.5))
+	Entity.SetTransform(e,trans)
+	local g = CGraphics.Create()
+	CGraphics.AddText(g, "Options", 6)
+	CGraphics.SetRenderMode(g, "RENDER_2D")
+	Entity.AddComponent(e, g, "Graphics")
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "objects/menu/options.lua")
+	State.AddEntity(e, "mainmenu")
+	
+  --Exit button	
+	local e = Entity.Create("quit")
+	local trans = Transform.Create()
+	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.3,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
-	CGraphics.AddText(g, "Quit", 8)
+	CGraphics.AddText(g, "Quit", 6)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
 	local script = CScript.Create()

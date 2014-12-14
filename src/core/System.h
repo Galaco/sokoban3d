@@ -10,9 +10,9 @@ Description: Abstract System class of the component-system
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include "Camera.h"
 #include "EventManager.h"
 #include "State.h"
+//#include "Camera.h"
 
 class System {
 public:
@@ -25,12 +25,12 @@ public:
         
     virtual void terminate();
 
-	static void setCurrentCamera(Camera*);
+	//static void setCurrentCamera(Camera*);
 	static void setCurrentState(State*);
 
 protected:
 	static EventManager m_EventManager;
-	static Camera*		m_currentCamera;
+	//static Camera*		m_currentCamera;
 	static State*		m_CurrentState;
 };
 #endif

@@ -20,6 +20,8 @@ public:
     ~Config();
     void map(std::map<std::string, std::string>);
     bool load();
+
+	void write();
         
     static unsigned int _DEBUGLEVEL, _WINDOWWIDTH, _WINDOWHEIGHT;
     static bool	        _FULLSCREEN;

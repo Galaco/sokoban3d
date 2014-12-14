@@ -4,13 +4,9 @@ Author: Josh Martin
 
 Name: Camera
 Description: Representation of the players view.
-Todo: Decouple mouse theft via toggle
 *********************************************************************/
 #ifndef CAMERA_H
 #define CAMERA_H
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 
 #define GLM_FORCE_RADIANS
 
@@ -18,11 +14,14 @@ Todo: Decouple mouse theft via toggle
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
+#include "Entity.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include <core/helpers/Config.h>
 #include "helpers/Keyboard.h"
 #include "helpers/Pipeline.h"
 
-#include "Entity.h"
 #include <core/resources/Skybox.h>
 
 class Camera: public Entity{

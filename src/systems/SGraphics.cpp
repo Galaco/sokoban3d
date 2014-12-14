@@ -2,14 +2,14 @@
 
 //Initialize statics. Note these aren't required to be static, but for clarity are
 DeferredRenderer SGraphics::m_deferredRenderer;
-GeometryPass	SGraphics::m_geometryPass;
-PointLightPass  SGraphics::m_pointLightPass;
+GeometryPass SGraphics::m_geometryPass;
+PointLightPass SGraphics::m_pointLightPass;
 DirectionalLightPass SGraphics::m_directionalLightPass;
-StencilPass     SGraphics::m_stencilPass;
+StencilPass	SGraphics::m_stencilPass;
 TransparencyPass SGraphics::m_transparencyPass;
 ResourceManager SGraphics::m_Resources;
-Model*	SGraphics::m_directionalQuad;
-Model*	SGraphics::m_pointSphere;
+Model* SGraphics::m_directionalQuad;
+Model* SGraphics::m_pointSphere;
 
 SGraphics::SGraphics(){
 }
@@ -53,7 +53,6 @@ void SGraphics::update(){
 		while(CIterator != cList.end())
 		{
 			drawEntity(static_cast<CGraphics*>((*CIterator)));
-			//drawText(static_cast<CGraphics*>((*CIterator)));
 			++CIterator;
 		}
 		++it;
@@ -184,8 +183,10 @@ void SGraphics::drawLight(CGraphics* it)
 
 void SGraphics::drawSkybox()
 {
-	if (m_currentCamera == nullptr) return;
-	Skybox* sky = m_currentCamera->getSkybox();
+	if (m_CurrentState == nullptr || m_CurrentState->getCurrentCamera() == nullptr) {
+		return;
+	}
+	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
 	if (sky == nullptr) return;
 	Pipeline::position(Pipeline::Eye);
 
@@ -237,14 +238,11 @@ void SGraphics::drawText(CGraphics* it)
 	{
 	case RENDER_MODE_2D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x / 120, it->getOwner()->GetTransform()->getScale().y / 120, it->getOwner()->GetTransform()->getScale().z);
-		//glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
 		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix2D());
-		//glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
 		break;
 	case RENDER_MODE_3D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
-		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
-		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
+		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix());
 		break;
 	}
 

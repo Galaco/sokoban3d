@@ -34,7 +34,6 @@ void StateManager::update(float dt)
 			{
 				setActiveState((*it).second);
 				(*it).second->wantsPriority() = false;
-				System::setCurrentCamera((*it).second->getCurrentCamera());
 			}
 		}
 		++it;
@@ -45,6 +44,7 @@ void StateManager::setActiveState(State* newState)
 {
 	m_pActiveState = newState;
 	System::setCurrentState(newState);
+	//System::setCurrentCamera((*it).second->getCurrentCamera());
 }
 
 State* StateManager::getActiveState()
