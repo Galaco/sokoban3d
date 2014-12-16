@@ -75,7 +75,6 @@ void SGraphics::update(){
 		}
 		++it;
 	}
-	//draw
 	glDisable(GL_STENCIL_TEST);
 
 	//Render directional/ambient light
@@ -129,20 +128,21 @@ void SGraphics::drawEntity(CGraphics* it)
 
 	// Render the meshes
 	MeshList& m = it->getModel()->getMeshes();
-	for ( unsigned int i = 0; i < m.size(); ++i )
+	for (unsigned int i = 0; i < m.size(); ++i)
 	{
-		glBindVertexArray(m[i].uiVAO); 
+		glBindVertexArray(m[i].uiVAO);
 
 		glActiveTexture(GL_TEXTURE0);
-		if (it->getOverrideTexture(i)){
-			glBindTexture(GL_TEXTURE_2D, it->getOverrideTexture(i)->getTexId());
-		} else {
+		if (it->getOverrideMaterial(i)){
+			glBindTexture(GL_TEXTURE_2D, it->getOverrideMaterial(i)->texId());
+		}
+		else {
 			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
 		}
-		glDrawElements( GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0 );
-		glBindTexture( GL_TEXTURE_2D, 0 );
+		glDrawElements(GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-		glBindVertexArray(0); 
+		glBindVertexArray(0);
 	}
 }
 

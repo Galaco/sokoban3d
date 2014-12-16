@@ -18,6 +18,9 @@ Description: Stores renderable data for use with the render system
 #include <core/resources/Text.h>
 #include <core/resources/Texture.h>
 
+
+#include <core/resources/Material.h>
+
 class CGraphics: public Component {
 public:
 	CGraphics();
@@ -26,16 +29,16 @@ public:
 	void setPointLight(PointLight* light);
 	PointLight* getPointLight();
 	void addModel(const char*);
-	void addTexture(const char*);
 	void setModel(Model*);
 	Model* getModel();
 
+	void addMaterial(const char*);
 
 	void addText(const char* string, double size);
 	void setText(Text*);
 	Text* getText();
 
-	Texture* getOverrideTexture(unsigned int);
+	Material* getOverrideMaterial(unsigned int);
 
 	unsigned int& getRenderMode();
 	void setRenderMode(unsigned int);
@@ -43,7 +46,8 @@ private:
 	Model* m_pModel;
 	PointLight* m_pPointlight;
 	Text* m_pText;
-	std::vector<Texture*> m_pOverrideTextures;
+
+	std::vector<Material> m_materialList;
 
 	unsigned int m_renderMode;
 };

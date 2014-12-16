@@ -8,9 +8,9 @@ const luaL_Reg LuaCGraphics::luaBinds[] = {
 	{"GetModel", lua_GetModel},
 	{"SetModel", lua_SetModel},
 	{"AddModel", lua_AddModel},
-	{ "AddTexture", lua_AddTexture },
-	{ "AddText", lua_AddText },
-	{"SetRenderMode", lua_SetRenderMode },
+	{"AddText", lua_AddText},
+	{"AddMaterial", lua_AddMaterial},
+	{"SetRenderMode", lua_SetRenderMode},
 	{NULL, NULL}
 };
 
@@ -49,14 +49,6 @@ int LuaCGraphics::lua_AddModel(lua_State* L)
 	return 0;
 }
 
-int LuaCGraphics::lua_AddTexture(lua_State* L)
-{
-	LuaBinder binder(L);
-	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
-	component->addTexture(binder.checkstring(2));
-	return 0;
-}
-
 int LuaCGraphics::lua_SetRenderMode(lua_State* L)
 {
 	LuaBinder binder(L);
@@ -77,5 +69,13 @@ int LuaCGraphics::lua_AddText(lua_State* L)
 	LuaBinder binder(L);
 	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
 	component->addText(binder.checkstring(2), binder.checknumber(3));
+	return 0;
+}
+
+int LuaCGraphics::lua_AddMaterial(lua_State* L)
+{
+	LuaBinder binder(L);
+	CGraphics* component = (CGraphics*)binder.checkusertype(1, "CGraphics");
+	component->addMaterial(binder.checkstring(2));
 	return 0;
 }

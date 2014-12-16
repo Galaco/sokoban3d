@@ -28,14 +28,23 @@
 
 -- Create the background
 	local e = Entity.Create("bg")
-	local t = Transform.Create()	
-	
-	--Transform.SetScale(t, Vec3.Create(2, 1, 2))
-	--Entity.SetTransform(e,t)
 	
 	local g = CGraphics.Create()
 	CGraphics.AddModel(g, "shapes/quad.obj")
-	CGraphics.AddTexture(g, "vgui/menubg.jpg")
+	CGraphics.AddMaterial(g, "vgui/menubg.mat")
+	CGraphics.SetRenderMode(g, "RENDER_2D")
+	
+	Entity.AddComponent(e, g, "Graphics")
+	State.AddEntity(e, "mainmenu")
+	
+-- transparency test
+	local e = Entity.Create("glass")		
+	local trans = Transform.Create()
+	Transform.SetPosition(trans, Vec3.Create(0,0,-0.4))
+	Entity.SetTransform(e,trans)	
+	local g = CGraphics.Create()
+	CGraphics.AddModel(g, "shapes/quad.obj")
+	CGraphics.AddMaterial(g, "StainedGlass.mat")
 	CGraphics.SetRenderMode(g, "RENDER_2D")
 	
 	Entity.AddComponent(e, g, "Graphics")

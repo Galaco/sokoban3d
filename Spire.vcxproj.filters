@@ -342,6 +342,9 @@
     <ClInclude Include="src\systems\renderer\TransparencyPass.h">
       <Filter>Header Files\systems\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\resources\Material.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -550,6 +553,9 @@
     </ClCompile>
     <ClCompile Include="src\systems\renderer\TransparencyPass.cpp">
       <Filter>Source Files\systems\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\Material.cpp">
+      <Filter>Source Files\core\resources</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
