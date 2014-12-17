@@ -49,9 +49,10 @@ public:
 
 private:
 	void drawEntity(CGraphics*);
-	void drawLight(CGraphics*);
 	void drawText(CGraphics*);
 	void drawSkybox();
+
+	void drawLight(CGraphics*);
 	void drawDirectionalLight();
 
 
@@ -65,6 +66,5 @@ private:
 	static ResourceManager m_Resources;
 	static Model*	m_directionalQuad;
 	static Model*	m_pointSphere;
-	Logger* m_pLogger;
 };
 #endif

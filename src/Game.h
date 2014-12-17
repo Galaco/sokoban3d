@@ -42,7 +42,7 @@ private:
         
         
 	static bool m_isRunning;
-    float m_elapsedTime, m_frameTime;
+    double m_elapsedTime, m_frameTime;
 
 	Engine& m_engine;
     sf::Clock m_clock;
@@ -52,10 +52,7 @@ private:
 	SAnimation      m_sAnimation;
     SLuaScript      m_sLuaScript;
 
-    static float m_FRAMELENGTH;
+    static double m_FRAMELENGTH;
 	static StateManager m_stateManager;
-
-	float fps_timer;
-	int fps_count;
 };
 #endif

@@ -5,7 +5,7 @@ Material::Material(){
 }
 
 Material::Material(const char* path){
-
+	load(path);
 }
 
 Material::~Material(){

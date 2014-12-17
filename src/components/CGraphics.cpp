@@ -25,6 +25,7 @@ void CGraphics::setPointLight(PointLight* light)
 PointLight* CGraphics::getPointLight() { 
 	return m_pPointlight;
 }
+
 void CGraphics::addModel(const char* dir) 
 { 
 	m_pModel = m_Resources.add<Model>(dir);
@@ -48,6 +49,7 @@ unsigned int& CGraphics::getRenderMode()
 {
 	return m_renderMode;
 }
+
 void CGraphics::setRenderMode(unsigned int renderMode)
 {
 	m_renderMode = renderMode;

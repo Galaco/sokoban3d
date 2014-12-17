@@ -28,8 +28,6 @@ Camera::Camera(){
         
     m_pSkybox = nullptr;
 
-	//m_transform = new CTransform();
-
 	m_id.gen();
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
 	rebuildView();
@@ -52,8 +50,6 @@ Camera::Camera(const char* name){
 
 	m_pSkybox = nullptr;
 
-	//m_transform = new CTransform();
-
 	m_id.gen(name);
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
 	rebuildView();
@@ -65,8 +61,8 @@ Camera::~Camera(){
 void Camera::update(){
 	if (useMouse)
 	{
-		m_transform.getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Keyboard::MOUSEX);
-		m_transform.getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Keyboard::MOUSEY);
+		m_transform.getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
+		m_transform.getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
 	}
 
 	//Rebuild MVP only when camera moved

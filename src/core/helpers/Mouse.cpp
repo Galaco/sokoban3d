@@ -30,7 +30,7 @@ void Mouse::hide()
 
 void Mouse::lock()
 {
-	_LOCKED = false;
+	_LOCKED = true;
 }
 void Mouse::unlock()
 {

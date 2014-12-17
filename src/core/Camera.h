@@ -19,7 +19,7 @@ Description: Representation of the players view.
 #include <GLFW/glfw3.h>
 
 #include <core/helpers/Config.h>
-#include "helpers/Keyboard.h"
+#include "helpers/Mouse.h"
 #include "helpers/Pipeline.h"
 
 #include <core/resources/Skybox.h>
