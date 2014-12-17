@@ -14,7 +14,7 @@
 	
 -- Create the camera
 	local camera = Camera.Create("defaultCamera")
-	Camera.AddSkybox(camera, "skyboxes/black");
+	--Camera.AddSkybox(camera, "skyboxes/ambient_sky/clouds");
 	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(0, 800, 0))

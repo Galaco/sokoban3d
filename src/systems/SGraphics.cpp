@@ -58,7 +58,6 @@ void SGraphics::update(){
 		++it;
 	}
 	//draw
-	drawSkybox();
 	m_geometryPass.endPass();
 
 	//Render point lights
@@ -77,8 +76,10 @@ void SGraphics::update(){
 	}
 	glDisable(GL_STENCIL_TEST);
 
+	drawSkybox();
 	//Render directional/ambient light
 	drawDirectionalLight();
+
 
 	//Complete and write out the frame
 	m_deferredRenderer.endFrame();
@@ -183,25 +184,29 @@ void SGraphics::drawLight(CGraphics* it)
 
 void SGraphics::drawSkybox()
 {
-	if (m_CurrentState == nullptr || m_CurrentState->getCurrentCamera() == nullptr) {
+	if (!m_CurrentState || !m_CurrentState->getCurrentCamera()) {
 		return;
 	}
 	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
-	if (sky == nullptr) return;
-	Pipeline::position(Pipeline::Eye);
+	if (!sky) return;
+	sky->useProgram();
+	glDepthMask(GL_FALSE);
+	//Pipeline::position(Pipeline::Eye);
 
-	glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
+	//glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
 
 	glBindVertexArray(sky->getVao()); 
 
 	glEnable(GL_TEXTURE_2D);
-	for(int i=0; i<6; ++i) { 
+	//for(int i=0; i<6; ++i) { 
 		glActiveTexture(GL_TEXTURE0);
-		sky->bindTexture(i);
-		sky->bindSampler(i);
-		glDrawArrays(GL_TRIANGLE_STRIP, i*4, 4); 
-	}
-	glBindVertexArray(0); 
+		sky->bindTexture();
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//sky->bindSampler(i);
+		//glDrawArrays(GL_TRIANGLE_STRIP, i*4, 4); 
+	//}
+	glBindVertexArray(0);
+	glDepthMask(GL_TRUE);
 }
 
 void SGraphics::drawDirectionalLight()

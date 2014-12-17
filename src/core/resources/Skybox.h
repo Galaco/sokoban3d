@@ -19,6 +19,9 @@ Description: Represents a skybox in the world. Is self contained due
 #include <GLFW/glfw3.h>
 #include <SFML/Graphics.hpp>
 
+#include "Shader.h"
+#include <core/helpers/Pipeline.h>
+
 class Skybox {
 public:
 	Skybox();
@@ -26,23 +29,31 @@ public:
 
 	void load(std::string);
 
-	void loadTexture(const char*, int);
+	void loadTexture(const char*, GLenum);
 	void createCube();
 
 	void setzFar(float dist);
 	GLuint& getVbo();
 	GLuint& getVao();
 	GLuint& getTexture();
-	void bindTexture(int i);
-	void bindSampler(int i);
+	void bindTexture();
 
-	glm::vec2 rotation;
+	void useProgram();
+
 private:
+	void createShader();
 
-	GLuint m_vbo, m_vao, mTexture[6], sampler_state[6];
-	GLuint vertexBuffer, uvBuffer, normalBuffer;
-	std::vector<glm::vec3> vertices, normals;
-	std::vector<glm::vec2> uvs;
 	float zFar;
+
+
+	GLuint vao;
+	GLuint vbo;
+	GLuint m_texture;
+
+	CShaderProgram	m_shaderProg;
+	CShader m_shader[2];
+	static bool shaderReady;
+
+	GLuint m_VPLocation;
 };
 #endif
