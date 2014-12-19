@@ -26,6 +26,8 @@ void LuaObjectBinds::bindObjects(){
 	binder.initialize("CAnimation", LuaCAnimation::luaBinds);
 	binder.initialize("CGraphics", LuaCGraphics::luaBinds);
 	binder.initialize("CScript", LuaCLuaScript::luaBinds);
+	binder.initialize("CCollision", LuaCCollision::luaBinds);
+	binder.initialize("CSelectable", LuaCSelectable::luaBinds);
 
 	/*	\core */
 	binder.initialize("Camera", LuaCamera::luaBinds);

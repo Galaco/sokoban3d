@@ -4,6 +4,8 @@
 	
 --Set the states ambient light
 	local dirLight = State.GetDirectionalLight("mainmenu")
+	print(dirLight)
+	--dirLight:setColor(Vec3.Create(1, 1, 1))
 	DirectionalLight.SetColor(dirLight, Vec3.Create(1, 1, 1))
 	DirectionalLight.SetAmbience(dirLight, 1)
 	DirectionalLight.SetDiffuse(dirLight, 1)
@@ -14,12 +16,10 @@
 	
 -- Create the camera
 	local camera = Camera.Create("defaultCamera")
-	--Camera.AddSkybox(camera, "skyboxes/ambient_sky/clouds");
 	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(0, 800, 0))
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
-	--Camera.ToggleMouseControl(camera);
 	Camera.SetTransform(camera, trans)
 	State.AddCamera(camera, "mainmenu")
 -- end
@@ -32,19 +32,6 @@
 	local g = CGraphics.Create()
 	CGraphics.AddModel(g, "shapes/quad.obj")
 	CGraphics.AddMaterial(g, "vgui/menubg.mat")
-	CGraphics.SetRenderMode(g, "RENDER_2D")
-	
-	Entity.AddComponent(e, g, "Graphics")
-	State.AddEntity(e, "mainmenu")
-	
--- transparency test
-	local e = Entity.Create("glass")		
-	local trans = Transform.Create()
-	Transform.SetPosition(trans, Vec3.Create(0,0,-0.4))
-	Entity.SetTransform(e,trans)	
-	local g = CGraphics.Create()
-	CGraphics.AddModel(g, "shapes/quad.obj")
-	CGraphics.AddMaterial(g, "StainedGlass.mat")
 	CGraphics.SetRenderMode(g, "RENDER_2D")
 	
 	Entity.AddComponent(e, g, "Graphics")
@@ -65,6 +52,7 @@
 --buttons
   --Classic button	
 	local e = Entity.Create("classic")	
+	State.AddEntity(e, "mainmenu")
 	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.35,0,-0.5))
 	Entity.SetTransform(e,trans)	
@@ -72,10 +60,17 @@
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	CGraphics.AddText(g, "Play Classic", 6)
 	Entity.AddComponent(e, g, "Graphics")
+	--e:AddComponent(g, "Graphics")
 	local script = CScript.Create()
 	Entity.AddComponent(e, script, "LuaScript")
 	CScript.AddScript(script, "objects/menu/classic.lua")
-	State.AddEntity(e, "mainmenu")
+	
+	local col = CCollision.Create()
+	Entity.AddComponent(e, col, "Collision")
+	CCollision.BuildCollisionMesh(col)
+	
+	local sel = CSelectable.Create()
+	Entity.AddComponent(e, sel, "Selectable")
 	
   --Extended button	
 	local e = Entity.Create("extended")	

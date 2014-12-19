@@ -242,7 +242,7 @@ void SGraphics::drawText(CGraphics* it)
 	switch (it->getRenderMode())
 	{
 	case RENDER_MODE_2D:
-		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x / 120, it->getOwner()->GetTransform()->getScale().y / 120, it->getOwner()->GetTransform()->getScale().z);
+		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
 		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix2D());
 		break;
 	case RENDER_MODE_3D:
@@ -252,7 +252,7 @@ void SGraphics::drawText(CGraphics* it)
 	}
 
 	// Render the meshes
-	MeshList& m = t->getModel().getMeshes();
+	MeshList& m = it->getModel()->getMeshes();
 	for (unsigned int i = 0; i < m.size(); ++i)
 	{
 		glBindVertexArray(m[i].uiVAO);

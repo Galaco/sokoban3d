@@ -74,14 +74,27 @@ int LuaState::lua_GetDirectionalLight(lua_State* L)
 {
 	LuaBinder binder(L);
 	State* state = StateManager::getState(binder.checkstring(1));
-	if (state == nullptr) 
+	if (state == nullptr)
 	{
-		return 0;
+	return 0;
 	}
 	DirectionalLight* light = state->getDirectionalLight();
 	binder.pushusertype(light, "DirectionalLight");
 
 	return 1;
+
+
+	/*LuaBinder binder(L);
+	State* state = StateManager::getState(binder.checkstring(1));
+	if (state == nullptr)
+	{
+	return 0;
+	}
+	DirectionalLight** c = (DirectionalLight**)lua_newuserdata(L, sizeof(DirectionalLight*));
+	*c = state->getDirectionalLight();
+	binder.pushusertype(c, "DirectionalLight");
+
+	return 1;*/
 }
 
 

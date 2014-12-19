@@ -2,12 +2,12 @@
 
 Texture* Text::texture = nullptr;
 
-Text::Text(const char* string, double height){
+Text::Text(const char* string, double height, Model * model){
 	m_color = glm::vec3(1.f, 1.f, 1.f);
 	m_height = height;	//12 is default height. Screenspace transaltes to 7.5% of total screen height;
 	m_string = string;
 
-	generate();
+	generate(model);
 }
 
 Text::~Text(){
@@ -42,25 +42,25 @@ Model& Text::getModel()
 }
 
 
-void Text::generate()
+void Text::generate(Model* model)
 {
 	Mesh m;
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> UVs;
+	//std::vector<glm::vec3> vertices;
+	//std::vector<glm::vec2> UVs;
 
 	for (unsigned int i = 0; i < m_string.length(); i++){
-		glm::vec3 vertex_up_left = glm::vec3(i*m_height/2, m_height, 0);
-		glm::vec3 vertex_up_right = glm::vec3(i*m_height/2 + m_height/2, m_height, 0);
-		glm::vec3 vertex_down_right = glm::vec3(i*m_height/2 + m_height/2, 0, 0);
-		glm::vec3 vertex_down_left = glm::vec3(i*m_height/2, 0, 0);
+		glm::vec3 vertex_up_left = glm::vec3((i*m_height / 2) / 120, m_height / 120, 0);
+		glm::vec3 vertex_up_right = glm::vec3((i*m_height / 2 + m_height / 2) / 120, m_height / 120, 0);
+		glm::vec3 vertex_down_right = glm::vec3((i*m_height / 2 + m_height / 2) / 120, 0, 0);
+		glm::vec3 vertex_down_left = glm::vec3((i*m_height / 2) / 120, 0, 0);
 
-		vertices.push_back(vertex_up_left);
-		vertices.push_back(vertex_down_left);
-		vertices.push_back(vertex_up_right);
+		m.m_PositionBuffer.push_back(vertex_up_left);
+		m.m_PositionBuffer.push_back(vertex_down_left);
+		m.m_PositionBuffer.push_back(vertex_up_right);
 
-		vertices.push_back(vertex_down_right);
-		vertices.push_back(vertex_up_right);
-		vertices.push_back(vertex_down_left);
+		m.m_PositionBuffer.push_back(vertex_down_right);
+		m.m_PositionBuffer.push_back(vertex_up_right);
+		m.m_PositionBuffer.push_back(vertex_down_left);
 		
 
 		char character = m_string[i];
@@ -73,16 +73,16 @@ void Text::generate()
 		glm::vec2 uv_down_right = glm::vec2(uv_x + 1.0f / 16.0f - (1 / 32), (uv_y + 1.0f / 16.0f));
 		glm::vec2 uv_down_left = glm::vec2(uv_x + (1 / 32), (uv_y + 1.0f / 16.0f));
 
-		UVs.push_back(uv_up_left);
-		UVs.push_back(uv_down_left);
-		UVs.push_back(uv_up_right);
+		m.m_Tex2DBuffer.push_back(uv_up_left);
+		m.m_Tex2DBuffer.push_back(uv_down_left);
+		m.m_Tex2DBuffer.push_back(uv_up_right);
 
-		UVs.push_back(uv_down_right);
-		UVs.push_back(uv_up_right);
-		UVs.push_back(uv_down_left);
+		m.m_Tex2DBuffer.push_back(uv_down_right);
+		m.m_Tex2DBuffer.push_back(uv_up_right);
+		m.m_Tex2DBuffer.push_back(uv_down_left);
 	}
 
-	m.m_vertexCount = vertices.size();
+	m.m_vertexCount = m.m_PositionBuffer.size();
 
 	//Gen mesh info
 	glGenVertexArrays(1, &m.uiVAO);
@@ -90,11 +90,11 @@ void Text::generate()
 
 	glGenBuffers(1, &m.uiBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m.uiBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m.m_PositionBuffer.size() * sizeof(glm::vec3), &m.m_PositionBuffer[0], GL_STATIC_DRAW);
 
 	glGenBuffers(1, &m.uvBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m.uvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, UVs.size() * sizeof(glm::vec2), &UVs[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m.m_Tex2DBuffer.size() * sizeof(glm::vec2), &m.m_Tex2DBuffer[0], GL_STATIC_DRAW);
 
 	// Vertex positions
 	glEnableVertexAttribArray(0);
@@ -122,5 +122,10 @@ void Text::generate()
 
 	glBindVertexArray(0);
 
-	m_model.addMesh(m);
+	if (model) {
+		model->addMesh(m);
+	}
+	else {
+		m_model.addMesh(m);
+	}
 }

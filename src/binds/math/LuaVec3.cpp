@@ -23,6 +23,12 @@ int LuaVec3::lua_Create(lua_State* L){
 	v->z = static_cast<float>(binder.checknumber(3));
 	binder.pushusertype(v, "Vec3");
 	return 1;
+
+	/*LuaBinder binder(L);
+	Vec3** c = (Vec3**)lua_newuserdata(L, sizeof(Vec3*));
+	*c = new Vec3(static_cast<float>(binder.checknumber(1)), static_cast<float>(binder.checknumber(2)), static_cast<float>(binder.checknumber(3)));
+	binder.pushusertype(c, "Vec3");
+	return 1;*/
 }
 
 

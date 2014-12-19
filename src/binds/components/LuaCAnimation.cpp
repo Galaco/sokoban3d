@@ -15,7 +15,7 @@ int LuaCAnimation::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);
 	CAnimation* v = new CAnimation();
-	binder.pushusertype(v, "CGraphics");
+	binder.pushusertype(v, "CAnimation");
 	return 1;
 }
 int LuaCAnimation::lua_GetAnimation(lua_State* L)

@@ -14,7 +14,6 @@ Description: Responsible for running lua scripts tht are not ran on
 #include <vector>
 #include <Lua.hpp>
 
-#include <core/Logger.h>
 #include <core/System.h>
 #include <core/resources/LuaScript.h>
 

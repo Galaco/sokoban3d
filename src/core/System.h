@@ -10,9 +10,13 @@ Description: Abstract System class of the component-system
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include <core/Logger.h>
+
 #include "EventManager.h"
 #include "State.h"
-//#include "Camera.h"
+
+
+#include <core/Entity.h>
 
 class System {
 public:

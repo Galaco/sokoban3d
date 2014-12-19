@@ -61,8 +61,8 @@ Camera::~Camera(){
 void Camera::update(){
 	if (useMouse)
 	{
-		m_transform.getOrientation().y += mouseSpeed * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
-		m_transform.getOrientation().x += mouseSpeed * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
+		m_transform.getOrientation().y += Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
+		m_transform.getOrientation().x += Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
 	}
 
 	//Rebuild MVP only when camera moved

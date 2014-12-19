@@ -89,8 +89,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\binds\components\LuaCAnimation.h" />
+    <ClInclude Include="src\binds\components\LuaCCollision.h" />
     <ClInclude Include="src\binds\components\LuaCGraphics.h" />
     <ClInclude Include="src\binds\components\LuaCLuaScript.h" />
+    <ClInclude Include="src\binds\components\LuaCSelectable.h" />
     <ClInclude Include="src\binds\core\components\LuaCTransform.h" />
     <ClInclude Include="src\binds\core\helpers\LuaKeyboard.h" />
     <ClInclude Include="src\binds\core\helpers\LuaMouse.h" />
@@ -105,8 +107,10 @@
     <ClInclude Include="src\binds\LuaGame.h" />
     <ClInclude Include="src\binds\math\LuaVec3.h" />
     <ClInclude Include="src\components\CAnimation.h" />
+    <ClInclude Include="src\components\CCollision.h" />
     <ClInclude Include="src\components\CGraphics.h" />
     <ClInclude Include="src\components\CLuaScript.h" />
+    <ClInclude Include="src\components\CSelectable.h" />
     <ClInclude Include="src\core\AnimationLoader.h" />
     <ClInclude Include="src\core\Camera.h" />
     <ClInclude Include="src\core\Component.h" />
@@ -129,6 +133,7 @@
     <ClInclude Include="src\core\Resource.h" />
     <ClInclude Include="src\core\ResourceManager.h" />
     <ClInclude Include="src\core\resources\BaseAnimation.h" />
+    <ClInclude Include="src\core\resources\CollisionBoxes.h" />
     <ClInclude Include="src\core\resources\DirectionalLight.h" />
     <ClInclude Include="src\core\resources\LuaScript.h" />
     <ClInclude Include="src\core\resources\Material.h" />
@@ -158,13 +163,16 @@
     <ClInclude Include="src\systems\renderer\StencilPass.h" />
     <ClInclude Include="src\systems\renderer\TransparencyPass.h" />
     <ClInclude Include="src\systems\SAnimation.h" />
+    <ClInclude Include="src\systems\SCollision.h" />
     <ClInclude Include="src\systems\SGraphics.h" />
     <ClInclude Include="src\systems\SLuaScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\binds\components\LuaCAnimation.cpp" />
+    <ClCompile Include="src\binds\components\LuaCCollision.cpp" />
     <ClCompile Include="src\binds\components\LuaCGraphics.cpp" />
     <ClCompile Include="src\binds\components\LuaCLuaScript.cpp" />
+    <ClCompile Include="src\binds\components\LuaCSelectable.cpp" />
     <ClCompile Include="src\binds\core\components\LuaCTransform.cpp" />
     <ClCompile Include="src\binds\core\helpers\LuaKeyboard.cpp" />
     <ClCompile Include="src\binds\core\helpers\LuaMouse.cpp" />
@@ -179,8 +187,10 @@
     <ClCompile Include="src\binds\LuaGame.cpp" />
     <ClCompile Include="src\binds\math\LuaVec3.cpp" />
     <ClCompile Include="src\components\CAnimation.cpp" />
+    <ClCompile Include="src\components\CCollision.cpp" />
     <ClCompile Include="src\components\CGraphics.cpp" />
     <ClCompile Include="src\components\CLuaScript.cpp" />
+    <ClCompile Include="src\components\CSelectable.cpp" />
     <ClCompile Include="src\core\AnimationLoader.cpp" />
     <ClCompile Include="src\core\Camera.cpp" />
     <ClCompile Include="src\core\Component.cpp" />
@@ -202,6 +212,7 @@
     <ClCompile Include="src\core\ModelLoader.cpp" />
     <ClCompile Include="src\core\ResourceManager.cpp" />
     <ClCompile Include="src\core\resources\BaseAnimation.cpp" />
+    <ClCompile Include="src\core\resources\CollisionBoxes.cpp" />
     <ClCompile Include="src\core\resources\DirectionalLight.cpp" />
     <ClCompile Include="src\core\resources\LuaScript.cpp" />
     <ClCompile Include="src\core\resources\Material.cpp" />
@@ -230,6 +241,7 @@
     <ClCompile Include="src\systems\renderer\StencilPass.cpp" />
     <ClCompile Include="src\systems\renderer\TransparencyPass.cpp" />
     <ClCompile Include="src\systems\SAnimation.cpp" />
+    <ClCompile Include="src\systems\SCollision.cpp" />
     <ClCompile Include="src\systems\SGraphics.cpp" />
     <ClCompile Include="src\systems\SLuaScript.cpp" />
   </ItemGroup>

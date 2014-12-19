@@ -23,14 +23,17 @@ int LuaEntity::lua_Create(lua_State* L)
 	LuaBinder binder(L);
 	if (binder.checkstring(1))
 	{
+		/*Entity** c = (Entity**)lua_newuserdata(L, sizeof(Entity*));
+		*c = new Entity();
+		binder.pushusertype(c, "Entity");*/
+
 		Entity* entity = new Entity(binder.checkstring(1));
 		binder.pushusertype(entity, "Entity");
+
+		return 1;
 	}
-	else {
-		Entity* entity = new Entity();
-		binder.pushusertype(entity, "Entity");
-	}
-	return 1;
+
+	return 0;
 }
 
 int LuaEntity::lua_Destroy(lua_State* L)

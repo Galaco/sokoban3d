@@ -17,6 +17,8 @@ Description: Pushes lua bindings to the global table of the lua stack.
 #include <binds/components/LuaCAnimation.h>
 #include <binds/components/LuaCGraphics.h>
 #include <binds/components/LuaCLuaScript.h>
+#include <binds/components/LuaCCollision.h>
+#include <binds/components/LuaCSelectable.h>
 
 #include <binds/core/components/LuaCTransform.h>
 #include <binds/core/helpers/LuaKeyboard.h>

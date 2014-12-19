@@ -13,6 +13,7 @@ Game::Game(Engine& engine) : m_engine(engine){
 	m_sGraphics.initialize();
 	m_sAnimation.initialize();
 	m_sLuaScript.initialize();
+	m_sCollision.initialize();
 	m_stateManager.initialize();
 
 	//Push splash to state manager
@@ -26,6 +27,7 @@ Game::Game(Engine& engine) : m_engine(engine){
 }
 
 Game::~Game(){
+	m_sCollision.terminate();
 	m_sLuaScript.terminate();
 	m_sAnimation.terminate();
 	m_sGraphics.terminate();
@@ -43,6 +45,7 @@ void Game::update(){
 		// update systems
 		m_sAnimation.update((float)m_frameTime);
 		m_sLuaScript.update((float)m_frameTime);
+		m_sCollision.update((float)m_frameTime);
 
 
 		handleInputs();

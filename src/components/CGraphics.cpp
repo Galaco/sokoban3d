@@ -68,7 +68,12 @@ Material* CGraphics::getOverrideMaterial(unsigned int index)
 
 void CGraphics::addText(const char* string, double size)
 {
-	m_pText = new Text(string, size);
+	if (!m_pModel)
+	{
+		m_pModel = new Model;
+	}
+	
+	m_pText = new Text(string, size, m_pModel);
 
 	m_pText->texture = m_Resources.add<Texture>("vgui/fonts/default.png");
 }

@@ -17,12 +17,10 @@ Description: Responsible for rendering all objects to screen. Uses a
 #include <GL\wglew.h>
 
 #include <core/helpers/Config.h>
-#include <core/Logger.h>
 #include <core/ResourceManager.h>
 
 #include <core/System.h>
 
-#include <core/Entity.h>
 #include <core/Camera.h>
 #include <core/resources/PointLight.h>
 #include <core/resources/Shader.h>

@@ -1,5 +1,5 @@
 function Update()
-	if Mouse.Pressed("left")
+	if Mouse.Pressed("right")
 	then 
 		State.Deprioritise("mainmenu")
 		dofile("scripts/states/game.lua")

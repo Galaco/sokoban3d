@@ -7,6 +7,7 @@ bool	     Config::_FULLSCREEN = false;
 unsigned int Config::_ANTIALIASING = 0;
 bool	     Config::_VSYNC = false;
 float        Config::_MASTER_VOL = 1.0;
+float        Config::_SENSITIVITY = 1.0;
     
 
 Config::Config(){
@@ -20,6 +21,7 @@ Config::~Config(){
 void Config::map(std::map<std::string, std::string> m) {
 	// Maps the loaded data onto config settings
 	_DEBUGLEVEL = atoi(m["debug"].c_str());
+	_SENSITIVITY = (atoi(m["sensitivity"].c_str()))/1000.f;
 	//visuals
 	_WINDOWWIDTH = atoi(m["width"].c_str());
     _WINDOWHEIGHT = atoi(m["height"].c_str());

@@ -22,6 +22,7 @@ Description: Contains the main game loop. Responsible for System &
 #include "systems/SGraphics.h"
 #include "systems/SAnimation.h"
 #include "systems/SLuaScript.h"
+#include "systems/SCollision.h"
 
 #include <core/resources/LuaScript.h>
 
@@ -50,7 +51,8 @@ private:
 	//Systems
 	SGraphics		m_sGraphics;
 	SAnimation      m_sAnimation;
-    SLuaScript      m_sLuaScript;
+	SLuaScript      m_sLuaScript;
+	SCollision      m_sCollision;
 
     static double m_FRAMELENGTH;
 	static StateManager m_stateManager;

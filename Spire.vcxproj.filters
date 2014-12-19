@@ -345,6 +345,24 @@
     <ClInclude Include="src\core\resources\Material.h">
       <Filter>Header Files\core\resources</Filter>
     </ClInclude>
+    <ClInclude Include="src\components\CSelectable.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\systems\SCollision.h">
+      <Filter>Header Files\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="src\components\CCollision.h">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\resources\CollisionBoxes.h">
+      <Filter>Header Files\core\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\components\LuaCCollision.h">
+      <Filter>Header Files\binds\components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\binds\components\LuaCSelectable.h">
+      <Filter>Header Files\binds\components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -556,6 +574,24 @@
     </ClCompile>
     <ClCompile Include="src\core\resources\Material.cpp">
       <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CSelectable.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\systems\SCollision.cpp">
+      <Filter>Source Files\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="src\components\CCollision.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\resources\CollisionBoxes.cpp">
+      <Filter>Source Files\core\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\components\LuaCCollision.cpp">
+      <Filter>Source Files\binds\components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\binds\components\LuaCSelectable.cpp">
+      <Filter>Source Files\binds\components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

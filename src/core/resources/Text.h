@@ -18,7 +18,7 @@ Description: A text class for holding inforamtion for font rendering
 
 class Text {
 public:
-	Text(const char* string = "", double height = 12);
+	Text(const char* string = "", double height = 12, Model* model = nullptr);
 	~Text();
 
 	void setColor(glm::vec3 color);
@@ -33,7 +33,7 @@ public:
 	static Texture* texture;
 
 private:
-	void generate();
+	void generate(Model* model = nullptr);
 
 	Model m_model;
 

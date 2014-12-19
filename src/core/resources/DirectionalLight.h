@@ -16,6 +16,8 @@ public:
 	DirectionalLight();
 	~DirectionalLight();
 
+	void setColor(glm::vec3 color){ Color = color; }
+
 	glm::vec3 Color;
 	float AmbientIntensity;
 	float DiffuseIntensity;

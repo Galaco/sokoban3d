@@ -11,11 +11,10 @@ Description: System that updates animations on objects each frame.
 #include <map>
 #include <vector>
 
-#include <core/Logger.h>
+
 
 #include <core/System.h>
 
-#include <core/Entity.h>
 #include <core/resources/Mesh.h>
 #include <core/resources/MD5Animation.h>
 
@@ -35,6 +34,5 @@ public:
 private:
         void updateAnimation(CAnimation*, float);
         void updateMesh(Model*, const MD5Animation::FrameSkeleton&);
-	Logger* m_pLogger;
 };
 #endif

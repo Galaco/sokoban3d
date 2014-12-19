@@ -28,7 +28,7 @@ public:
     static unsigned int _ANTIALIASING;
     static bool	        _VSYNC;
     
-    static float          _MASTER_VOL;
+    static float          _MASTER_VOL, _SENSITIVITY;
     
 private:
 	

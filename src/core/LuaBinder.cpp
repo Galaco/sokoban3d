@@ -44,6 +44,9 @@ void LuaBinder::pushusertype( void* udata, const char* tname){
 	/*lua_pushvalue(L, -1);
 	lua_pushstring(L, tname);
 	lua_rawset(L, LUA_RIDX_GLOBALS);*/
+
+
+	//luaL_setmetatable(L, tname);  //assign MyClass metatable
 }
 
 void* LuaBinder::checkusertype(int index, const char* tname){
