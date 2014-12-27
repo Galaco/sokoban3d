@@ -8,9 +8,13 @@ LuaPointLight::~LuaPointLight()
 {
 }
 
-const luaL_Reg LuaPointLight::luaBinds[] = {
-	{ "Create", lua_Create },
-	{ "Destroy", lua_Destroy },
+const luaL_Reg LuaPointLight::luaBinds_f[] = {
+	{ "new", lua_Create },
+	{ "__gc", lua_Destroy },
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaPointLight::luaBinds_m[] = {
 	{ "SetColor", lua_SetColor },
 	{ "GetColor", lua_GetColor },
 	{ "SetAmbience", lua_SetAmbience },
@@ -27,7 +31,7 @@ int LuaPointLight::lua_Create(lua_State* L)
 	LuaBinder binder(L);
 	PointLight* light = new PointLight();
 
-	binder.pushusertype(light, "PointLight");
+	binder.pushusertype(light, "PointLight", sizeof(PointLight));
 	return 1;
 }
 
@@ -53,7 +57,7 @@ int LuaPointLight::lua_GetColor(lua_State* L)
 {
 	LuaBinder binder(L);
 	PointLight* light = (PointLight*)binder.checkusertype(1, "PointLight");
-	binder.pushusertype(&light->getColor(), "Vec3");
+	binder.pushusertype(&static_cast<Vec3>(light->getColor()), "Vec3", sizeof(Vec3));
 
 	return 1;
 
@@ -110,7 +114,7 @@ int LuaPointLight::lua_GetPosition(lua_State* L)
 {
 	LuaBinder binder(L);
 	PointLight* light = (PointLight*)binder.checkusertype(1, "PointLight");
-	binder.pushusertype(&light->getPosition(), "Vec3");
+	binder.pushusertype(&static_cast<Vec3>(light->getPosition()), "Vec3", sizeof(Vec3));
 
 	return 1;
 }

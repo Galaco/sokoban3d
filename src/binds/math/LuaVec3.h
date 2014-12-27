@@ -11,11 +11,13 @@ public:
 	~LuaVec3();
 
 	//luadata
-	static const luaL_Reg luaBinds[];
 	static int lua_Create(lua_State*);
 	static int lua_X(lua_State*);
 	static int lua_Y(lua_State*);
 	static int lua_Z(lua_State*);
+
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 private:
 
 };

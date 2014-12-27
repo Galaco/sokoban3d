@@ -9,7 +9,10 @@ LuaGame::LuaGame(){
 LuaGame::~LuaGame() {
 
 }
-const luaL_Reg LuaGame::luaBinds[] = {
+const luaL_Reg LuaGame::luaBinds_f[] = {
+	{ NULL, NULL }
+};
+const luaL_Reg LuaGame::luaBinds_m[] = {
 	{ "Close", lua_Shutdown },
 	{ NULL, NULL }
 };

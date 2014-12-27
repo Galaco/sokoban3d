@@ -8,7 +8,11 @@ LuaMouse::~LuaMouse()
 {
 }
 
-const luaL_Reg LuaMouse::luaBinds[] = {
+const luaL_Reg LuaMouse::luaBinds_f[] = {
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaMouse::luaBinds_m[] = {
 	{ "Show", lua_Show },
 	{ "Hide", lua_Hide },
 	{ "Get", lua_Get },

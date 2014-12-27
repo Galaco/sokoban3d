@@ -8,7 +8,12 @@ LuaKeyboard::~LuaKeyboard()
 {
 }
 
-const luaL_Reg LuaKeyboard::luaBinds[] = {
+const luaL_Reg LuaKeyboard::luaBinds_f[] = {
+	{ NULL, NULL }
+};
+
+
+const luaL_Reg LuaKeyboard::luaBinds_m[] = {
 	{"KeyDown", lua_KeyDown},
 	{NULL, NULL}
 };

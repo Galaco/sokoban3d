@@ -16,7 +16,8 @@ public:
 	LuaMouse();
 	~LuaMouse();
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 	static int lua_Show(lua_State*);
 	static int lua_Hide(lua_State*);
 	static int lua_Get(lua_State*);

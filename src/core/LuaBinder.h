@@ -21,7 +21,7 @@ public:
 
 	void setLuaState(lua_State*);
         
-	void initialize(const char*, const luaL_Reg*);
+	void initialize(const char* tname, const char* iname, const luaL_Reg* functionList, const luaL_Reg* memberList);
         
 	void pushnumber(double);
 	double checknumber(int);
@@ -29,7 +29,7 @@ public:
 	void pushstring(const char*);
 	const char* checkstring(int);
         
-	void pushusertype(void*, const char*);
+	void pushusertype(void*, const char*, int classSize);
 	void* checkusertype(int, const char*);
 private:
 	int checktype(void*, const char*);

@@ -22,6 +22,7 @@ public:
 
 	static int lua_Find(lua_State*);
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 };
 #endif;

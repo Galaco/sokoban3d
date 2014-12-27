@@ -12,7 +12,8 @@ public:
 	~LuaCTransform();
 
 	//luadata
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 	static int lua_Create(lua_State*);
 	static int lua_GetPosition(lua_State*);
 	static int lua_SetPosition(lua_State*);

@@ -14,6 +14,7 @@ public:
 	static int lua_Create(lua_State*);
 
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 };
 #endif;

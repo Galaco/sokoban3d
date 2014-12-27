@@ -18,7 +18,8 @@ public:
 
 	static int lua_Shutdown(lua_State* L);
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 
 	
 protected:

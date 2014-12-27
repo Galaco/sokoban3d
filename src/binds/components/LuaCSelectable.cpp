@@ -3,8 +3,12 @@
 LuaCSelectable::LuaCSelectable(){}
 LuaCSelectable::~LuaCSelectable(){}
 
-const luaL_Reg LuaCSelectable::luaBinds[] = {
-	{"Create", lua_Create},
+const luaL_Reg LuaCSelectable::luaBinds_f[] = {
+	{ "new", lua_Create },
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaCSelectable::luaBinds_m[] = {
 	{"IsSelected", lua_GetSelected},
 	{"HoveredOver", lua_GetHovered},
 	{NULL, NULL}
@@ -14,7 +18,7 @@ int LuaCSelectable::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);
 	CSelectable* v = new CSelectable();
-	binder.pushusertype(v, "CSelectable");
+	binder.pushusertype(v, "CSelectable", sizeof(CSelectable));
 
 	return 1;
 }

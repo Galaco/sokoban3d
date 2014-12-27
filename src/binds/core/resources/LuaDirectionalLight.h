@@ -2,6 +2,7 @@
 #define LUADIRECTIONALLIGHT_H
 
 #include <core/resources/DirectionalLight.h>
+#include <math/Vec3.h>
 
 #include <binds/LuaClass.h>
 
@@ -24,6 +25,7 @@ public:
 	static int lua_GetDirection(lua_State*);
 
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 };
 #endif;

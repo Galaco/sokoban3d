@@ -11,7 +11,8 @@ public:
 	~LuaCSelectable();
 
 	//luadata
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 	static int lua_Create(lua_State*);
 	static int lua_GetHovered(lua_State*);
 	static int lua_GetSelected(lua_State*);

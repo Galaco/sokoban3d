@@ -2,6 +2,7 @@
 #define LUAPOINTLIGHT_H
 
 #include <core/resources/PointLight.h>
+#include <math/Vec3.h>
 
 #include <binds/LuaClass.h>
 
@@ -29,6 +30,7 @@ public:
 	static int lua_GetState(lua_State*);
 	static int lua_RequestPriority(lua_State*);
 
-	static const luaL_Reg luaBinds[];
+	static const luaL_Reg luaBinds_f[];
+	static const luaL_Reg luaBinds_m[];
 };
 #endif;

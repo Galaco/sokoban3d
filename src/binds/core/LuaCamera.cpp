@@ -6,9 +6,13 @@ LuaCamera::LuaCamera(){
 LuaCamera::~LuaCamera(){
 }
 
-const luaL_Reg LuaCamera::luaBinds[] = {
-	{"Create", lua_Create},
-	{"Destroy", lua_Destroy},
+const luaL_Reg LuaCamera::luaBinds_f[] = {
+	{ "new", lua_Create },
+	{ "__gc", lua_Destroy },
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaCamera::luaBinds_m[] = {
 	{"SetParent", lua_SetParent},
 	{"AddSkybox", lua_AddSkybox},
 	{"ActiveCamera", lua_ActiveCamera},
@@ -31,7 +35,7 @@ int LuaCamera::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);
 	Camera* entity = new Camera(binder.checkstring(1));
-	binder.pushusertype(entity, "Camera");
+	binder.pushusertype(entity, "Camera", sizeof(Camera));
 	return 1;
 }
 
@@ -39,7 +43,13 @@ int LuaCamera::lua_Destroy(lua_State* L)
 {
 	LuaBinder binder(L);
 	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
-	delete entity;
+	try {
+		delete entity;
+	}
+	catch (std::exception){
+
+	}
+	
 	return 0;
 }
 
@@ -66,7 +76,7 @@ int LuaCamera::lua_ActiveCamera(lua_State* L)
 	LuaBinder binder(L);
 
 	Camera* cam = StateManager::getActiveState()->getCurrentCamera();
-	binder.pushusertype(cam, "Camera");
+	binder.pushusertype(cam, "Camera", sizeof(Camera));
 
 	return 1;
 }
@@ -121,7 +131,7 @@ int LuaCamera::lua_GetTransform(lua_State* L)
 	LuaBinder binder(L);
 
 	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
-	binder.pushusertype(entity->GetTransform(), "Transform");
+	binder.pushusertype(entity->GetTransform(), "Transform", sizeof(CTransform));
 
 	return 1;
 }
@@ -130,10 +140,10 @@ int LuaCamera::lua_SetTransform(lua_State* L)
 {
 	LuaBinder binder(L);
 
-	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
-	CTransform* component = (CTransform*)binder.checkusertype(2, "Component");
+	Camera* camera =* static_cast<Camera**>(binder.checkusertype(1, "Camera"));
+	CTransform* component =* static_cast<CTransform**>(binder.checkusertype(2, "Transform"));
 
-	entity->SetTransform(component);
+	camera->SetTransform(component);
 	return 0;
 }
 
@@ -153,7 +163,7 @@ int LuaCamera::lua_Find(lua_State* L){
 	State* state = StateManager::getActiveState();
 	Camera* e = state->getCamera(binder.checkstring(1));
 
-	binder.pushusertype(e, "Camera");
+	binder.pushusertype(e, "Camera", sizeof(Camera));
 	return 1;
 }
 

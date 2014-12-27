@@ -3,8 +3,12 @@
 LuaCCollision::LuaCCollision(){}
 LuaCCollision::~LuaCCollision(){}
 
-const luaL_Reg LuaCCollision::luaBinds[] = {
-	{ "Create", lua_Create },
+const luaL_Reg LuaCCollision::luaBinds_f[] = {
+	{ "new", lua_Create },
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaCCollision::luaBinds_m[] = {
 	{ "BuildCollisionMesh", lua_CreateCollisionModel },
 	{NULL, NULL}
 };
@@ -13,7 +17,7 @@ int LuaCCollision::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);
 	CCollision* v = new CCollision();
-	binder.pushusertype(v, "CCollision");
+	binder.pushusertype(v, "CCollision", sizeof(CCollision));
 	return 1;
 }
 

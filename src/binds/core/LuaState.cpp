@@ -6,17 +6,21 @@ LuaState::LuaState(){
 LuaState::~LuaState(){
 }
 
-const luaL_Reg LuaState::luaBinds[] = {
-	{"Create", lua_Create},
-	{"Destroy", lua_Destroy},
-	{"AddEntity", lua_AddEntity},
-	{"AddCamera", lua_AddCamera },
-	{"GetDirectionalLight", lua_GetDirectionalLight },
-	{"GetState", lua_GetState},
+const luaL_Reg LuaState::luaBinds_f[] = {
+	{ "new", lua_Create },
+	{ "__gc", lua_Destroy },
+	{ "AddEntity", lua_AddEntity },
+	{ "AddCamera", lua_AddCamera },
+	{ "GetDirectionalLight", lua_GetDirectionalLight },
+	{ "GetState", lua_GetState },
 	{ "RequestPriority", lua_RequestPriority },
 	{ "AddPointLight", lua_AddPointLight },
 	{ "Deprioritise", lua_Deprioritise },
 	{ "AddScript", lua_AddScript },
+	{ NULL, NULL }
+};
+
+const luaL_Reg LuaState::luaBinds_m[] = {
 	{NULL, NULL}
 };
 
@@ -24,14 +28,14 @@ int LuaState::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);	
 	State* state = StateManager::getState(binder.checkstring(1));
-	if (state == nullptr)
+	if (!state)
 	{
 		State* s = new State;
 		StateManager::addState(s, binder.checkstring(1));
-		binder.pushusertype(s, "State");
+		binder.pushusertype(s, "State", sizeof(State));
 	} 
 	else {
-		binder.pushusertype(state, "State");
+		binder.pushusertype(state, "State", sizeof(State));
 	}
 	return 1;
 }
@@ -47,7 +51,7 @@ int LuaState::lua_Destroy(lua_State* L)
 int LuaState::lua_AddEntity(lua_State* L)
 {
 	LuaBinder binder(L);
-	Entity* entity = static_cast<Entity*>(binder.checkusertype(1, "Entity"));
+	Entity* entity =* static_cast<Entity**>(binder.checkusertype(1, "Entity"));
 	State* state = StateManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
@@ -60,7 +64,7 @@ int LuaState::lua_AddEntity(lua_State* L)
 int LuaState::lua_AddCamera(lua_State* L)
 {
 	LuaBinder binder(L);
-	Camera* cam = static_cast<Camera*>(binder.checkusertype(1, "Camera"));
+	Camera* cam =* static_cast<Camera**>(binder.checkusertype(1, "Camera"));
 	State* state = StateManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
@@ -74,27 +78,24 @@ int LuaState::lua_GetDirectionalLight(lua_State* L)
 {
 	LuaBinder binder(L);
 	State* state = StateManager::getState(binder.checkstring(1));
-	if (state == nullptr)
+	if (!state)
 	{
-	return 0;
+		return 0;
 	}
 	DirectionalLight* light = state->getDirectionalLight();
-	binder.pushusertype(light, "DirectionalLight");
+	binder.pushusertype(light, "DirectionalLight", sizeof(DirectionalLight));
 
+	/*return 1;*/
+
+
+
+	//void *udata__ = lua_newuserdata(L, sizeof(*state->getDirectionalLight()));
+	//DirectionalLight *obj__ = ::new (udata__)DirectionalLight;
+
+	//DirectionalLight* light = *(DirectionalLight**)luaL_checkudata(L, 1, "DirectionalLight");
+	//luaL_getmetatable(L, "DirectionalLight");
+	//lua_setmetatable(L, -2);
 	return 1;
-
-
-	/*LuaBinder binder(L);
-	State* state = StateManager::getState(binder.checkstring(1));
-	if (state == nullptr)
-	{
-	return 0;
-	}
-	DirectionalLight** c = (DirectionalLight**)lua_newuserdata(L, sizeof(DirectionalLight*));
-	*c = state->getDirectionalLight();
-	binder.pushusertype(c, "DirectionalLight");
-
-	return 1;*/
 }
 
 
@@ -107,7 +108,7 @@ int LuaState::lua_GetState(lua_State* L)
 	{
 		return 0;
 	}
-	binder.pushusertype(state, "State");
+	binder.pushusertype(state, "State", sizeof(State));
 
 	return 1;
 }

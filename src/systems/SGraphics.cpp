@@ -188,7 +188,8 @@ void SGraphics::drawSkybox()
 		return;
 	}
 	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
-	if (!sky) return;
+	if (!sky) 
+		return;
 	sky->useProgram();
 	glDepthMask(GL_FALSE);
 	//Pipeline::position(Pipeline::Eye);

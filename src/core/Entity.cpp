@@ -65,7 +65,7 @@ CTransform* Entity::GetTransform() {
 }
 
 void Entity::SetTransform(CTransform* newTransform){
-	if (&m_transform == newTransform || newTransform == nullptr)
+	if (&m_transform == newTransform || !newTransform)
 		return;
 	m_transform = *newTransform; 
 }
