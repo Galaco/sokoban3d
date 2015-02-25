@@ -1,5 +1,8 @@
 #include "SAnimation.h"
 
+std::map<CAnimation*, CGraphics*> SAnimation::CGraphicsCAnimationCache;
+
+
 SAnimation::SAnimation(){
 }
 
@@ -10,30 +13,27 @@ void SAnimation::initialize(){
 }
 	
 void SAnimation::update(float dt){
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
-	auto it = entityList.begin();
-	while(it != entityList.end()) {
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Animation");
-		auto CIterator = cList.begin();
-		while(CIterator != cList.end())
-		{
-			CAnimation* pAnim = static_cast<CAnimation*>(*CIterator);
-			updateAnimation(pAnim, dt);
-			++CIterator;
-		}
+	if (m_CurrentState != m_PreviousState)
+	{
+		rebuildCache();
+	}
+
+	auto it = CGraphicsCAnimationCache.begin();
+	while (it != CGraphicsCAnimationCache.end()) 
+	{
+		updateAnimation((*it).first, (*it).second, dt);
 		++it;
 	}
 }
 	
 
-void SAnimation::updateAnimation(CAnimation* anim, float dt){
+void SAnimation::updateAnimation(CAnimation* anim, CGraphics* model, float dt){
 	MD5Animation* c = static_cast<MD5Animation*>(anim->getAnimation());
 	Entity* e = anim->getOwner();
-	CGraphics* grap = static_cast<CGraphics*>(e->getComponent("Graphics"));
-	if (grap->getModel() != nullptr){
+	if (model->getModel() != nullptr){
 		c->update(dt);
 		const MD5Animation::FrameSkeleton& skeleton = c->getSkeleton();
-		updateMesh(grap->getModel(), skeleton);
+		updateMesh(model->getModel(), skeleton);
 	}
 }
 
@@ -72,4 +72,22 @@ void SAnimation::updateMesh(Model* model, const MD5Animation::FrameSkeleton& ske
 
 		glBindVertexArray(0); 
     }
+}
+
+void SAnimation::rebuildCache()
+{
+	CGraphicsCAnimationCache.clear();
+	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	auto it = entityList.begin();
+	while (it != entityList.end())
+	{
+		std::vector<Component*> cList = (*it).second->getComponentsByType("Animation");
+		auto CIterator = cList.begin();
+		while (CIterator != cList.end())
+		{
+			CGraphicsCAnimationCache[static_cast<CAnimation*>(*CIterator)] = static_cast<CGraphics*>((*CIterator)->getOwner()->getComponent("Graphics"));
+			++CIterator;
+		}
+		++it;
+	}
 }

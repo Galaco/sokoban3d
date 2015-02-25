@@ -32,7 +32,11 @@ public:
 	void update(float);
 
 private:
-        void updateAnimation(CAnimation*, float);
+        void updateAnimation(CAnimation*, CGraphics*, float);
         void updateMesh(Model*, const MD5Animation::FrameSkeleton&);
+
+
+		void rebuildCache();
+		static std::map<CAnimation*, CGraphics*> CGraphicsCAnimationCache;
 };
 #endif

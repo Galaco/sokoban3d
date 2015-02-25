@@ -1,5 +1,7 @@
 #include "SLuaScript.h"
 
+std::vector<CLuaScript*> SLuaScript::CLuaScriptCache;
+
 SLuaScript::SLuaScript(){
 	m_masterLuaState = nullptr;
 }
@@ -25,36 +27,16 @@ LuaScript* SLuaScript::createScript(){
 }
 
 void SLuaScript::update(float dt){
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
-
-	auto it = m_CurrentState->getEntities().begin();
-	while(it != m_CurrentState->getEntities().end()) 
+	if (m_CurrentState != m_PreviousState)
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("LuaScript");
-		auto CIterator = cList.begin();
-		while(CIterator != cList.end())
-		{
-			CLuaScript* l = static_cast<CLuaScript*>((*CIterator));
-			if (l != nullptr) {
-				l->getScript()->update(dt);
-			}
-			++CIterator;
-		}
-		++it;
+		rebuildCache();
 	}
 
-
-	auto it2 = m_CurrentState->getCameras().begin();
-	while (it2 != m_CurrentState->getCameras().end())
+	auto it = CLuaScriptCache.begin();
+	while (it != CLuaScriptCache.end())
 	{
-		std::vector<Component*> cList = (*it2)->getComponentsByType("LuaScript");
-		auto CIterator = cList.begin();
-		while (CIterator != cList.end())
-		{
-			static_cast<CLuaScript*>((*CIterator))->getScript()->update(dt);
-			++CIterator;
-		}
-		++it2;
+		(*it)->getScript()->update(dt);
+		++it;
 	}
 	
 
@@ -76,5 +58,37 @@ void SLuaScript::deleteScript(LuaScript* scriptptr)
 			m_globalScripts.erase(m_globalScripts.begin()+i);
 			return;
 		}
+	}
+}
+
+void SLuaScript::rebuildCache()
+{
+	CLuaScriptCache.clear();
+	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	auto it = entityList.begin();
+	while (it != entityList.end())
+	{
+		std::vector<Component*> cList = (*it).second->getComponentsByType("LuaScript");
+		auto CIterator = cList.begin();
+		while (CIterator != cList.end())
+		{
+			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));
+			++CIterator;
+		}
+		++it;
+	}
+
+	std::vector<Camera*> camList = m_CurrentState->getCameras();
+	auto it2 = camList.begin();
+	while (it2 != camList.end())
+	{
+		std::vector<Component*> cList = (*it2)->getComponentsByType("LuaScript");
+		auto CIterator = cList.begin();
+		while (CIterator != cList.end())
+		{
+			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));
+			++CIterator;
+		}
+		++it2;
 	}
 }

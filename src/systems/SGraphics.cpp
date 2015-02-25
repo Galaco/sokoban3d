@@ -10,8 +10,11 @@ TransparencyPass SGraphics::m_transparencyPass;
 ResourceManager SGraphics::m_Resources;
 Model* SGraphics::m_directionalQuad;
 Model* SGraphics::m_pointSphere;
+std::vector<CGraphics*> SGraphics::CGraphicsCache;
 
 SGraphics::SGraphics(){
+
+	m_PreviousState = nullptr;
 }
 
 SGraphics::~SGraphics(){
@@ -38,23 +41,20 @@ void SGraphics::initialize(){
 }
 	
 void SGraphics::update(){
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	if (m_CurrentState != m_PreviousState)
+	{
+		rebuildCache();
+	}
 	
 	//Begin frame
 	m_deferredRenderer.startFrame();
 
 	//Render geometry
 	m_geometryPass.startPass();
-	auto it = entityList.begin();
-	while(it != entityList.end()) 
+	auto it = CGraphicsCache.begin();
+	while (it != CGraphicsCache.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
-		auto CIterator = cList.begin();
-		while(CIterator != cList.end())
-		{
-			drawEntity(static_cast<CGraphics*>((*CIterator)));
-			++CIterator;
-		}
+		drawEntity((*it));
 		++it;
 	}
 	//draw
@@ -62,16 +62,10 @@ void SGraphics::update(){
 
 	//Render point lights
 	glEnable(GL_STENCIL_TEST);
-	it = entityList.begin();
-	while(it != entityList.end()) 
+	it = CGraphicsCache.begin();
+	while (it != CGraphicsCache.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
-		auto CIterator = cList.begin();
-		while(CIterator != cList.end())
-		{
-			drawLight(static_cast<CGraphics*>((*CIterator)));
-			++CIterator;
-		}
+		drawLight((*it));
 		++it;
 	}
 	glDisable(GL_STENCIL_TEST);
@@ -86,24 +80,16 @@ void SGraphics::update(){
 
 
 	m_transparencyPass.startPass();
-	it = entityList.begin();
-	while (it != entityList.end())
+	it = CGraphicsCache.begin();
+	while (it != CGraphicsCache.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
-		auto CIterator = cList.begin();
-		while (CIterator != cList.end())
+		if ((*it)->getText())
 		{
-			CGraphics* g = static_cast<CGraphics*>((*CIterator));
-			if (g->getText())
-			{
-				drawText(g);
-			}
-			++CIterator;
+			drawText((*it));
 		}
 		++it;
 	}
 	m_transparencyPass.endPass();
-
 }
 
 void SGraphics::drawEntity(CGraphics* it)
@@ -264,5 +250,24 @@ void SGraphics::drawText(CGraphics* it)
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glBindVertexArray(0);
+	}
+}
+
+
+void SGraphics::rebuildCache()
+{
+	CGraphicsCache.clear();
+	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	auto it = entityList.begin();
+	while (it != entityList.end())
+	{
+		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
+		auto CIterator = cList.begin();
+		while (CIterator != cList.end())
+		{
+			CGraphicsCache.push_back(static_cast<CGraphics*>(*CIterator));
+			++CIterator;
+		}
+		++it;
 	}
 }

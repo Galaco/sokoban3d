@@ -32,9 +32,13 @@ public:
 	//static void setCurrentCamera(Camera*);
 	static void setCurrentState(State*);
 
+	static void FixedUpdate();
+
 protected:
+	virtual void rebuildCache();
 	static EventManager m_EventManager;
 	//static Camera*		m_currentCamera;
 	static State*		m_CurrentState;
+	static State*		m_PreviousState;
 };
 #endif

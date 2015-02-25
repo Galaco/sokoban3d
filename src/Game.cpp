@@ -43,18 +43,20 @@ void Game::update(){
 
 		m_stateManager.update((float)m_frameTime);
 		// update systems
-		m_sAnimation.update((float)m_frameTime);
 		m_sLuaScript.update((float)m_frameTime);
-		m_sCollision.update((float)m_frameTime);
+		m_sAnimation.update((float)m_frameTime);
+		//m_sCollision.update((float)m_frameTime);
 
+		// render
+		m_sGraphics.update();
+		// swap buffers for render
+		glfwSwapBuffers(m_engine.getCurrentContext());
 
 		handleInputs();
+		System::FixedUpdate();
 	}
 
-	// render
-	m_sGraphics.update();
-	// swap buffers for render
-	glfwSwapBuffers(m_engine.getCurrentContext()); 
+	
 }
 
 void Game::handleInputs(){

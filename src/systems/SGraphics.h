@@ -53,6 +53,8 @@ private:
 	void drawLight(CGraphics*);
 	void drawDirectionalLight();
 
+	void rebuildCache();
+
 
     static DeferredRenderer m_deferredRenderer;
 	static GeometryPass	m_geometryPass;
@@ -64,5 +66,7 @@ private:
 	static ResourceManager m_Resources;
 	static Model*	m_directionalQuad;
 	static Model*	m_pointSphere;
+
+	static std::vector<CGraphics*> CGraphicsCache;
 };
 #endif

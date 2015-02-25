@@ -42,5 +42,5 @@ end
 
 
 function Update()
-	handleKeys()
+	--handleKeys()
 end

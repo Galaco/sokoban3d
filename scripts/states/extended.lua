@@ -25,8 +25,8 @@
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
 	Camera.SetTransform(camera, trans);
 	
-	local script = CScript.Create()
-	Entity.AddComponent(camera, script, "LuaScript")
-	CScript.AddScript(script, "objects/camera/controller.lua")
+	--local script = CScript.Create()
+	--Entity.AddComponent(camera, script, "LuaScript")
+	--CScript.AddScript(script, "objects/camera/controller.lua")
 	
 -- end

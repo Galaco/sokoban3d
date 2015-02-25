@@ -40,5 +40,9 @@ private:
 	LuaObjectBinds m_luaBinds;
 
 	std::vector<LuaScript*> m_globalScripts;
+
+
+	void rebuildCache();
+	static std::vector<CLuaScript*> CLuaScriptCache;
 };
 #endif
