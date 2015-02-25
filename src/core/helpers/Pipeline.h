@@ -45,7 +45,7 @@ public:
 
 	//Global usage
 	static glm::mat4 m_trans, m_rot, m_scale;
-	static glm::mat4 m_projection, m_view, VP, MVP;
+	static glm::mat4 m_projection, m_view, m_model, VP, MVP;
 	static float zNear, zFar;
 
 	static glm::vec3 Eye;

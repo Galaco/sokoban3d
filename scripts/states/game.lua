@@ -14,16 +14,16 @@
 	
 -- Create the camera
 	local camera = Camera.Create("classicCamera")
+	State.AddCamera(camera, "game")
 	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(0, 500, 0))
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
-	--Camera.ToggleMouseControl(camera);
+	Camera.ToggleMouseControl(camera);
 	Camera.SetTransform(camera, trans);
-	
+		
 	local script = CScript.Create()
 	Entity.AddComponent(camera, script, "LuaScript")
 	CScript.AddScript(script, "objects/camera/controller.lua")
 	
-	State.AddCamera(camera, "game")
 -- end

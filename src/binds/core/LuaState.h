@@ -4,6 +4,8 @@
 #include <core/StateManager.h>
 #include <core/State.h>
 
+#include "../../GAME/Sokoban.h"
+
 #include <binds/LuaClass.h>
 
 class LuaState : public LuaClass{
@@ -20,6 +22,8 @@ public:
 	static int lua_GetDirectionalLight(lua_State*);
 	static int lua_AddPointLight(lua_State*);
 	static int lua_AddScript(lua_State*);
+
+	static int lua_CreateSokoban(lua_State*);
 
 
 

@@ -136,3 +136,64 @@ void CShaderProgram::useProgram() {
 GLuint CShaderProgram::getProgramID() {
 	return uiProgram;
 }
+
+
+
+void CShaderProgram::setUniform(const char *name, float x, float y, float z)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform3f(loc, x, y, z);
+}
+
+void CShaderProgram::setUniform(const char *name, const glm::vec3 & v)
+{
+	this->setUniform(name, v.x, v.y, v.z);
+}
+
+void CShaderProgram::setUniform(const char *name, const glm::vec4 & v)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform4f(loc, v.x, v.y, v.z, v.w);
+}
+
+void CShaderProgram::setUniform(const char *name, const glm::vec2 & v)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform2f(loc, v.x, v.y);
+}
+
+void CShaderProgram::setUniform(const char *name, const glm::mat4 & m)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniformMatrix4fv(loc, 1, FALSE, &m[0][0]);
+}
+
+void CShaderProgram::setUniform(const char *name, const glm::mat3 & m)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniformMatrix3fv(loc, 1, FALSE, &m[0][0]);
+}
+
+void CShaderProgram::setUniform(const char *name, float val)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform1f(loc, val);
+}
+
+void CShaderProgram::setUniform(const char *name, int val)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform1i(loc, val);
+}
+
+void CShaderProgram::setUniform(const char *name, GLuint val)
+{
+	GLint loc = glGetUniformLocation(uiProgram, name);
+	glUniform1ui(loc, val);
+}
+
+void CShaderProgram::setUniform(const char *name, bool val)
+{
+	int loc = glGetUniformLocation(uiProgram, name);
+	glUniform1i(loc, val);
+}

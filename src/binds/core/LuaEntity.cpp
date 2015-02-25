@@ -13,7 +13,8 @@ const luaL_Reg LuaEntity::luaBinds[] = {
 	{"Destroy", lua_Destroy},
 	{"AddComponent", lua_AddComponent},
 	{"GetTransform", lua_GetTransform},
-	{"SetTransform", lua_SetTransform},
+	{ "SetTransform", lua_SetTransform },
+	{ "GetComponent", lua_GetComponent},
 	{"Find", lua_Find },
 	{NULL, NULL}
 };
@@ -90,4 +91,26 @@ int LuaEntity::lua_Find(lua_State* L)
 
 	return 0;
 		
+}
+
+
+
+int LuaEntity::lua_GetComponent(lua_State* L)
+{
+	LuaBinder binder(L);
+
+	State* state = StateManager::getActiveState();
+	Entity* e = static_cast<Entity*>(binder.checkusertype(1, "Entity"));
+	if (e != nullptr) {
+		std::vector<Component*> comp = e->getComponentsByType(binder.checkstring(2));
+		if (comp.size() > 0)
+		{
+			binder.pushusertype(static_cast<CSelectable*>(comp[0]), "Selectable");
+			return 1;
+		}
+
+	}
+
+	return 0;
+
 }

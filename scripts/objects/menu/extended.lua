@@ -1,6 +1,6 @@
-function Update()
-	if Keyboard.KeyDown("e")
-	then 
+function Update()	
+	if Keyboard.KeyDown("E")
+	then
 		State.Deprioritise("mainmenu")
 		dofile("scripts/states/extended.lua")
 	end

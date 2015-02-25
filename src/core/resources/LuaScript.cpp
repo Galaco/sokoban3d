@@ -76,6 +76,7 @@ void LuaScript::runFile(std::string fileName, std::string globalName){
 			"Vec3 = Vec3,"
 			"Game = Game,"
 			"State = State,"
+			"CSelectable = CSelectable,"
 			"Camera = Camera"
 		);
 

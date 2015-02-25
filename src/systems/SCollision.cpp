@@ -60,9 +60,7 @@ void SCollision::processSelectable(CSelectable* pComponent)
 		pComponent->setHovered(true);
 		if (Mouse::_LEFT){
 			pComponent->setSelected(true);
-			Logger::log(SUCCESS, "Item selected!");
 		}
-		Logger::log(SUCCESS, "Item selected!");
 	}
 	else {
 		pComponent->setHovered(false);

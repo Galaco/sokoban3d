@@ -5,6 +5,7 @@
 #include <core/StateManager.h>
 
 #include <binds/LuaClass.h>
+#include <components/CSelectable.h>
 
 class LuaEntity : public LuaClass{
 public:
@@ -18,7 +19,7 @@ public:
 	static int lua_AddComponent(lua_State*);
 	static int lua_GetTransform(lua_State*);
 	static int lua_SetTransform(lua_State*);
-
+	static int lua_GetComponent(lua_State* L);
 
 	static int lua_Find(lua_State*);
 

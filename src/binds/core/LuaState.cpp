@@ -7,7 +7,8 @@ LuaState::~LuaState(){
 }
 
 const luaL_Reg LuaState::luaBinds[] = {
-	{"Create", lua_Create},
+	{ "Create", lua_Create },
+	{ "CreateSokoban", lua_CreateSokoban },
 	{"Destroy", lua_Destroy},
 	{"AddEntity", lua_AddEntity},
 	{"AddCamera", lua_AddCamera },
@@ -30,6 +31,22 @@ int LuaState::lua_Create(lua_State* L)
 		StateManager::addState(s, binder.checkstring(1));
 		binder.pushusertype(s, "State");
 	} 
+	else {
+		binder.pushusertype(state, "State");
+	}
+	return 1;
+}
+
+int LuaState::lua_CreateSokoban(lua_State* L)
+{
+	LuaBinder binder(L);
+	State* state = StateManager::getState(binder.checkstring(1));
+	if (state == nullptr)
+	{
+		Sokoban* s = new Sokoban;
+		StateManager::addState(s, binder.checkstring(1));
+		binder.pushusertype(s, "State");
+	}
 	else {
 		binder.pushusertype(state, "State");
 	}

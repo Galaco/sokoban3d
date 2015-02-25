@@ -127,6 +127,18 @@
     <Filter Include="Source Files\systems\renderer">
       <UniqueIdentifier>{7837302e-22e6-4383-ac34-0f9e957de625}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{d895b2f7-90df-4aea-b147-e863878fe447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\deferred">
+      <UniqueIdentifier>{89f61d49-6c88-41fc-97f5-157e74d72555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GAME">
+      <UniqueIdentifier>{c2990430-25a8-442c-93f9-6e5eea9a45f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GAME">
+      <UniqueIdentifier>{d21d8c17-d74f-4d20-a216-3f4673d6ff37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -363,6 +375,12 @@
     <ClInclude Include="src\binds\components\LuaCSelectable.h">
       <Filter>Header Files\binds\components</Filter>
     </ClInclude>
+    <ClInclude Include="src\GAME\GameBoard.h">
+      <Filter>Header Files\GAME</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GAME\Sokoban.h">
+      <Filter>Header Files\GAME</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -593,5 +611,49 @@
     <ClCompile Include="src\binds\components\LuaCSelectable.cpp">
       <Filter>Source Files\binds\components</Filter>
     </ClCompile>
+    <ClCompile Include="src\GAME\GameBoard.cpp">
+      <Filter>Source Files\GAME</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GAME\Sokoban.cpp">
+      <Filter>Source Files\GAME</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="binaries\shaders\skybox.fs.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="binaries\shaders\skybox.vs.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\geometry_pass.vs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\point_light_pass.fs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\point_light_pass.vs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\stencil.fs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\stencil.vs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\transparency.fs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\transparency.vs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\directional_light_pass.fs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\directional_light_pass.vs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
+    <None Include="binaries\shaders\deferred\geometry_pass.fs.glsl">
+      <Filter>Shaders\deferred</Filter>
+    </None>
   </ItemGroup>
 </Project>

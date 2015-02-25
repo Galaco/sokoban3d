@@ -8,6 +8,7 @@ glm::mat4 Pipeline::m_scale;
 
 glm::mat4 Pipeline::m_projection;
 glm::mat4 Pipeline::m_view;
+glm::mat4 Pipeline::m_model;
 glm::mat4 Pipeline::VP;
 glm::mat4 Pipeline::MVP;
 glm::vec3 Pipeline::Eye = glm::vec3(0);
@@ -56,11 +57,11 @@ void Pipeline::position(glm::vec3 p){
 
 glm::mat4 Pipeline::getTransformationMatrix(){
 	//Get 3d world transformation using previous input transforms
-	glm::mat4 m_transform = glm::translate(glm::mat4(1.0f), m_vTrans);
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.y), (glm::vec3(0.f, 1.f, 0.f)));
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.x), (glm::vec3(-1.0f, 0.f, 0.f)));
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.z), (glm::vec3(0.f, 0.f, 1.f)));
-	m_transform = glm::scale(m_transform, m_vScale);
+	m_model = glm::translate(glm::mat4(1.0f), m_vTrans);
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.y), (glm::vec3(0.f, 1.f, 0.f)));
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.x), (glm::vec3(-1.0f, 0.f, 0.f)));
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.z), (glm::vec3(0.f, 0.f, 1.f)));
+	m_model = glm::scale(m_model, m_vScale);
 
 	//Reset transforms to defaults
 	m_vScale.x = 1;
@@ -73,17 +74,17 @@ glm::mat4 Pipeline::getTransformationMatrix(){
 	m_vTrans.y = 0;
 	m_vTrans.z = 0;
 
-	return VP * m_transform;
+	return VP * m_model;
 }
 
 
 glm::mat4 Pipeline::getTransformationMatrix2D(){
 	//Get transform for interface/nonworld objects
-	glm::mat4 m_transform = glm::translate(glm::mat4(1.0f), m_vTrans);
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.y), (glm::vec3(0.f, 1.f, 0.f)));
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.x), (glm::vec3(-1.0f, 0.f, 0.f)));
-	m_transform = glm::rotate(m_transform, TO_RAD(m_vRot.z), (glm::vec3(0.f, 0.f, 1.f)));
-	m_transform = glm::scale(m_transform, m_vScale);
+	m_model = glm::translate(glm::mat4(1.0f), m_vTrans);
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.y), (glm::vec3(0.f, 1.f, 0.f)));
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.x), (glm::vec3(-1.0f, 0.f, 0.f)));
+	m_model = glm::rotate(m_model, TO_RAD(m_vRot.z), (glm::vec3(0.f, 0.f, 1.f)));
+	m_model = glm::scale(m_model, m_vScale);
 
 	//Rest transforms
 	m_vScale.x = 1;
@@ -96,16 +97,16 @@ glm::mat4 Pipeline::getTransformationMatrix2D(){
 	m_vTrans.y = 0;
 	m_vTrans.z = 0;
 
-	return glm::mat4(1.f) * m_transform;
+	return glm::mat4(1.f) * m_model;
 }
 
 glm::mat4 Pipeline::getModelMatrix(){
-	glm::mat4 m_transform = glm::translate(glm::mat4(1.0f), m_vTrans);
+	m_model  = glm::translate(glm::mat4(1.0f), m_vTrans);
 	//Calcualte transform matrix
-	m_transform = glm::rotate(m_transform, m_vRot.y, (glm::vec3(0.f, 1.f, 0.f)));
-	m_transform = glm::rotate(m_transform, m_vRot.x, (glm::vec3(-1.0f, 0.f, 0.f)));
-	m_transform = glm::rotate(m_transform, m_vRot.z, (glm::vec3(0.f, 0.f, 1.f)));
-	m_transform = glm::scale(m_transform, m_vScale);
+	m_model = glm::rotate(m_model, m_vRot.y, (glm::vec3(0.f, 1.f, 0.f)));
+	m_model = glm::rotate(m_model, m_vRot.x, (glm::vec3(-1.0f, 0.f, 0.f)));
+	m_model = glm::rotate(m_model, m_vRot.z, (glm::vec3(0.f, 0.f, 1.f)));
+	m_model = glm::scale(m_model, m_vScale);
 
 	m_vScale.x = 1;
 	m_vScale.y = 1;
@@ -117,7 +118,7 @@ glm::mat4 Pipeline::getModelMatrix(){
 	m_vTrans.y = 0;
 	m_vTrans.z = 0;
 
-	return m_transform;
+	return m_model;
 }
 
 glm::mat4 Pipeline::getWorldMatrix(){

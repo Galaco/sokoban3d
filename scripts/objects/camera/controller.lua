@@ -1,10 +1,10 @@
 local moving = 0
 local dir = "up"
 
+local e = Camera.Find("extendedCamera")
 
 
 local function moveCamera(direction)
-	local e = Camera.Find("classicCamera")
 	if (direction == "up")
 	then
 		Camera.GoUp(e)

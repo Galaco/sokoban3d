@@ -151,6 +151,8 @@
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\TextureLoader.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GAME\GameBoard.h" />
+    <ClInclude Include="src\GAME\Sokoban.h" />
     <ClInclude Include="src\lua\LuaException.h" />
     <ClInclude Include="src\math\Vec3.h" />
     <ClInclude Include="src\systems\lua\LuaObjectBinds.h" />
@@ -229,6 +231,8 @@
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\TextureLoader.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GAME\GameBoard.cpp" />
+    <ClCompile Include="src\GAME\Sokoban.cpp" />
     <ClCompile Include="src\lua\LuaException.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\math\Vec3.cpp" />
@@ -244,6 +248,20 @@
     <ClCompile Include="src\systems\SCollision.cpp" />
     <ClCompile Include="src\systems\SGraphics.cpp" />
     <ClCompile Include="src\systems\SLuaScript.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="binaries\shaders\deferred\directional_light_pass.fs.glsl" />
+    <None Include="binaries\shaders\deferred\directional_light_pass.vs.glsl" />
+    <None Include="binaries\shaders\deferred\geometry_pass.fs.glsl" />
+    <None Include="binaries\shaders\deferred\geometry_pass.vs.glsl" />
+    <None Include="binaries\shaders\deferred\point_light_pass.fs.glsl" />
+    <None Include="binaries\shaders\deferred\point_light_pass.vs.glsl" />
+    <None Include="binaries\shaders\deferred\stencil.fs.glsl" />
+    <None Include="binaries\shaders\deferred\stencil.vs.glsl" />
+    <None Include="binaries\shaders\deferred\transparency.fs.glsl" />
+    <None Include="binaries\shaders\deferred\transparency.vs.glsl" />
+    <None Include="binaries\shaders\skybox.fs.glsl" />
+    <None Include="binaries\shaders\skybox.vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

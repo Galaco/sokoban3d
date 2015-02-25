@@ -51,7 +51,7 @@
 	
 --buttons
   --Classic button	
-	local e = Entity.Create("classic")	
+	--[[local e = Entity.Create("classic")	
 	State.AddEntity(e, "mainmenu")
 	local trans = Transform.Create()
 	Transform.SetPosition(trans, Vec3.Create(-0.35,0,-0.5))
@@ -70,12 +70,12 @@
 	CCollision.BuildCollisionMesh(col)
 	
 	local sel = CSelectable.Create()
-	Entity.AddComponent(e, sel, "Selectable")
+	Entity.AddComponent(e, sel, "Selectable")]]--
 	
   --Extended button	
 	local e = Entity.Create("extended")	
 	local trans = Transform.Create()
-	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.1,-0.5))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,0,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
 	CGraphics.AddText(g, "Play Extended", 6)
@@ -86,10 +86,17 @@
 	CScript.AddScript(script, "objects/menu/extended.lua")
 	State.AddEntity(e, "mainmenu")
 	
+	local col = CCollision.Create()
+	Entity.AddComponent(e, col, "Collision")
+	CCollision.BuildCollisionMesh(col)
+	
+	local sel = CSelectable.Create()
+	Entity.AddComponent(e, sel, "Selectable")
+	
   --Options button
 	local e = Entity.Create("options")	
 	local trans = Transform.Create()
-	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.2,-0.5))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.1,-0.5))
 	Entity.SetTransform(e,trans)
 	local g = CGraphics.Create()
 	CGraphics.AddText(g, "Options", 6)
@@ -103,7 +110,7 @@
   --Exit button	
 	local e = Entity.Create("quit")
 	local trans = Transform.Create()
-	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.3,-0.5))
+	Transform.SetPosition(trans, Vec3.Create(-0.35,-0.2,-0.5))
 	Entity.SetTransform(e,trans)	
 	local g = CGraphics.Create()
 	CGraphics.AddText(g, "Quit", 6)
@@ -113,6 +120,13 @@
 	Entity.AddComponent(e, script, "LuaScript")
 	CScript.AddScript(script, "objects/menu/exit.lua")
 	State.AddEntity(e, "mainmenu")
+	
+	local col = CCollision.Create()
+	Entity.AddComponent(e, col, "Collision")
+	CCollision.BuildCollisionMesh(col)
+	
+	local sel = CSelectable.Create()
+	Entity.AddComponent(e, sel, "Selectable")
 	
 	
 	Mouse.Show()
