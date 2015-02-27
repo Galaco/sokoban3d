@@ -50,10 +50,11 @@ void Game::update(){
 		// render
 		m_sGraphics.update();
 		// swap buffers for render
-		glfwSwapBuffers(m_engine.getCurrentContext());
 
 		handleInputs();
 		System::FixedUpdate();
+
+		glfwSwapBuffers(m_engine.getCurrentContext());
 	}
 
 	

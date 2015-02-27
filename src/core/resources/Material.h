@@ -16,24 +16,33 @@ Description: Loads and stores a texture from a file.
 #include <json/json.h>
 
 
+
 class Material
 {
 public:
+	enum TextureType{
+		DIFFUSE = 0,
+		NORMAL,
+		SPECULAR,
+		HEIGHT
+	};
+
 	Material();
 	Material(const char*);
 	~Material();
 
 	bool load(const char*);
 
-	GLuint texId();
+	GLuint texId(TextureType t = TextureType::DIFFUSE);
 
 
 	bool translucent;
+	bool fullbright;
 
 private:
 	void prepareDefaults();
 
 
-	Texture* m_texture;
+	Texture* m_diffuse, *m_normal, *m_specular;
 };
 #endif

@@ -15,6 +15,7 @@ Model::~Model(){
 		glDeleteVertexArrays(1, &(*it).normalBuffer);
 		glDeleteVertexArrays(1, &(*it).uiBuffer);
 		glDeleteVertexArrays(1, &(*it).uvBuffer);
+		glDeleteVertexArrays(1, &(*it).tangentBuffer);
 		++it;
 	}
 }

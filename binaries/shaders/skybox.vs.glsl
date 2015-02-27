@@ -1,13 +1,13 @@
-#version 330 core
+#version 430
 
-layout(location = 0) in vec3 vertexPosition_modelspace;
-
-out vec3 UV;
+layout(location = 0) in vec3 Position;
 
 uniform mat4 VP;
 
+out vec3 TexCoord;
+
 void main()
 {
-    UV = vertexPosition_modelspace;
-	gl_Position = VP * vec4 (vertexPosition_modelspace, 1.0);
+	gl_Position = (VP * vec4 (Position, 1.0)).xyzw;
+    TexCoord = Position;
 }

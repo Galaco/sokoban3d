@@ -30,8 +30,20 @@ public:
 
         
 private:
-	bool prepareMesh( Mesh&, Model* );
-	bool prepareNormals( Mesh&, Model* );
 	void buildMesh(Mesh& mesh, Model* m);
+
+
+
+	void generateTangents(
+		const std::vector<glm::vec3> & points,
+		const std::vector<glm::vec3> & normals,
+		const std::vector<int> & faces,
+		const std::vector<glm::vec2> & texCoords,
+		std::vector<glm::vec4> & tangents);
+	void trimString(std::string & str);
+	void generateAveragedNormals(
+		const std::vector<glm::vec3> & points,
+		std::vector<glm::vec3> & normals,
+		const std::vector<int> & faces);
 };
 #endif

@@ -45,8 +45,6 @@ Model& Text::getModel()
 void Text::generate(Model* model)
 {
 	Mesh m;
-	//std::vector<glm::vec3> vertices;
-	//std::vector<glm::vec2> UVs;
 
 	for (unsigned int i = 0; i < m_string.length(); i++){
 		glm::vec3 vertex_up_left = glm::vec3((i*m_height / 2) / 120, m_height / 120, 0);

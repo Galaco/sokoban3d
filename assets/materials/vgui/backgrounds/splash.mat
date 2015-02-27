@@ -1,4 +1,6 @@
 {
 	"diffuse": "vgui/backgrounds/splash.jpg",
-	"translucent": 0
+	"normal": "vgui/backgrounds/splash_n.jpg",
+	"translucent": 0,
+	"fullbright": 1
 }

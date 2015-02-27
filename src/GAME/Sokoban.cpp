@@ -119,27 +119,51 @@ void Sokoban::addWall(int x, int y, int face)
 	Entity * e = new Entity();
 	if (face == 0)
 	{
-		e->GetTransform()->setPosition(glm::vec3(scale * x, (scale * 4) + (scale / 2), -(scale * y)));
+		e->GetTransform()->setPosition(
+			glm::vec3(
+				(scale * x) - (scale * 4),
+				(scale * y) - (scale * 4),
+				-scale * 4
+			)
+		);
 	}
 	if (face == 1)
 	{
-		e->GetTransform()->setPosition(glm::vec3((scale*4) +(scale/2), scale * x, -(scale * y)));
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			scale * 4,
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+		);
 	}
 	if (face == 2)
 	{
-		e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale*4)-(scale / 2), -(scale * y)));
+		e->GetTransform()->setPosition(
+			glm::vec3(
+				(scale * x) - (scale * 4),
+				(scale * y) - (scale * 4),
+				scale * 4
+			)
+		);
 	}
 	if (face == 3)
 	{
-		e->GetTransform()->setPosition(glm::vec3(-(scale * 4) - (scale / 2), scale * x, -(scale * y)));
+		e->GetTransform()->setPosition(
+			glm::vec3(
+				-scale * 4,
+				(scale * y) - (scale * 4),
+				(scale * x) - (scale * 4)
+			)
+		);
 	}
 	if (face == 4)
 	{
-		e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), (scale * 4) + (scale / 2)));
+		//e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), (scale * 4) + (scale / 2)));
 	}
 	if (face == 5)
 	{
-		e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), -((scale * 4) - (scale / 2))));
+		//e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), -((scale * 4) - (scale / 2))));
 	}
 
 	e->GetTransform()->setScale(glm::vec3(scale, scale, scale));

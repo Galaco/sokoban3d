@@ -1,6 +1,6 @@
 local moving = 0
 local dir = "up"
-
+local loadCam = 0
 local e = Camera.Find("extendedCamera")
 
 
@@ -21,19 +21,19 @@ local function moveCamera(direction)
 end
 
 local function handleKeys()
-	if(Keyboard.KeyDown("i")) 
+	if(Keyboard.KeyDown("w")) 
 	then 
 		moveCamera("up")
 
-	elseif(Keyboard.KeyDown("j")) 
+	elseif(Keyboard.KeyDown("a")) 
 	then
 		moveCamera("lf")
 
-	elseif(Keyboard.KeyDown("k")) 
+	elseif(Keyboard.KeyDown("s")) 
 	then
 		moveCamera("dn")
 		
-	elseif(Keyboard.KeyDown("l")) 
+	elseif(Keyboard.KeyDown("d")) 
 	then
 		moveCamera("rt")
 
@@ -42,5 +42,10 @@ end
 
 
 function Update()
-	--handleKeys()
+	if (loadCam == 0)
+	then
+		e = Camera.Find("extendedCamera")
+		loadCam = 1
+	end
+	handleKeys()
 end

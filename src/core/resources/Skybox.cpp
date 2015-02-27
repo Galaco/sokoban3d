@@ -34,8 +34,6 @@ void Skybox::load(std::string a_sDirectory) {
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void Skybox::loadTexture(const char* path, GLenum side){
@@ -50,7 +48,7 @@ void Skybox::loadTexture(const char* path, GLenum side){
 		Logger::log(SUCCESS, str.c_str());
 	}
 
-	glTexImage2D( side, 0, GL_RGBA, image.getSize().x , image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
+	glTexImage2D( side, 0, GL_RGB, image.getSize().x , image.getSize().y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr() );
 }
 
 void Skybox::createCube(){
@@ -148,14 +146,11 @@ void Skybox::createShader()
 	m_shaderProg.addShaderToProgram(&m_shader[1]);
 	m_shaderProg.linkProgram();
 
-	m_VPLocation = glGetUniformLocation(m_shaderProg.getProgramID(), "VP");
-
-
 	shaderReady = true;
 }
 
 void Skybox::useProgram()
 {
 	m_shaderProg.useProgram();
-	glUniformMatrix4fv(m_VPLocation, 1, GL_FALSE, &Pipeline::getWorldMatrix()[0][0]);
+	m_shaderProg.setUniform("VP", Pipeline::getWorldMatrix());
 }

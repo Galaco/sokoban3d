@@ -1,19 +1,12 @@
 #include "SGraphics.h"
 
 //Initialize statics. Note these aren't required to be static, but for clarity are
-DeferredRenderer SGraphics::m_deferredRenderer;
-GeometryPass SGraphics::m_geometryPass;
-PointLightPass SGraphics::m_pointLightPass;
-DirectionalLightPass SGraphics::m_directionalLightPass;
-StencilPass	SGraphics::m_stencilPass;
-TransparencyPass SGraphics::m_transparencyPass;
-ResourceManager SGraphics::m_Resources;
-Model* SGraphics::m_directionalQuad;
-Model* SGraphics::m_pointSphere;
 std::vector<CGraphics*> SGraphics::CGraphicsCache;
 
-SGraphics::SGraphics(){
+CShaderProgram	SGraphics::m_shaderProg;
+CShader SGraphics::m_shader[2];
 
+SGraphics::SGraphics(){
 	m_PreviousState = nullptr;
 }
 
@@ -22,22 +15,24 @@ SGraphics::~SGraphics(){
 
 void SGraphics::initialize(){
 	//Initialize the renderer
-	m_deferredRenderer.initialize();
-	m_geometryPass.initialize();
-	m_geometryPass.setFbo(m_deferredRenderer.getFbo());
-	m_pointLightPass.initialize();
-	m_pointLightPass.setFbo(m_deferredRenderer.getFbo());
-	m_directionalLightPass.initialize();
-	m_directionalLightPass.setFbo(m_deferredRenderer.getFbo());
-	m_stencilPass.initialize();
-	m_stencilPass.setFbo(m_deferredRenderer.getFbo());
-	m_transparencyPass.initialize();
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/shader.vert", GL_VERTEX_SHADER);
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/shader.frag", GL_FRAGMENT_SHADER);
 
-	m_directionalQuad = m_Resources.add<Model>("shapes/quad.obj");
-	m_pointSphere = m_Resources.add<Model>("shapes/sphere.obj");
+	if (!vsLoad || !fsLoad)
+		Logger::log(FATAL, "Could not load core shader/s.");
 
-	//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	glEnable(GL_CULL_FACE);
+	m_shaderProg.createProgram();
+	m_shaderProg.addShaderToProgram(&m_shader[0]);
+	m_shaderProg.addShaderToProgram(&m_shader[1]);
+	m_shaderProg.linkProgram();
+
+
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_DEPTH_TEST);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 	
 void SGraphics::update(){
@@ -45,51 +40,36 @@ void SGraphics::update(){
 	{
 		rebuildCache();
 	}
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	//Begin frame
-	m_deferredRenderer.startFrame();
+	m_shaderProg.useProgram();
+	m_shaderProg.setUniform("EyePosition", Pipeline::Eye);
+	m_shaderProg.setUniform("SpecularExponent", 32.f);
+	m_shaderProg.setUniform("parallaxScaleBias", glm::vec2(0.04, 0.02));
 
-	//Render geometry
-	m_geometryPass.startPass();
+	//Temp
+	DirectionalLight* light = m_CurrentState->getDirectionalLight();
+	m_shaderProg.setUniform("LightPosition", glm::vec3(0.0f, 10.0f, 0.0f));
+	m_shaderProg.setUniform("Light.AmbientColor", light->Color);
+	m_shaderProg.setUniform("Light.AmbientIntensity", light->AmbientIntensity);
+	m_shaderProg.setUniform("Light.DiffuseIntensity", glm::vec3(0.8f, 0.8f, 0.8f));
+	m_shaderProg.setUniform("Light.Position", glm::vec4(0.0f, 10.0f, 0.0f, 1.0));
+	m_shaderProg.setUniform("Light.SpecularColor", 1.0, 1.0, 1.0);
+	m_shaderProg.setUniform("Light.Ls", glm::vec3(0.9f, 0.9f, 0.9f));
+
+	//drawSkybox();
+
+	//Render components
 	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
 	{
 		drawEntity((*it));
-		++it;
-	}
-	//draw
-	m_geometryPass.endPass();
-
-	//Render point lights
-	glEnable(GL_STENCIL_TEST);
-	it = CGraphicsCache.begin();
-	while (it != CGraphicsCache.end())
-	{
-		drawLight((*it));
-		++it;
-	}
-	glDisable(GL_STENCIL_TEST);
-
-	drawSkybox();
-	//Render directional/ambient light
-	drawDirectionalLight();
-
-
-	//Complete and write out the frame
-	m_deferredRenderer.endFrame();
-
-
-	m_transparencyPass.startPass();
-	it = CGraphicsCache.begin();
-	while (it != CGraphicsCache.end())
-	{
 		if ((*it)->getText())
 		{
 			drawText((*it));
 		}
 		++it;
 	}
-	m_transparencyPass.endPass();
 }
 
 void SGraphics::drawEntity(CGraphics* it)
@@ -104,14 +84,23 @@ void SGraphics::drawEntity(CGraphics* it)
 	switch(it->getRenderMode())
 	{
 	case RENDER_MODE_2D:
-		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix2D()[0][0]);
-		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &glm::mat4(1.0)[0][0]);
+		m_shaderProg.setUniform("MVP", Pipeline::getTransformationMatrix2D());
+		m_shaderProg.setUniform("V", glm::mat4(1.0));
+		m_shaderProg.setUniform("P", glm::mat4(1.0));
+		m_shaderProg.setUniform("FullBright", 1);
 		break;
 	case RENDER_MODE_3D:
-		glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
-		glUniformMatrix4fv(Pipeline::m_VPMatrix, 1, GL_TRUE, &Pipeline::getWorldMatrix()[0][0]);
+		m_shaderProg.setUniform("MVP", Pipeline::getTransformationMatrix());
+		m_shaderProg.setUniform("V", Pipeline::m_view);
+		m_shaderProg.setUniform("P", Pipeline::m_projection);
+		m_shaderProg.setUniform("FullBright", 0);
 		break;
 	}
+
+	m_shaderProg.setUniform("ModelViewMatrix", Pipeline::m_view * Pipeline::m_model);
+	m_shaderProg.setUniform("NormalMatrix", glm::mat3(glm::transpose(glm::inverse(Pipeline::m_model))));
+	m_shaderProg.setUniform("M", Pipeline::m_model);
+	m_shaderProg.setUniform("Translucent", 0);
 
 	// Render the meshes
 	MeshList& m = it->getModel()->getMeshes();
@@ -119,52 +108,46 @@ void SGraphics::drawEntity(CGraphics* it)
 	{
 		glBindVertexArray(m[i].uiVAO);
 
-		glActiveTexture(GL_TEXTURE0);
-		if (it->getOverrideMaterial(i)){
-			glBindTexture(GL_TEXTURE_2D, it->getOverrideMaterial(i)->texId());
+		Material* mat = it->getOverrideMaterial(i);
+		if (mat)
+		{
+			//DIFFUSE Texture
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, mat->texId(Material::TextureType::DIFFUSE));
+			m_shaderProg.setUniform("textureDiffuse", 0);
+
+			//NORMAL Texture
+			GLuint t = mat->texId(Material::TextureType::NORMAL);
+			if (t != 0)
+			{
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, t);
+				m_shaderProg.setUniform("textureNormal", 1);
+			}
+
+			//SPECULAR texture
+			t = mat->texId(Material::TextureType::SPECULAR);
+			if (t != 0)
+			{
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, t);
+				m_shaderProg.setUniform("textureSpecular", 2);
+			}
+
+
+			m_shaderProg.setUniform("FullBright", mat->fullbright);
+			m_shaderProg.setUniform("Translucent", mat->translucent);
 		}
 		else {
 			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
+			m_shaderProg.setUniform("textureDiffuse", 0);
+			m_shaderProg.setUniform("textureNormal", 1);
+			m_shaderProg.setUniform("textureSpecular", 2);
 		}
 		glDrawElements(GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glBindVertexArray(0);
-	}
-}
-
-void SGraphics::drawLight(CGraphics* it)
-{
-	PointLight* Light = it->getPointLight();
-	if (Light != nullptr){
-		if (m_pointSphere->getMeshes().size() < 1){
-			return;
-		}
-		Mesh* lightMesh = &m_pointSphere->getMeshes()[0];
-		/**************************************************************/
-		// Begin Stencil pass for light
-		/**************************************************************/
-		//bind for stencil pass
-		glDrawBuffer(GL_NONE);
-
-		m_stencilPass.startPass(it, Light);	
-		glBindVertexArray(lightMesh->uiVAO); 
-		glDrawElements(GL_TRIANGLES, lightMesh->m_IndexBuffer.size(), GL_UNSIGNED_SHORT,	(void*)0 );
-
-		m_stencilPass.endPass();
-
-		/**************************************************************/
-		// Begin Render pass for light
-		/**************************************************************/ 
-		//Bind for light pass
-		glDrawBuffer(GL_COLOR_ATTACHMENT4);
-		m_deferredRenderer.bindBufferTextures();	
-
-		m_pointLightPass.startPass(it, Light);
-		glDrawElements(GL_TRIANGLES, lightMesh->m_IndexBuffer.size(), GL_UNSIGNED_SHORT,	(void*)0 );
-		glBindVertexArray(0); 
-
-		m_pointLightPass.endPass();
 	}
 }
 
@@ -176,44 +159,16 @@ void SGraphics::drawSkybox()
 	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
 	if (!sky) return;
 	sky->useProgram();
-	glDepthMask(GL_FALSE);
-	//Pipeline::position(Pipeline::Eye);
-
-	//glUniformMatrix4fv(Pipeline::m_MVPMatrix, 1, GL_FALSE, &Pipeline::getTransformationMatrix()[0][0]);
 
 	glBindVertexArray(sky->getVao()); 
 
 	glEnable(GL_TEXTURE_2D);
-	//for(int i=0; i<6; ++i) { 
-		glActiveTexture(GL_TEXTURE0);
-		sky->bindTexture();
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		//sky->bindSampler(i);
-		//glDrawArrays(GL_TRIANGLE_STRIP, i*4, 4); 
-	//}
+
+	glActiveTexture(GL_TEXTURE0);
+	sky->bindTexture();
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
 	glBindVertexArray(0);
-	glDepthMask(GL_TRUE);
-}
-
-void SGraphics::drawDirectionalLight()
-{
-	if (m_CurrentState == nullptr || m_CurrentState->getDirectionalLight() == nullptr) {
-		return;
-	}
-	//Begin pass
-	glDrawBuffer(GL_COLOR_ATTACHMENT4);
-	m_deferredRenderer.bindBufferTextures();	
-	m_directionalLightPass.startPass(m_CurrentState->getDirectionalLight());
-
-	Mesh& m = m_directionalQuad->getMeshes()[0];
-	glBindVertexArray(m.uiVAO); 
-
-	glDrawElements(GL_TRIANGLES, m.m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
-
-	glBindVertexArray(0); 
-
-	//End pass
-	m_directionalLightPass.endPass();
 }
 
 void SGraphics::drawText(CGraphics* it)
@@ -229,13 +184,27 @@ void SGraphics::drawText(CGraphics* it)
 	{
 	case RENDER_MODE_2D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
-		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix2D());
+		m_shaderProg.setUniform("MVP", Pipeline::getTransformationMatrix2D());
+		m_shaderProg.setUniform("V", glm::mat4(1.0));
+		m_shaderProg.setUniform("P", glm::mat4(1.0));
+		m_shaderProg.setUniform("FullBright", 1);
 		break;
 	case RENDER_MODE_3D:
 		Pipeline::scale(it->getOwner()->GetTransform()->getScale().x, it->getOwner()->GetTransform()->getScale().y, it->getOwner()->GetTransform()->getScale().z);
-		m_transparencyPass.setTransformation(Pipeline::getTransformationMatrix());
+		m_shaderProg.setUniform("MVP", Pipeline::getTransformationMatrix());
+
+		m_shaderProg.setUniform("V", Pipeline::m_view);
+		m_shaderProg.setUniform("P", Pipeline::m_projection);
+		m_shaderProg.setUniform("FullBright", 0);
 		break;
 	}
+
+	m_shaderProg.setUniform("ModelViewMatrix", Pipeline::m_view * Pipeline::m_model);
+	m_shaderProg.setUniform("NormalMatrix", glm::mat3(glm::transpose(glm::inverse(Pipeline::m_model))));
+	m_shaderProg.setUniform("M", Pipeline::m_model);
+	m_shaderProg.setUniform("textureNormal", 0);
+	m_shaderProg.setUniform("textureSpecular", 0);
+	m_shaderProg.setUniform("Translucent", 1);
 
 	// Render the meshes
 	MeshList& m = it->getModel()->getMeshes();
@@ -245,6 +214,7 @@ void SGraphics::drawText(CGraphics* it)
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t->texture->getTexId());
+		m_shaderProg.setUniform("textureDiffuse", 0);
 
 		glDrawArrays(GL_TRIANGLES, 0, m[i].m_vertexCount);
 		glBindTexture(GL_TEXTURE_2D, 0);

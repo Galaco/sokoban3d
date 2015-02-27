@@ -1,13 +1,12 @@
-#version 330 core
+#version 430
 
-in vec3 UV;
+in vec3 TexCoord;
 uniform samplerCube cubeMap;
 
 layout( location = 0 ) out vec4 FragColour;
 
-uniform sampler2D gColorMap;
 
 void main()
 {
-	FragColour = texture (cubeMap, UV);
+	FragColour = texture (cubeMap, TexCoord);
 }

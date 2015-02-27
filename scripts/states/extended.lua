@@ -17,16 +17,15 @@
 	State.AddCamera(camera, "SOKOBAN")
 	
 	Mouse.Lock()
-	--Camera.ToggleMouseControl(camera);
-	Camera.AddSkybox(camera, "skyboxes/ambient_sky/clouds");
+	Camera.ToggleMouseControl(camera);
+	Camera.AddSkybox(camera, "skyboxes/mp_5dim/5dim");
 	
 	local trans = Transform.Create();
 	Transform.SetPosition(trans, Vec3.Create(0, 500, 0))
 	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
 	Camera.SetTransform(camera, trans);
 	
-	--local script = CScript.Create()
-	--Entity.AddComponent(camera, script, "LuaScript")
-	--CScript.AddScript(script, "objects/camera/controller.lua")
-	
+	local script = CScript.Create()
+	Entity.AddComponent(camera, script, "LuaScript")
+	CScript.AddScript(script, "objects/camera/controller.lua")
 -- end

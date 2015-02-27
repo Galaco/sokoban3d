@@ -1,4 +1,5 @@
 {
 	"diffuse": "vgui/menubg.jpg",
-	"translucent": 0
+	"translucent": 0,
+	"fullbright": 1
 }

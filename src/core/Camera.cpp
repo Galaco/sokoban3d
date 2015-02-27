@@ -19,7 +19,7 @@ Camera::Camera(){
 	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
 	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 
-	this->fov = static_cast<float>(TO_RAD(90.f));
+	this->fov = 70.f;
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
@@ -43,7 +43,7 @@ Camera::Camera(const char* name){
 	m_target = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_up     = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	this->fov = static_cast<float>(TO_RAD(90.f));
+	this->fov = 70.f;
 	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
@@ -99,7 +99,6 @@ void Camera::update(){
 	
 	Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition()+m_dir, m_up));
 
-	//Pipeline::MVP = Pipeline::VP * ModelMatrix;
 	Pipeline::Eye = m_transform.getPosition();
 
 	oldHorizontalAngle = m_transform.getOrientation().y;

@@ -27,6 +27,7 @@ Description: Storage for raw mesh data. Note the differences between
 typedef std::vector<glm::vec3> PositionBuffer;
 typedef std::vector<glm::vec3> NormalBuffer;
 typedef std::vector<glm::vec2> Tex2DBuffer;
+typedef std::vector<glm::vec4> TangentBuffer;
 typedef std::vector<unsigned short> IndexBuffer;
 
 struct Vertex
@@ -34,6 +35,7 @@ struct Vertex
 	glm::vec3   m_Pos;
 	glm::vec3   m_Normal;
 	glm::vec2   m_Tex0;
+	glm::vec4   m_Tangent;
 	int         m_StartWeight;
 	int         m_WeightCount;
 };
@@ -80,7 +82,8 @@ struct Mesh
 	NormalBuffer    m_NormalBuffer;     // Vertex normals stream
 	Tex2DBuffer     m_Tex2DBuffer;      // Texture coordinate set
 	IndexBuffer     m_IndexBuffer;      // Vertex index buffer
-	GLuint				uiVAO, uiBuffer, indexBuffer, uvBuffer, normalBuffer;
+	TangentBuffer     m_TangentBuffer;      // Vertex Tangent buffer
+	GLuint				uiVAO, uiBuffer, indexBuffer, uvBuffer, normalBuffer, tangentBuffer;
 	int iSize, iBufferType;
 	bool bDataUploaded;
 	unsigned int m_vertexCount;

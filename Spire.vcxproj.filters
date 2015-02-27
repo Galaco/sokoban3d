@@ -31,9 +31,6 @@
     <Filter Include="Header Files\systems\lua">
       <UniqueIdentifier>{05287336-754a-48b2-b6dc-793c790b746d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\systems\renderer">
-      <UniqueIdentifier>{c565ce9a-847e-4a2e-9757-9cc694553068}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\binds\components">
       <UniqueIdentifier>{31773fa4-8da6-44bf-be4f-bd7d58239fbe}</UniqueIdentifier>
     </Filter>
@@ -124,14 +121,8 @@
     <Filter Include="Source Files\lua">
       <UniqueIdentifier>{4a187223-47df-4848-beaf-a707cd741038}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\systems\renderer">
-      <UniqueIdentifier>{7837302e-22e6-4383-ac34-0f9e957de625}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{d895b2f7-90df-4aea-b147-e863878fe447}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shaders\deferred">
-      <UniqueIdentifier>{89f61d49-6c88-41fc-97f5-157e74d72555}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\GAME">
       <UniqueIdentifier>{c2990430-25a8-442c-93f9-6e5eea9a45f1}</UniqueIdentifier>
@@ -155,24 +146,6 @@
     </ClInclude>
     <ClInclude Include="src\systems\lua\LuaObjectBinds.h">
       <Filter>Header Files\systems\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\GeometryPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\PointLightPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\StencilPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\DeferredPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\DeferredRenderer.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\DirectionalLightPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\systems\SAnimation.h">
       <Filter>Header Files\systems</Filter>
@@ -327,9 +300,6 @@
     <ClInclude Include="src\core\states\SplashState.h">
       <Filter>Header Files\core\states</Filter>
     </ClInclude>
-    <ClInclude Include="src\systems\renderer\DeferredShaders.h">
-      <Filter>Header Files\systems\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\helpers\Mouse.h">
       <Filter>Header Files\core\helpers</Filter>
     </ClInclude>
@@ -350,9 +320,6 @@
     </ClInclude>
     <ClInclude Include="src\binds\core\resources\LuaText.h">
       <Filter>Header Files\binds\core\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\systems\renderer\TransparencyPass.h">
-      <Filter>Header Files\systems\renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\core\resources\Material.h">
       <Filter>Header Files\core\resources</Filter>
@@ -569,27 +536,6 @@
     <ClCompile Include="src\binds\core\resources\LuaText.cpp">
       <Filter>Source Files\binds\core\resources</Filter>
     </ClCompile>
-    <ClCompile Include="src\systems\renderer\PointLightPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\StencilPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DeferredPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DeferredRenderer.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\DirectionalLightPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\GeometryPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\systems\renderer\TransparencyPass.cpp">
-      <Filter>Source Files\systems\renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\resources\Material.cpp">
       <Filter>Source Files\core\resources</Filter>
     </ClCompile>
@@ -625,35 +571,11 @@
     <None Include="binaries\shaders\skybox.vs.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="binaries\shaders\deferred\geometry_pass.vs.glsl">
-      <Filter>Shaders\deferred</Filter>
+    <None Include="binaries\shaders\shader.vert">
+      <Filter>Shaders</Filter>
     </None>
-    <None Include="binaries\shaders\deferred\point_light_pass.fs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\point_light_pass.vs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\stencil.fs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\stencil.vs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\transparency.fs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\transparency.vs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\directional_light_pass.fs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\directional_light_pass.vs.glsl">
-      <Filter>Shaders\deferred</Filter>
-    </None>
-    <None Include="binaries\shaders\deferred\geometry_pass.fs.glsl">
-      <Filter>Shaders\deferred</Filter>
+    <None Include="binaries\shaders\shader.frag">
+      <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

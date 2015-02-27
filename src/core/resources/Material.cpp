@@ -39,20 +39,49 @@ bool Material::load(const char* filename){
 	}
 	
 	//Set material values from json
-	m_texture = ResourceManager::add<Texture>(root.get("diffuse", "vgui/defaults/error.jpg").asString());
+	m_diffuse = ResourceManager::add<Texture>(root.get("diffuse", "vgui/defaults/error.jpg").asString());
+	m_normal = ResourceManager::add<Texture>(root.get("normal", "vgui/defaults/error.jpg").asString());
+	m_specular = ResourceManager::add<Texture>(root.get("specular", "vgui/defaults/error.jpg").asString());
 	translucent = root.get("translucent", "0").asBool();
-	//More values to be added at a later date
+	fullbright = root.get("fullbright", "0").asBool();
 
 	return true;
 }
-GLuint Material::texId()
+GLuint Material::texId(TextureType t)
 {
-	if (!m_texture) return 0;
-	return m_texture->getTexId();
+	if (t == TextureType::DIFFUSE)
+	{
+		if (!m_diffuse)
+		{
+			return 0;
+		}
+		return m_diffuse->getTexId();
+	}
+	if (t == TextureType::NORMAL)
+	{
+		if (!m_normal)
+		{
+			return 0;
+		}
+		return m_normal->getTexId();
+	}
+	if (t == TextureType::SPECULAR)
+	{
+		if (!m_specular)
+		{
+			return 0;
+		}
+		return m_specular->getTexId();
+	}
+
+
+	return 0;
 }
 
 void Material::prepareDefaults()
 {
-	m_texture = ResourceManager::add<Texture>("vgui/defaults/error.jpg");
+	m_diffuse = ResourceManager::add<Texture>("vgui/defaults/error.jpg");
+	m_normal = ResourceManager::add<Texture>("vgui/defaults/error.jpg");
+	m_specular = ResourceManager::add<Texture>("vgui/defaults/error.jpg");
 	translucent = 0;
 }

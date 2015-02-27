@@ -9,7 +9,6 @@ SplashState::SplashState()
 	c->addModel("shapes/quad.obj");
 	c->setRenderMode(RENDER_MODE_2D);
 	c->addMaterial("vgui/backgrounds/splash.mat");
-	//c->addTexture("vgui/backgrounds/splash.jpg");
 	e->addComponent(c, "Graphics");
 
 	e->GetTransform()->setScale(glm::vec3(0.2f / ((float)Config::_WINDOWWIDTH / (float)Config::_WINDOWHEIGHT), 0.2f, 1.f));
@@ -25,14 +24,25 @@ SplashState::SplashState()
 void SplashState::update(float dt = 0)
 {
 	m_runningTime += dt;
-	if (m_runningTime < 1.5f && m_directionalLight->AmbientIntensity < 1.f){
-		m_directionalLight->AmbientIntensity += 0.025f;
+	if (m_runningTime < 1.5f && m_directionalLight->AmbientIntensity < 1.f)
+	{
+		m_directionalLight->AmbientIntensity += 1 * dt;
+		if (m_directionalLight->AmbientIntensity > 1.f)
+		{
+			m_directionalLight->AmbientIntensity = 1.f;
+		}
 	}
-	if (m_runningTime > 2.5f &&  m_directionalLight->AmbientIntensity > 0.f){
-		m_directionalLight->AmbientIntensity -= 0.025f;
+	if (m_runningTime > 2.5f &&  m_directionalLight->AmbientIntensity > 0.f)
+	{
+		m_directionalLight->AmbientIntensity -= 1*dt;
+		if (m_directionalLight->AmbientIntensity < 0.f)
+		{
+			m_directionalLight->AmbientIntensity = 0.f;
+		}
 	}
 
-	if (m_runningTime >= 4){
+	if (m_runningTime >= 4)
+	{
 		canDeprioritise() = true;
 	}
 }

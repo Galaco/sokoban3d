@@ -50,23 +50,13 @@ private:
 	void drawText(CGraphics*);
 	void drawSkybox();
 
-	void drawLight(CGraphics*);
-	void drawDirectionalLight();
-
 	void rebuildCache();
 
-
-    static DeferredRenderer m_deferredRenderer;
-	static GeometryPass	m_geometryPass;
-    static PointLightPass  m_pointLightPass;
-	static DirectionalLightPass m_directionalLightPass;
-    static StencilPass     m_stencilPass;
-	static TransparencyPass m_transparencyPass;
-
 	static ResourceManager m_Resources;
-	static Model*	m_directionalQuad;
-	static Model*	m_pointSphere;
-
 	static std::vector<CGraphics*> CGraphicsCache;
+
+
+	static CShaderProgram	m_shaderProg;
+	static CShader m_shader[2];
 };
 #endif
