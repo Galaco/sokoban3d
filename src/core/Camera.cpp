@@ -43,15 +43,18 @@ Camera::Camera(const char* name){
 	m_target = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_up     = glm::vec3(0.0f, 1.0f, 0.0f);
 
+	float width = (float)Config::_WINDOWWIDTH;
+	float height = (float)Config::_WINDOWHEIGHT;
+	float  ratio = (width /height);
 	this->fov = 70.f;
-	this->aspect_ratio = static_cast<float>(Config::_WINDOWWIDTH / Config::_WINDOWHEIGHT);
+	this->aspect_ratio = ratio;
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
 
 	m_pSkybox = nullptr;
 
 	m_id.gen(name);
-	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
+	Pipeline::setProjectionMatrix(glm::perspective(fov, this->aspect_ratio, near_plane, far_plane));
 	rebuildView();
 }
 

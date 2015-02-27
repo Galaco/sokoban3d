@@ -2,7 +2,7 @@
 
 unsigned int Config::_DEBUGLEVEL = 0;
 unsigned int Config::_WINDOWWIDTH = 800;
-unsigned int Config::_WINDOWHEIGHT = 800;
+unsigned int Config::_WINDOWHEIGHT = 480;
 bool	     Config::_FULLSCREEN = false;
 unsigned int Config::_ANTIALIASING = 0;
 bool	     Config::_VSYNC = false;
