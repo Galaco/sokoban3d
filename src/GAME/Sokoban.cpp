@@ -54,6 +54,10 @@ void Sokoban::load(std::string filename)
 		processCharacter(*i);
 	}
 	file.close();
+
+
+
+	addFloor();
 }
 
 
@@ -63,6 +67,11 @@ void Sokoban::processCharacter(const char& c)
 	static int currentX = 0;
 	static int currentY = 0;
 
+	if (c == '0')		// Empty Square
+	{
+		++currentX;
+		return;
+	}
 	if (c == '1')	//Wall
 	{
 		gameboards[currentBoard].set(1, currentX, currentY);
@@ -123,7 +132,7 @@ void Sokoban::addWall(int x, int y, int face)
 			glm::vec3(
 				(scale * x) - (scale * 4),
 				(scale * y) - (scale * 4),
-				-scale * 4
+				-(scale * 4) - scale
 			)
 		);
 	}
@@ -131,7 +140,7 @@ void Sokoban::addWall(int x, int y, int face)
 	{
 		e->GetTransform()->setPosition(
 			glm::vec3(
-			scale * 4,
+			(scale * 4),
 			(scale * y) - (scale * 4),
 			(scale * x) - (scale * 4)
 			)
@@ -143,7 +152,7 @@ void Sokoban::addWall(int x, int y, int face)
 			glm::vec3(
 				(scale * x) - (scale * 4),
 				(scale * y) - (scale * 4),
-				scale * 4
+				(scale * 4)
 			)
 		);
 	}
@@ -151,7 +160,7 @@ void Sokoban::addWall(int x, int y, int face)
 	{
 		e->GetTransform()->setPosition(
 			glm::vec3(
-				-scale * 4,
+				-(scale * 4) - scale,
 				(scale * y) - (scale * 4),
 				(scale * x) - (scale * 4)
 			)
@@ -159,11 +168,24 @@ void Sokoban::addWall(int x, int y, int face)
 	}
 	if (face == 4)
 	{
-		//e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), (scale * 4) + (scale / 2)));
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * 4),
+			(scale * y) - (scale * 4)
+			)
+		);
 	}
 	if (face == 5)
 	{
-		//e->GetTransform()->setPosition(glm::vec3(scale * x, -(scale * y), -((scale * 4) - (scale / 2))));
+
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			-(scale * 4) - scale,
+			(scale * y) - (scale * 4)
+			)
+		);
 	}
 
 	e->GetTransform()->setScale(glm::vec3(scale, scale, scale));
@@ -189,4 +211,23 @@ void Sokoban::addSwitch(int x, int y, int face)
 void Sokoban::addBlock(int x, int y, int face)
 {
 
+}
+
+
+void Sokoban::addFloor()
+{
+	float scale = 32.f;
+	Entity * e = new Entity();
+	e->GetTransform()->setPosition(
+		glm::vec3(-scale / 2, -scale/2, -scale / 2)
+	);
+
+	e->GetTransform()->setScale(
+		glm::vec3(scale * 8, scale * 8, scale * 8)
+		);
+	CGraphics* c = new CGraphics();
+	c->addModel("wall/wall.obj");
+	c->addMaterial("vgui/menubg.mat");
+	e->addComponent(c, "Graphics");
+	addEntity(e);
 }

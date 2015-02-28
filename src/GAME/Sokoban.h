@@ -26,6 +26,7 @@ private:
 	void processCharacter(const char& c);
 
 	void addWall(int x, int y, int face);
+	void addFloor();
 	void addPlayer(int x, int y, int face);
 	void addSwitch(int x, int y, int face);
 	void addBlock(int x, int y, int face);
