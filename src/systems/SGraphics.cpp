@@ -28,6 +28,7 @@ void SGraphics::initialize(){
 
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
@@ -63,10 +64,12 @@ void SGraphics::update(){
 	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
 	{
-		drawEntity((*it));
 		if ((*it)->getText())
 		{
 			drawText((*it));
+		}
+		else {
+			drawEntity((*it));
 		}
 		++it;
 	}
@@ -74,7 +77,7 @@ void SGraphics::update(){
 
 void SGraphics::drawEntity(CGraphics* it)
 {
-	if (!it->getModel())
+	if (!it->getModel() || !it->getOwner())
 		return;
 
 	Pipeline::position(it->getOwner()->GetTransform()->getPosition().x, it->getOwner()->GetTransform()->getPosition().y, it->getOwner()->GetTransform()->getPosition().z);

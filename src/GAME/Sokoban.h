@@ -12,7 +12,9 @@ Description:
 
 #include <core/State.h>
 #include "GameBoard.h"
+#include "../Components/CAnimation.h"
 #include "../Components/CGraphics.h"
+#include "../Components/CLuaScript.h"
 
 class Sokoban: public State {
 public:
@@ -30,5 +32,7 @@ private:
 	void addPlayer(int x, int y, int face);
 	void addSwitch(int x, int y, int face);
 	void addBlock(int x, int y, int face);
+
+	Entity* player;
 };
 #endif

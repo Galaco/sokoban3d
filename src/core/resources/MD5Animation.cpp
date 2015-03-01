@@ -1,16 +1,15 @@
 #include "MD5Animation.h"
 
 MD5Animation::MD5Animation()
-: m_iMD5Version( 0 )
-, m_iNumFrames( 0 )
-, m_iNumJoints( 0 )
-, m_iFramRate( 0 )
-, m_iNumAnimatedComponents( 0 )
-, m_fAnimDuration( 0 )
-, m_fFrameDuration( 0 )
-, m_fAnimTime( 0 )
 {
-
+	m_iMD5Version = 0;
+	m_iNumFrames = 0;
+	m_iNumJoints = 0;
+	m_iFramRate = 0;
+	m_iNumAnimatedComponents = 0;
+	m_fAnimDuration = 0;
+	m_fFrameDuration = 0;
+	m_fAnimTime = 0;
 }
 
 MD5Animation::~MD5Animation()

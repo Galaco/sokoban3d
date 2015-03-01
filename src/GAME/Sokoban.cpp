@@ -200,7 +200,87 @@ void Sokoban::addWall(int x, int y, int face)
 
 void Sokoban::addPlayer(int x, int y, int face)
 {
+	float scale = 32.f;
+	player = new Entity("PLAYER");
+	if (face == 0)
+	{
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * y) - (scale * 4),
+			-(scale * 4) - scale
+			)
+			);
+	}
+	if (face == 1)
+	{
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+	}
+	if (face == 2)
+	{
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * 4)
+			)
+			);
+	}
+	if (face == 3)
+	{
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			-(scale * 4) - scale,
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+	}
+	if (face == 4)
+	{
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * 4),
+			(scale * y) - (scale * 4)
+			)
+			);
+	}
+	if (face == 5)
+	{
 
+		player->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			-(scale * 4) - scale,
+			(scale * y) - (scale * 4)
+			)
+			);
+	}
+
+	player->GetTransform()->setOrientation(glm::vec3(0.5, 0.5, 0.5));
+	player->GetTransform()->setOrientation(glm::vec3(0, 90, 0));
+
+	CGraphics* g = new CGraphics();
+	g->addModel("player/boblampclean.md5mesh");
+	player->addComponent(g, "Graphics");
+
+
+	CAnimation* a = new CAnimation();
+	a->addAnimation("player/boblampclean.md5anim");
+	player->addComponent(a, "Animation");
+
+	CLuaScript* l = new CLuaScript;
+	l->addScript("objects/player/control.lua");
+	//player->addComponent(l, "LuaScript");
+
+	addEntity(player);
 }
 
 void Sokoban::addSwitch(int x, int y, int face)

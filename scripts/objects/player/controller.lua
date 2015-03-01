@@ -1,10 +1,11 @@
 local moving = 0
 local dir = "up"
 
+local this = nil
+local transform = nil
+local reload = 1
 
 local function turn(direction)
-	local e = Entity.Find("player")
-	local transform = Entity.GetTransform( e )
 	local rotate = Transform.GetOrientation(transform)
 	if (direction == "up")
 	then
@@ -66,8 +67,6 @@ local function handleKeys()
 end
 
 local function movePlayer(direction)
-	local e = Entity.Find("player")
-	local transform = Entity.GetTransform( e )
 	local translate = Transform.GetPosition(transform)
 	if (direction == "up")
 	then
@@ -103,6 +102,13 @@ end
 
 function Update()
 	--If necessary check movement inputs
+	
+	if (reload == 1)
+	then	
+		this = Entity.Find("PLAYER")
+		transform = Entity.GetTransform( this )
+		reload = 0
+	end
 	if (moving == 0) 
 	then 
 		handleKeys()
@@ -114,3 +120,5 @@ function Update()
 		movePlayer(dir)
 	end
 end
+
+print ("Script: Loaded player controller")

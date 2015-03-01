@@ -26,7 +26,10 @@
 
 
 -- Create the background
-	local e = Entity.Create("bg")
+	local e = Entity.Create("bg")	
+	local trans = Transform.Create()
+	Transform.SetOrientation(trans, Vec3.Create(180,0,0))
+	Entity.SetTransform(e,trans)
 	
 	local g = CGraphics.Create()
 	CGraphics.AddModel(g, "shapes/quad.obj")
