@@ -22,6 +22,8 @@ public:
 
 	void update(float dt);
 	int priority;
+
+	Entity* splash;
 protected:
 };
 #endif
