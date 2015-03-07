@@ -9,6 +9,7 @@ glm::mat4 Pipeline::m_scale;
 glm::mat4 Pipeline::m_projection;
 glm::mat4 Pipeline::m_view;
 glm::mat4 Pipeline::m_model;
+glm::mat4 Pipeline::m_ShadowVP;
 glm::mat4 Pipeline::VP;
 glm::mat4 Pipeline::MVP;
 glm::vec3 Pipeline::Eye = glm::vec3(0);

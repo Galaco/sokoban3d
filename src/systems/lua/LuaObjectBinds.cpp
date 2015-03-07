@@ -48,6 +48,8 @@ void LuaObjectBinds::bindObjects(){
 	binder.initialize("Text", LuaText::luaBinds);
 
 
+	/*	\game */
+	binder.initialize("SOKOBAN", LuaSokoban::luaBinds);
 
 	/*	\math */
 	binder.initialize("Vec3", LuaVec3::luaBinds);

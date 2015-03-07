@@ -42,6 +42,7 @@ public:
 	static GLint m_ProjectionMatrix;
 	static GLint m_ViewMatrix;
 	static GLint m_ModelMatrix;
+	static glm::mat4 m_ShadowVP;
 
 	//Global usage
 	static glm::mat4 m_trans, m_rot, m_scale;

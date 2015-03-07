@@ -33,6 +33,8 @@ Description: Pushes lua bindings to the global table of the lua stack.
 #include <binds/core/LuaState.h>
 #include <binds/math/LuaVec3.h>
 
+#include <binds/GAME/LuaSOKOBAN.h>
+
 class LuaObjectBinds {
 public:
 	LuaObjectBinds();

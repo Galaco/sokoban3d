@@ -17,15 +17,35 @@
 	State.AddCamera(camera, "SOKOBAN")
 	
 	Mouse.Lock()
-	Camera.ToggleMouseControl(camera);
+	--Camera.ToggleMouseControl(camera);
 	Camera.AddSkybox(camera, "skyboxes/mp_5dim/5dim");
+	Camera.SetMode(camera, "CAMERA_ORBIT")
 	
 	local trans = Transform.Create();
-	Transform.SetPosition(trans, Vec3.Create(0, 500, 0))
-	Transform.SetOrientation(trans, Vec3.Create(80.11, 0, 0))
+	Transform.SetPosition(trans, Vec3.Create(600, 0, -150))
+	Transform.SetOrientation(trans, Vec3.Create(3.2, 4.75, 0))
 	Camera.SetTransform(camera, trans);
 	
 	local script = CScript.Create()
 	Entity.AddComponent(camera, script, "LuaScript")
 	CScript.AddScript(script, "objects/camera/controller.lua")
 -- end
+
+
+local playerController = Entity.Create("PlayerController")
+State.AddEntity(playerController, "SOKOBAN")
+	
+local script = CScript.Create()
+Entity.AddComponent(playerController, script, "LuaScript")
+CScript.AddScript(script, "objects/player/controller.lua")
+
+
+
+--CREATE NECESSARY GLOBALS
+movesMade = 0
+
+
+
+
+
+dofile("scripts/interface/ui.lua")

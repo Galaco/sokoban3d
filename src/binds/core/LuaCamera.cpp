@@ -7,23 +7,24 @@ LuaCamera::~LuaCamera(){
 }
 
 const luaL_Reg LuaCamera::luaBinds[] = {
-	{"Create", lua_Create},
-	{"Destroy", lua_Destroy},
-	{"SetParent", lua_SetParent},
-	{"AddSkybox", lua_AddSkybox},
-	{"ActiveCamera", lua_ActiveCamera},
-	{"GoForward", lua_GoForward},
-	{"GoBackward", lua_GoBackward},
-	{"GoLeft", lua_GoLeft},
-	{"GoRight", lua_GoRight },
-	{"GoUp", lua_GoUp },
-	{"GoDown", lua_GoDown },
-	{"GetTransform", lua_GetTransform},
-	{"SetTransform", lua_SetTransform},
+	{ "Create", lua_Create },
+	{ "Destroy", lua_Destroy },
+	{ "SetParent", lua_SetParent },
+	{ "AddSkybox", lua_AddSkybox },
+	{ "ActiveCamera", lua_ActiveCamera },
+	{ "GoForward", lua_GoForward },
+	{ "GoBackward", lua_GoBackward },
+	{ "GoLeft", lua_GoLeft },
+	{ "GoRight", lua_GoRight },
+	{ "GoUp", lua_GoUp },
+	{ "GoDown", lua_GoDown },
+	{ "GetTransform", lua_GetTransform },
+	{ "SetTransform", lua_SetTransform },
 	{ "ToggleMouseControl", lua_ToggleMouse },
 	{ "Find", lua_Find },
 	{ "SetActive", lua_SetActive },
-	{NULL, NULL}
+	{ "SetMode", lua_SetMode },
+	{ NULL, NULL }
 };
 
 
@@ -164,6 +165,27 @@ int LuaCamera::lua_SetActive(lua_State* L){
 	Camera* e = state->getCamera(binder.checkstring(1));
 	if (e != nullptr) {
 		state->setCurrentCamera(e);
+	}
+
+	return 0;
+}
+
+int LuaCamera::lua_SetMode(lua_State* L){
+	LuaBinder binder(L);
+
+	Camera* e = (Camera*)binder.checkusertype(1, "Camera");
+	if (e != nullptr) {
+		std::string d = binder.checkstring(2);
+		if (d == "CAMERA_FREE_LOOK")
+		{
+			e->setCameraMode(0);
+		}
+		else {
+			if (d == "CAMERA_ORBIT")
+			{
+				e->setCameraMode(1);
+			}
+		}
 	}
 
 	return 0;

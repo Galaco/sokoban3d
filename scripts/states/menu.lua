@@ -11,8 +11,6 @@
 
 	State.RequestPriority("mainmenu")
 	
-	
-	
 -- Create the camera
 	local camera = Camera.Create("defaultCamera")
 	
@@ -93,7 +91,7 @@
 	State.AddEntity(e, "mainmenu")
 	
 	
-	Mouse.Show()
+	Mouse.Hide()
 	Mouse.Unlock()
 	
 	

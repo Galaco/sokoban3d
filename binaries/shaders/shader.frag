@@ -15,14 +15,21 @@ struct MaterialInfo {
 };
 uniform MaterialInfo Material;
 
-uniform sampler2D textureDiffuse, textureNormal, textureSpecular; 
+
+uniform sampler2D textureDiffuse, textureNormal; 
 uniform float SpecularExponent;
 
+//SHADOW MAPPING
+in vec4 ShadowCoord;   
+uniform sampler2DShadow ShadowMap;
+//END
 
 in vec3 Position;
 in vec3 Normal;
 in vec2 TexCoord;
 in vec3 Tangent;
+
+
 
 in mat3 TBN;    //TBN Matrix for Normal Calculation
 in vec2 parallaxScaleBias;
@@ -62,11 +69,26 @@ vec2 calculateParallax()
     return TexCoord;
 }
 
-void main() 
+
+subroutine void RenderPassType();
+subroutine uniform RenderPassType RenderPass;
+
+subroutine (RenderPassType)
+void recordDepth()
+{
+}
+
+subroutine (RenderPassType)
+void finalPass() 
 {
 	vec3 newnormal = calculateBump();
 	vec2 newTexCoord = calculateParallax();
-
+	
+	//Calcuate shadow
+    vec4 tmp_shadow_coords = ShadowCoord;
+    tmp_shadow_coords.z -= 0.003f; //DEPTH OFFSET DISABLE HERE 
+    float visibility = textureProj(ShadowMap, tmp_shadow_coords);
+	//visibility = 1;
 
 	if (FullBright == 1)
 	{
@@ -90,11 +112,22 @@ void main()
 
 
 		//Final output
-		FragColour = (ambient + diffuse + specular);
+		FragColour = (ambient + diffuse + specular) * visibility;
 	}
+
+
+
 
 	if (Translucent == 1)
 	{
 		FragColour.a = texture(textureDiffuse, newTexCoord);
+	} else 
+	{
+		FragColour.a = 1.0;
 	}
+}
+
+void main()
+{
+	RenderPass();
 }

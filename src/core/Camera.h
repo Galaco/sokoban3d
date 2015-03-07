@@ -23,6 +23,10 @@ Description: Representation of the players view.
 #include "helpers/Pipeline.h"
 
 #include <core/resources/Skybox.h>
+enum CameraMode{
+	CAMERA_FREE_LOOK = 0,
+	CAMERA_ORBIT
+};
 
 class Camera: public Entity{
 public:
@@ -42,6 +46,10 @@ public:
 	void goUp();
 	void goDown();
 
+	void setCameraMode(int i){
+		cameraMode = i;
+	};
+
 	bool toggleMouseControl();
 	void rebuildView();
 
@@ -57,5 +65,6 @@ private:
 	glm::vec3 oldPosition, oldRotation;
 
 	bool useMouse;
+	int cameraMode;
 };
 #endif

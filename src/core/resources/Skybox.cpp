@@ -21,12 +21,12 @@ void Skybox::load(std::string a_sDirectory) {
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_texture);
 
-	loadTexture((a_sDirectory + "_bk.jpg").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
-	loadTexture((a_sDirectory + "_ft.jpg").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
-	loadTexture((a_sDirectory + "_up.jpg").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
-	loadTexture((a_sDirectory + "_dn.jpg").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
-	loadTexture((a_sDirectory + "_rt.jpg").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
-	loadTexture((a_sDirectory + "_lf.jpg").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_X);
+	loadTexture((a_sDirectory + "_bk.png").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Z);
+	loadTexture((a_sDirectory + "_ft.png").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Z);
+	loadTexture((a_sDirectory + "_up.png").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_Y);
+	loadTexture((a_sDirectory + "_dn.png").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_Y);
+	loadTexture((a_sDirectory + "_rt.png").c_str(), GL_TEXTURE_CUBE_MAP_NEGATIVE_X);
+	loadTexture((a_sDirectory + "_lf.png").c_str(), GL_TEXTURE_CUBE_MAP_POSITIVE_X);
 
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -52,7 +52,7 @@ void Skybox::loadTexture(const char* path, GLenum side){
 }
 
 void Skybox::createCube(){
-	float size = sqrt(std::pow(zFar*0.81f, 2)/2);
+	float size = sqrt(std::pow(zFar*0.75f, 2)/2);
 
 	float points[] = {
 		-size, size, -size,

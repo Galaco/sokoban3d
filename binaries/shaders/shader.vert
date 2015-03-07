@@ -10,6 +10,12 @@ out vec3 Normal;
 out vec2 TexCoord;
 out vec3 Tangent;
 
+//Shadowmapping
+out vec3 LightPos;
+out vec4 ShadowCoord;
+uniform mat4 ShadowMatrix;
+//End
+
 out mat3 TBN;
 
 
@@ -25,10 +31,11 @@ uniform mat4 M;
 uniform mat4 V;
 uniform mat4 P;
 
+
 void calculateTBN()
 {
     vec3 Tangent0 = normalize(VertexTangent.xyz * NormalMatrix);
-	vec3 norm0=normalize( NormalMatrix * VertexNormal);
+	vec3 norm0 = normalize( NormalMatrix * VertexNormal);
     vec3 Bitangent = normalize(NormalMatrix * vec4( cross( VertexTangent.xyz, VertexNormal ) * VertexTangent.w, 0.0 ).xyz );
     TBN = mat3(Tangent0, Bitangent, norm0);
 }
@@ -41,13 +48,18 @@ void main()
     TexCoord = VertexUV;
 
 
-   vertPosEye = vec3(V * M * vec4(VertexPosition,1.0)); 
+	vertPosEye = vec3(V * M * vec4(VertexPosition,1.0)); 
      
-   lightPosEye = LightPosition;
-   targetPosEye = vec3(V  * vec4(0,0,0,1.0));
+	lightPosEye = LightPosition;
+	targetPosEye = vec3(V  * vec4(0,0,0,1.0));
 
    
-   WorldPos0 = (M * vec4(VertexPosition, 1.0)).xyz;
+	WorldPos0 = (M * vec4(VertexPosition, 1.0)).xyz;
 
-   gl_Position = P * V * M * vec4(VertexPosition,1.0);
+    //Shadowmapping
+    ShadowCoord = ShadowMatrix * vec4(VertexPosition,1.0);
+	//LightPos = vec3(V * vec4(LightPosition, 1.0));
+	//End
+
+	gl_Position = P * V * M * vec4(VertexPosition,1.0);
 }

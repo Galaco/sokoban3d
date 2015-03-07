@@ -50,13 +50,16 @@ private:
 	void drawText(CGraphics*);
 	void drawSkybox();
 
+	void generateShadowBuffer();
+
+
+
 	void rebuildCache();
 
 	static ResourceManager m_Resources;
 	static std::vector<CGraphics*> CGraphicsCache;
-
-
 	static CShaderProgram	m_shaderProg;
-	static CShader m_shader[2];
+	static CShader m_shader[3];
+	static GLuint shadowFBO, pass1Index, pass2Index;
 };
 #endif

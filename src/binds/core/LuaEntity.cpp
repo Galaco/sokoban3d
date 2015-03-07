@@ -105,7 +105,7 @@ int LuaEntity::lua_GetComponent(lua_State* L)
 		std::vector<Component*> comp = e->getComponentsByType(binder.checkstring(2));
 		if (comp.size() > 0)
 		{
-			binder.pushusertype(static_cast<CSelectable*>(comp[0]), "Selectable");
+			binder.pushusertype(static_cast<CGraphics*>(comp[0]), "Graphics");
 			return 1;
 		}
 

@@ -32,7 +32,7 @@ Engine::Engine(){
 	glfwWindowHint(GLFW_RESIZABLE, FALSE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, TRUE);
 	glViewport(0, 0, Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT);
-	//glewExperimental = GL_TRUE;
+
 	GLenum err = glewInit();
 	if (err != GLEW_OK) {
 		fprintf(stderr, "GLEW Error: %s\n", glewGetErrorString(err));

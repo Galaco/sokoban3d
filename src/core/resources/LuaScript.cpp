@@ -69,6 +69,7 @@ void LuaScript::runFile(std::string fileName, std::string globalName){
 			"os = os,"
 			"dofile = dofile,"
 			"string = string,"
+			"tostring = tostring,"
 			"Mouse = Mouse,"
 			"Keyboard = Keyboard,"
 			"Entity = Entity,"
@@ -76,7 +77,10 @@ void LuaScript::runFile(std::string fileName, std::string globalName){
 			"Vec3 = Vec3,"
 			"Game = Game,"
 			"State = State,"
+			"SOKOBAN = SOKOBAN,"
 			"CSelectable = CSelectable,"
+			"CGraphics = CGraphics,"
+			"movesMade = movesMade,"
 			"Camera = Camera"
 		);
 

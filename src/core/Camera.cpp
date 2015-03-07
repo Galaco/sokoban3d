@@ -31,6 +31,8 @@ Camera::Camera(){
 	m_id.gen();
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
 	rebuildView();
+
+	cameraMode = CameraMode::CAMERA_FREE_LOOK;
 }
 
 
@@ -56,51 +58,82 @@ Camera::Camera(const char* name){
 	m_id.gen(name);
 	Pipeline::setProjectionMatrix(glm::perspective(fov, this->aspect_ratio, near_plane, far_plane));
 	rebuildView();
+
+	cameraMode = CameraMode::CAMERA_FREE_LOOK;
 }
 
 Camera::~Camera(){
 }
 
 void Camera::update(){
-	if (useMouse)
+	if (cameraMode == CameraMode::CAMERA_FREE_LOOK)
 	{
-		m_transform.getOrientation().y += Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
-		m_transform.getOrientation().x += Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
+		if (useMouse)
+		{
+			m_transform.getOrientation().y += Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
+			m_transform.getOrientation().x += Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
+		}
+
+		//Rebuild MVP only when camera moved
+		if (m_transform.getOrientation().x == oldVerticalAngle &&
+			m_transform.getOrientation().y == oldHorizontalAngle &&
+			m_transform.getPosition() == oldPosition &&
+			m_transform.getOrientation() == oldRotation
+			) {
+
+
+			oldPosition = m_transform.getPosition();
+			oldRotation = m_transform.getOrientation();
+
+			return;
+		}
+
+		if (m_transform.getOrientation().x != oldVerticalAngle ||
+			m_transform.getOrientation().y != oldHorizontalAngle){
+			m_dir = glm::vec3(
+				-cos(m_transform.getOrientation().x) * sin(m_transform.getOrientation().y),
+				sin(m_transform.getOrientation().x),
+				-cos(m_transform.getOrientation().x) * cos(m_transform.getOrientation().y)
+				);
+
+			m_right = glm::vec3(
+				-sin(m_transform.getOrientation().y - 3.1415f / 2.0f),
+				0,
+				-cos(m_transform.getOrientation().y - 3.1415f / 2.0f)
+				);
+			m_up = glm::cross(m_right, m_dir);
+		}
+
+
+
+		Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition() + m_dir, m_up));
+	}
+	if (cameraMode == CameraMode::CAMERA_ORBIT)
+	{
+		float x = Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
+		float y = Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
+
+		m_transform.getOrientation().y += x;
+		m_transform.getOrientation().x += y;
+
+		if ((m_transform.getOrientation().x > 360) || (m_transform.getOrientation().x < -360)) m_transform.getOrientation().x = 0;
+		if ((m_transform.getOrientation().y > 360) || (m_transform.getOrientation().y < -360)) m_transform.getOrientation().y = 0;
+
+		glm::vec3 forward = glm::normalize(m_transform.getPosition() - glm::vec3(0,0,0));
+		glm::vec3 right = glm::cross(glm::vec3(0, 1, 0), forward);
+		glm::vec3 up = glm::cross(right, forward);
+
+		m_transform.getPosition() = glm::rotate(m_transform.getPosition(), -x, up);
+		m_transform.getPosition() = glm::rotate(m_transform.getPosition(), y, right);
+
+
+		forward = glm::vec3(0,0,0) - m_transform.getPosition();
+
+		m_right = glm::cross(up, forward);
+		up = glm::normalize(glm::cross(forward, m_right));
+		Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), glm::vec3(0, 0, 0), up));
 	}
 
-	//Rebuild MVP only when camera moved
-	if (m_transform.getOrientation().x == oldVerticalAngle &&
-		m_transform.getOrientation().y == oldHorizontalAngle &&
-		m_transform.getPosition() == oldPosition &&
-		m_transform.getOrientation() == oldRotation
-	) {
-
-
-		oldPosition = m_transform.getPosition();
-		oldRotation = m_transform.getOrientation();
-
-		return;
-	}
-
-	if (m_transform.getOrientation().x != oldVerticalAngle ||
-		m_transform.getOrientation().y != oldHorizontalAngle){
-		m_dir = glm::vec3(
-			-cos(m_transform.getOrientation().x) * sin(m_transform.getOrientation().y),
-			sin(m_transform.getOrientation().x),
-			-cos(m_transform.getOrientation().x) * cos(m_transform.getOrientation().y)
-			);
-
-		m_right = glm::vec3(
-			-sin(m_transform.getOrientation().y - 3.1415f / 2.0f),
-			0,
-			-cos(m_transform.getOrientation().y - 3.1415f / 2.0f)
-		);
-		m_up = glm::cross( m_right, m_dir );
-	}
-
-	
-	
-	Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition()+m_dir, m_up));
 
 	Pipeline::Eye = m_transform.getPosition();
 

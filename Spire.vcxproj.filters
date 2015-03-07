@@ -130,6 +130,12 @@
     <Filter Include="Source Files\GAME">
       <UniqueIdentifier>{d21d8c17-d74f-4d20-a216-3f4673d6ff37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\binds\GAME">
+      <UniqueIdentifier>{4d4a6425-bef1-4816-bff5-6b6236873bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\binds\GAME">
+      <UniqueIdentifier>{5d3a6d0d-1686-47cd-97a2-980451f92ec7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -348,6 +354,9 @@
     <ClInclude Include="src\GAME\Sokoban.h">
       <Filter>Header Files\GAME</Filter>
     </ClInclude>
+    <ClInclude Include="src\binds\GAME\LuaSOKOBAN.h">
+      <Filter>Header Files\binds\GAME</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Game.cpp">
@@ -563,6 +572,9 @@
     <ClCompile Include="src\GAME\Sokoban.cpp">
       <Filter>Source Files\GAME</Filter>
     </ClCompile>
+    <ClCompile Include="src\binds\GAME\LuaSOKOBAN.cpp">
+      <Filter>Source Files\binds\GAME</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="binaries\shaders\skybox.fs.glsl">
@@ -575,6 +587,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="binaries\shaders\shader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="binaries\shaders\shader.geom">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

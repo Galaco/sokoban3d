@@ -72,7 +72,10 @@ void CGraphics::addText(const char* string, double size)
 	{
 		m_pModel = new Model;
 	}
-	
+	if (m_pText)
+	{
+		delete m_pText;
+	}
 	m_pText = new Text(string, size, m_pModel);
 
 	m_pText->texture = m_Resources.add<Texture>("vgui/fonts/default.png");

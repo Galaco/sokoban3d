@@ -1,116 +1,233 @@
 local moving = 0
 local dir = "up"
+local oldFace = 0
+local face = 1
 
 local this = nil
 local transform = nil
 local reload = 1
 
 local function turn(direction)
-	local rotate = Transform.GetOrientation(transform)
-	if (direction == "up")
+	--Front
+	if (face == 0)
 	then
-		local z = Vec3.z(rotate);
-		local x = Vec3.x(rotate);
-		local y = 180;
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetOrientation(transform, nt)
-	elseif (direction == "dn")
+		local rotate = Transform.GetOrientation(transform)
+		if (direction == "up")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 180, 00)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "dn")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 180, 180)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "lf")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 180, 90)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "rt")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 180, 270)
+			Transform.SetOrientation(transform, nt)
+		end
+	end
+	--Right
+	if (face == 1)
 	then
-		local z = Vec3.z(rotate);
-		local x = Vec3.x(rotate);
-		local y = 0;
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetOrientation(transform, nt)
-	elseif (direction == "lf")
+		local rotate = Transform.GetOrientation(transform)
+		if (direction == "up")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 90, 00)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "dn")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 90, 180)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "lf")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 90, 90)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "rt")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 90, 270)
+			Transform.SetOrientation(transform, nt)
+		end
+	end
+	--Back
+	if (face == 2)
 	then
-		local z = Vec3.z(rotate);
-		local x = Vec3.x(rotate);
-		local y = 270;
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetOrientation(transform, nt)
-	elseif (direction == "rt")
+		local rotate = Transform.GetOrientation(transform)
+		if (direction == "up")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 0, 00)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "dn")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 0, 180)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "lf")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 0, 90)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "rt")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 0, 270)
+			Transform.SetOrientation(transform, nt)
+		end
+	end
+	
+	--Left
+	if (face == 3)
 	then
-		local z = Vec3.z(rotate);
-		local x = Vec3.x(rotate);
-		local y = 90;
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetOrientation(transform, nt)
+		local rotate = Transform.GetOrientation(transform)
+		if (direction == "up")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 270, 0)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "dn")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 270, 180)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "lf")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 270, 270)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "rt")
+		then
+			local nt = Vec3.Create(Vec3.x(rotate), 270, 90)
+			Transform.SetOrientation(transform, nt)
+		end
 	end
 end
 
 local function handleKeys()
-	if(Keyboard.KeyDown("w")) 
+	if(Keyboard.KeyDown("i")) 
 	then 
-		moving = 1
-		dir = "up"
-		turn(dir)
+		if(SOKOBAN.CanPlayerMove(0) == 1)
+		then
+			moving = 1
+			dir = "up"
+			turn(dir)	
+			oldFace = face
+			face = SOKOBAN.CurrentFace()
+			movesMade = movesMade + 1
+		end
 
-	elseif(Keyboard.KeyDown("a")) 
+	elseif(Keyboard.KeyDown("j")) 
 	then
-		moving = 1
-		dir = "lf"
-		turn(dir)
-
-	elseif(Keyboard.KeyDown("s")) 
+		if(SOKOBAN.CanPlayerMove(2) == 1)
+		then
+			moving = 1
+			dir = "lf"
+			turn(dir)
+			oldFace = face
+			face = SOKOBAN.CurrentFace()
+			movesMade = movesMade + 1
+		end
+	elseif(Keyboard.KeyDown("k")) 
 	then
-		moving = 1
-		dir = "dn"
-		turn(dir)
-		
-	elseif(Keyboard.KeyDown("d")) 
+		if(SOKOBAN.CanPlayerMove(1) == 1)
+		then
+			moving = 1
+			dir = "dn"
+			turn(dir)
+			oldFace = face
+			face = SOKOBAN.CurrentFace()
+			movesMade = movesMade + 1
+		end
+	elseif(Keyboard.KeyDown("l")) 
 	then
-		moving = 1
-		dir = "rt"
-		turn(dir)
-
+		if(SOKOBAN.CanPlayerMove(3) == 1)
+		then
+			moving = 1
+			dir = "rt"
+			turn(dir)
+			oldFace = face
+			face = SOKOBAN.CurrentFace()
+			movesMade = movesMade + 1
+		end
 	end
 end
 
 local function movePlayer(direction)
 	local translate = Transform.GetPosition(transform)
+	local z = Vec3.z(translate);
+	local x = Vec3.x(translate);
+	local y = Vec3.y(translate);
+	
 	if (direction == "up")
 	then
-		local z = Vec3.z(translate)-1;
-		local x = Vec3.x(translate);
-		local y = Vec3.y(translate);
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetPosition(transform, nt)
+		if (face == 0) then y = y-1 end
+		if (face == 1) then y = y-1 end
+		if (face == 2) then y = y-1 end
+		if (face == 3) then y = y-1 end
 	elseif (direction == "dn")
 	then
-		local z = Vec3.z(translate)+1;
-		local x = Vec3.x(translate);
-		local y = Vec3.y(translate);
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetPosition(transform, nt)
+		if (face == 0) then y = y+1 end
+		if (face == 1) then y = y+1 end
+		if (face == 2) then y = y+1 end
+		if (face == 3) then y = y+1 end
 	elseif (direction == "lf")
 	then
-		local z = Vec3.z(translate);
-		local x = Vec3.x(translate)-1;
-		local y = Vec3.y(translate);
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetPosition(transform, nt)
+		if (face == 0) then x = x-1 end
+		if (face == 1) then z = z-1 end
+		if (face == 2) then x = x+1 end
+		if (face == 3) then z = z+1 end
 	elseif (direction == "rt")
 	then
-		local z = Vec3.z(translate);
-		local x = Vec3.x(translate)+1;
-		local y = Vec3.y(translate);
-		local nt = Vec3.Create(x, y, z)
-		Transform.SetPosition(transform, nt)
+		if (face == 0) then x = x+1 end
+		if (face == 1) then z = z+1 end
+		if (face == 2) then x = x-1 end
+		if (face == 3) then z = z-1 end
 	end
+	
+	if (oldFace ~= face)
+	then
+		if (oldFace == 0)
+		then
+			if(face == 3) then x = x-1 end
+			if(face == 1) then x = x+1 end
+			if(face == 4) then end
+			if(face == 5) then end
+		end
+		if (oldFace == 1)
+		then
+			if(face == 0) then z = z-1 end
+			if(face == 2) then z = z+1 end
+			if(face == 4) then end
+			if(face == 5) then end
+		end
+		if (oldFace == 2)
+		then
+			if(face == 1) then x = x+1 end
+			if(face == 3) then x = x-1 end
+			if(face == 4) then end
+			if(face == 5) then end
+		end
+		if (oldFace == 3)
+		then
+			if(face == 2) then z = z+1 end
+			if(face == 0) then z = z-1 end
+			if(face == 4) then end
+			if(face == 5) then end
+		end
+	end
+	local nt = Vec3.Create(x, y, z)
+	Transform.SetPosition(transform, nt)
 end
 
 
 function Update()
 	--If necessary check movement inputs
-	
 	if (reload == 1)
 	then	
 		this = Entity.Find("PLAYER")
 		transform = Entity.GetTransform( this )
 		reload = 0
 	end
+	
 	if (moving == 0) 
 	then 
+	
 		handleKeys()
 	elseif(moving == 31) 
 	then 

@@ -4,7 +4,10 @@
 std::vector<CGraphics*> SGraphics::CGraphicsCache;
 
 CShaderProgram	SGraphics::m_shaderProg;
-CShader SGraphics::m_shader[2];
+CShader SGraphics::m_shader[3];
+GLuint SGraphics::shadowFBO;
+GLuint SGraphics::pass1Index;
+GLuint SGraphics::pass2Index;
 
 SGraphics::SGraphics(){
 	m_PreviousState = nullptr;
@@ -17,14 +20,21 @@ void SGraphics::initialize(){
 	//Initialize the renderer
 	bool vsLoad = m_shader[0].loadShader("binaries/shaders/shader.vert", GL_VERTEX_SHADER);
 	bool fsLoad = m_shader[1].loadShader("binaries/shaders/shader.frag", GL_FRAGMENT_SHADER);
+	bool gsLoad = m_shader[2].loadShader("binaries/shaders/shader.geom", GL_GEOMETRY_SHADER);
 
-	if (!vsLoad || !fsLoad)
+	if (!vsLoad || !fsLoad || !gsLoad)
 		Logger::log(FATAL, "Could not load core shader/s.");
 
 	m_shaderProg.createProgram();
 	m_shaderProg.addShaderToProgram(&m_shader[0]);
 	m_shaderProg.addShaderToProgram(&m_shader[1]);
+	//m_shaderProg.addShaderToProgram(&m_shader[2]);
 	m_shaderProg.linkProgram();
+
+
+	pass1Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "recordDepth");
+	pass2Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "finalPass");
+	generateShadowBuffer();
 
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -32,8 +42,48 @@ void SGraphics::initialize(){
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
+	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	Pipeline::m_ShadowVP = glm::mat4(
+		glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
+		glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
+		glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)
+		)
+		* Pipeline::m_projection
+		* glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+}
+
+
+void SGraphics::generateShadowBuffer()
+{
+
+	// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
+	GLuint FramebufferName = 0;
+	glGenFramebuffers(1, &FramebufferName);
+	glBindFramebuffer(GL_FRAMEBUFFER, FramebufferName);
+
+	// Depth texture. Slower than a depth buffer, but you can sample it later in your shader
+	GLuint depthTexture;
+	glGenTextures(1, &depthTexture);
+	glBindTexture(GL_TEXTURE_2D, depthTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, depthTexture, 0);
+
+	glDrawBuffer(GL_NONE); // No color buffer is drawn to.
+
+	// Always check that our framebuffer is ok
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		Logger::log(FATAL, "Renderer: Failed to successfully generate Framebuffer");
+
+	m_shaderProg.setUniform("ShadowMap", 0);
 }
 	
 void SGraphics::update(){
@@ -42,6 +92,8 @@ void SGraphics::update(){
 		rebuildCache();
 	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
 	
 	m_shaderProg.useProgram();
 	m_shaderProg.setUniform("EyePosition", Pipeline::Eye);
@@ -50,7 +102,7 @@ void SGraphics::update(){
 
 	//Temp
 	DirectionalLight* light = m_CurrentState->getDirectionalLight();
-	m_shaderProg.setUniform("LightPosition", glm::vec3(0.0f, 10.0f, 0.0f));
+	m_shaderProg.setUniform("LightPosition", glm::vec3(0.0f, 100.0f, 0.0f));
 	m_shaderProg.setUniform("Light.AmbientColor", light->Color);
 	m_shaderProg.setUniform("Light.AmbientIntensity", light->AmbientIntensity);
 	m_shaderProg.setUniform("Light.DiffuseIntensity", glm::vec3(0.8f, 0.8f, 0.8f));
@@ -58,8 +110,14 @@ void SGraphics::update(){
 	m_shaderProg.setUniform("Light.SpecularColor", 1.0, 1.0, 1.0);
 	m_shaderProg.setUniform("Light.Ls", glm::vec3(0.9f, 0.9f, 0.9f));
 
-	//drawSkybox();
-
+	
+	glCullFace(GL_FRONT);
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
+	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass1Index);
+	glm::mat4 camView = Pipeline::m_view;
+	Pipeline::setViewMatrix(glm::lookAt(glm::vec3(0, 10, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 	//Render components
 	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
@@ -73,6 +131,31 @@ void SGraphics::update(){
 		}
 		++it;
 	}
+
+	Pipeline::setViewMatrix(camView);
+
+	glFlush();
+	glFinish();
+
+
+	glCullFace(GL_BACK);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
+	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass2Index);
+	it = CGraphicsCache.begin();
+	while (it != CGraphicsCache.end())
+	{
+		if ((*it)->getText())
+		{
+			drawText((*it));
+		}
+		else {
+			drawEntity((*it));
+		}
+		++it;
+	}
+	drawSkybox();
 }
 
 void SGraphics::drawEntity(CGraphics* it)
@@ -105,6 +188,8 @@ void SGraphics::drawEntity(CGraphics* it)
 	m_shaderProg.setUniform("M", Pipeline::m_model);
 	m_shaderProg.setUniform("Translucent", 0);
 
+	m_shaderProg.setUniform("ShadowMatrix", Pipeline::m_ShadowVP * Pipeline::m_model);
+
 	// Render the meshes
 	MeshList& m = it->getModel()->getMeshes();
 	for (unsigned int i = 0; i < m.size(); ++i)
@@ -128,29 +213,30 @@ void SGraphics::drawEntity(CGraphics* it)
 				m_shaderProg.setUniform("textureNormal", 1);
 			}
 
-			//SPECULAR texture
-			t = mat->texId(Material::TextureType::SPECULAR);
-			if (t != 0)
-			{
-				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, t);
-				m_shaderProg.setUniform("textureSpecular", 2);
-			}
-
-
 			m_shaderProg.setUniform("FullBright", mat->fullbright);
 			m_shaderProg.setUniform("Translucent", mat->translucent);
+			if (mat->translucent)
+			{
+				glEnable(GL_BLEND);
+			}
 		}
 		else {
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
 			m_shaderProg.setUniform("textureDiffuse", 0);
 			m_shaderProg.setUniform("textureNormal", 1);
-			m_shaderProg.setUniform("textureSpecular", 2);
 		}
 		glDrawElements(GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glBindVertexArray(0);
+		if (mat)
+		{
+			if (mat->translucent)
+			{
+				glDisable(GL_BLEND);
+			}
+		}
 	}
 }
 
@@ -206,7 +292,6 @@ void SGraphics::drawText(CGraphics* it)
 	m_shaderProg.setUniform("NormalMatrix", glm::mat3(glm::transpose(glm::inverse(Pipeline::m_model))));
 	m_shaderProg.setUniform("M", Pipeline::m_model);
 	m_shaderProg.setUniform("textureNormal", 0);
-	m_shaderProg.setUniform("textureSpecular", 0);
 	m_shaderProg.setUniform("Translucent", 1);
 
 	// Render the meshes

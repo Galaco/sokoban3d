@@ -5,7 +5,7 @@
 #include <core/StateManager.h>
 
 #include <binds/LuaClass.h>
-#include <components/CSelectable.h>
+#include <components/CGraphics.h>
 
 class LuaEntity : public LuaClass{
 public:

@@ -3,40 +3,12 @@ local dir = "up"
 local loadCam = 0
 local e = Camera.Find("extendedCamera")
 
-
-local function moveCamera(direction)
-	if (direction == "up")
-	then
-		Camera.GoUp(e)
-	elseif (direction == "dn")
-	then
-		Camera.GoDown(e)
-	elseif (direction == "lf")
-	then
-		Camera.GoLeft(e)
-	elseif (direction == "rt")
-	then
-		Camera.GoRight(e)
-	end
-end
-
 local function handleKeys()
-	if(Keyboard.KeyDown("w")) 
+	if(Keyboard.KeyDown("r")) 
 	then 
-		moveCamera("up")
-
-	elseif(Keyboard.KeyDown("a")) 
-	then
-		moveCamera("lf")
-
-	elseif(Keyboard.KeyDown("s")) 
-	then
-		moveCamera("dn")
-		
-	elseif(Keyboard.KeyDown("d")) 
-	then
-		moveCamera("rt")
-
+		local trans = Camera.GetTransform(e)
+		Transform.SetPosition(trans, Vec3.Create(600, 0, -150))
+		Transform.SetOrientation(trans, Vec3.Create(3.2, 4.75, 0))
 	end
 end
 
