@@ -97,6 +97,31 @@ local function turn(direction)
 			Transform.SetOrientation(transform, nt)
 		end
 	end
+	
+	
+	
+	--Top
+	if (face == 4)
+	then
+		local rotate = Transform.GetOrientation(transform)
+		if (direction == "up")
+		then
+			local nt = Vec3.Create(90, Vec3.y(rotate), 0)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "dn")
+		then
+			local nt = Vec3.Create(90, Vec3.y(rotate), 180)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "lf")
+		then
+			local nt = Vec3.Create(90, Vec3.y(rotate), 90)
+			Transform.SetOrientation(transform, nt)
+		elseif (direction == "rt")
+		then
+			local nt = Vec3.Create(90, Vec3.y(rotate), 270)
+			Transform.SetOrientation(transform, nt)
+		end
+	end
 end
 
 local function handleKeys()
@@ -160,24 +185,32 @@ local function movePlayer(direction)
 		if (face == 1) then y = y-1 end
 		if (face == 2) then y = y-1 end
 		if (face == 3) then y = y-1 end
+		if (face == 4) then x = x+1 end
+		if (face == 5) then x = x-1 end
 	elseif (direction == "dn")
 	then
 		if (face == 0) then y = y+1 end
 		if (face == 1) then y = y+1 end
 		if (face == 2) then y = y+1 end
 		if (face == 3) then y = y+1 end
+		if (face == 4) then x = x-1 end
+		if (face == 5) then x = x+1 end
 	elseif (direction == "lf")
 	then
 		if (face == 0) then x = x-1 end
 		if (face == 1) then z = z-1 end
 		if (face == 2) then x = x+1 end
 		if (face == 3) then z = z+1 end
+		if (face == 4) then z = z-1 end
+		if (face == 5) then z = z+1 end
 	elseif (direction == "rt")
 	then
 		if (face == 0) then x = x+1 end
 		if (face == 1) then z = z+1 end
 		if (face == 2) then x = x-1 end
 		if (face == 3) then z = z-1 end
+		if (face == 4) then z = z+1 end
+		if (face == 5) then z = z-1 end
 	end
 	
 	if (oldFace ~= face)
@@ -186,29 +219,29 @@ local function movePlayer(direction)
 		then
 			if(face == 3) then x = x-1 end
 			if(face == 1) then x = x+1 end
-			if(face == 4) then end
-			if(face == 5) then end
+			if(face == 4) then y = y+1 end
+			if(face == 5) then y = y-1 end
 		end
 		if (oldFace == 1)
 		then
 			if(face == 0) then z = z-1 end
 			if(face == 2) then z = z+1 end
-			if(face == 4) then end
-			if(face == 5) then end
+			if(face == 4) then y = y+1 end
+			if(face == 5) then y = y-1 end
 		end
 		if (oldFace == 2)
 		then
 			if(face == 1) then x = x+1 end
 			if(face == 3) then x = x-1 end
-			if(face == 4) then end
-			if(face == 5) then end
+			if(face == 4) then y = y+1 end
+			if(face == 5) then y = y-1 end
 		end
 		if (oldFace == 3)
 		then
 			if(face == 2) then z = z+1 end
 			if(face == 0) then z = z-1 end
-			if(face == 4) then end
-			if(face == 5) then end
+			if(face == 4) then y = y+1 end
+			if(face == 5) then y = y-1 end
 		end
 	end
 	local nt = Vec3.Create(x, y, z)

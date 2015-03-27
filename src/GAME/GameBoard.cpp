@@ -51,7 +51,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 				return true;
 			}
 		}
-		if (board[y-1][x] == 0)	//Empty square
+		if (board[y-1][x] == 0 || board[y-1][x] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
 			return true;
@@ -68,7 +68,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 				return true;
 			}
 		}
-		if (board[y + 1][x] == 0)	//Empty square
+		if (board[y + 1][x] == 0 || board[y + 1][x] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
 			return true;
@@ -85,7 +85,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 				return true;
 			}
 		}
-		if (board[y][x - 1] == 0)	//Empty square
+		if (board[y][x - 1] == 0 || board[y][x-1] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
 			return true;
@@ -102,7 +102,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 				return true;
 			}
 		}
-		if (board[y][x + 1] == 0)	//Empty square
+		if (board[y][x + 1] == 0 || board[y][x+1] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
 			return true;
@@ -113,7 +113,67 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 
 bool GameBoard::canBlockMove(int x, int y, int dir)
 {
-	return 1;
+	//For a non-edge position
+	if (dir == 0)	//Move Up
+	{
+		if (y == 0)
+		{
+			if (connections[2]->board[7][x] == 0)
+			{
+				return true;
+			}
+		}
+		if (board[y - 1][x] == 0)	//Empty square
+		{
+			return true;
+		}
+	}
+	else
+		if (dir == 1)	//Move Down
+		{
+			if (y == 7)
+			{
+				if (connections[3]->board[0][x] == 0)
+				{
+					return true;
+				}
+			}
+			if (board[y + 1][x] == 0)	//Empty square
+			{
+				return true;
+			}
+		}
+		else
+			if (dir == 2)	//Move Left
+			{
+				if (x == 0)
+				{
+					if (connections[1]->board[y][7] == 0)
+					{
+						return true;
+					}
+				}
+				if (board[y][x - 1] == 0)	//Empty square
+				{
+					return true;
+				}
+			}
+			else
+				if (dir == 3)	//Move Right
+				{
+					if (x == 7)
+					{
+						if (connections[0]->board[y][0] == 0)
+						{
+							return true;
+						}
+					}
+					if (board[y][x + 1] == 0)	//Empty square
+					{
+						return true;
+					}
+				}
+	return false;
 
 }
 
@@ -187,124 +247,56 @@ void GameBoard::MovePlayer(int x, int y, int dir)
 
 void GameBoard::MoveBlock(int x, int y, int dir)
 {
-	if (dir == 0)
+	if (dir == 0)		//UP
 	{
-		if (y != 7)
+		if (y != 0)
 		{
-			if (board[x][y + 1] == 3)
-			{
-				board[x][y + 1] = 6;
-			}
-			else {
-				board[x][y + 1] = 2;
-			}
-			if (board[x][y] == 2)
-			{
-				board[x][y] = 0;
-			}
-			else {
-				board[x][y] = 3;
-			}
+			board[x - 1][y] = 4;
+			board[y][x] = 0;
 		}
 		else {	//Next Board
-			if (connections[2]->board[x][0] == 3)
-			{
-				connections[2]->board[x][0] = 6;
-			}
-			else {
-				connections[2]->board[x][0] = 2;
-			}
+			connections[2]->board[y][7] = 4;
+			board[y][x] = 0;
 		}
 	}
 	else
 
-	if (dir == 1)	//DOWN
-	{
-		if (y != 7)
+		if (dir == 1)	//DOWN
 		{
-			if (board[x][y - 1] == 3)
+			if (y != 7)
 			{
-				board[x][y - 1] = 6;
+				board[x + 1][y] = 4;
+				board[y][x] = 0;
 			}
-			else {
-				board[x][y - 1] = 2;
-			}
-			if (board[x][y] == 2)
-			{
-				board[x][y] = 0;
-			}
-			else {
-				board[x][y] = 3;
+			else {	//Next Board
+				connections[3]->board[y][0] = 4;
+				board[y][x] = 0;
 			}
 		}
-		else {	//Next Board
-			if (connections[3]->board[x][7] == 3)
+		else
+			if (dir == 2)	//LEFT
 			{
-				connections[3]->board[x][7] = 6;
+				if (x != 0)
+				{
+					board[y][x - 1] = 4;
+					board[y][x] = 0;
+				}
+				else {	//Next Board
+					connections[1]->board[7][x] = 4;
+					board[y][x] = 0;
+				}
 			}
-			else {
-				connections[3]->board[x][7] = 2;
-			}
-		}
-	}
-	else
-	if (dir == 2)	//LEFT
-	{
-		if (y != 0)
-		{
-			if (board[x - 1][y] == 3)
-			{
-				board[x - 1][y] = 6;
-			}
-			else {
-				board[x - 1][y] = 2;
-			}
-			if (board[x][y] == 2)
-			{
-				board[x][y] = 0;
-			}
-			else {
-				board[x][y] = 3;
-			}
-		}
-		else {	//Next Board
-			if (connections[0]->board[7][y] == 3)
-			{
-				connections[0]->board[7][y] = 6;
-			}
-			else {
-				connections[0]->board[7][y] = 2;
-			}
-		}
-	}
-	else
-	if (dir == 3)	//RIGHT
-	{
-		if (y != 0)
-		{
-			if (board[x + 1][y] == 3)
-			{
-				board[x + 1][y] = 6;
-			}
-			else {
-				board[x + 1][y] = 2;
-			}
-			if (board[x][y] == 2)
-			{
-				board[x][y] = 0;
-			}
-			else {
-				board[x][y] = 3;
-			}
-		}
-		else {	//Next Board
-			if (connections[0]->board[0][y] == 3)
-			{
-				connections[0]->board[0][y] = 6;
-			}
-			else {
-				connections[0]->board[0][y] = 2;
-			}
-		}
-	}
+			else
+				if (dir == 3)	//RIGHT
+				{
+					if (x != 7)
+					{
+						board[y][x + 1] = 4;
+						board[y][x] = 0;
+					}
+					else {	//Next Board
+						connections[0]->board[0][x] = 4;
+						board[y][x] = 0;
+					}
+				}
 }

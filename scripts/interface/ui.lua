@@ -1,7 +1,6 @@
 --ui.lua
 
 --Create Variables
-movesMade = 0
 currentLevel = 1
 
 

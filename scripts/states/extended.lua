@@ -1,4 +1,8 @@
 -- extended.lua
+
+--CREATE NECESSARY GLOBALS
+movesMade = 0
+
 -- Initialize the main 3d state
 	State.CreateSokoban("SOKOBAN")
 	
@@ -41,8 +45,7 @@ CScript.AddScript(script, "objects/player/controller.lua")
 
 
 
---CREATE NECESSARY GLOBALS
-movesMade = 0
+
 
 
 

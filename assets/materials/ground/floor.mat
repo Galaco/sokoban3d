@@ -1,5 +1,6 @@
 {
 	"diffuse": "ground/floor.jpg",
+	"normal": "ground/floor_n.jpg",
 	"translucent": 0,
 	"fullbright": 0
 }

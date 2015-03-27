@@ -1,0 +1,7 @@
+{
+	"diffuse": "block/block.png",
+	"normal": "block/block_n.png",
+	"specular": "block/block_s.png",
+	"translucent": 0,
+	"fullbright": 0
+}

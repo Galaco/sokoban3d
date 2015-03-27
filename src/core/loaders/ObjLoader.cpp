@@ -5,151 +5,193 @@ ObjLoader::ObjLoader(){
 }
 
 ObjLoader::~ObjLoader(){
-    
+
 }
 
 Model* ObjLoader::load(std::string path){
 	Model* m = new Model;
 	m->setFormat("obj");
-	std::vector <glm::vec3> points;
-	std::vector <glm::vec3> normals;
-	std::vector <glm::vec2> texCoords;
-	std::vector <int> faces, uvIndex;
-
-	int nFaces = 0;
-
-	std::ifstream objStream(path, std::ios::in);
-
-	if (!objStream) {
-		return m;
-	}
-
-	std::string line, token;
-	std::vector<int> face;
-
-	getline(objStream, line);
-	while (!objStream.eof()) {
-		trimString(line);
-		if (line.length() > 0 && line.at(0) != '#') {
-			std::istringstream lineStream(line);
-
-			lineStream >> token;
-
-			if (token == "v") {
-				float x, y, z;
-				lineStream >> x >> y >> z;
-				points.push_back(glm::vec3(x, y, z));
-			}
-			else if (token == "vt") {
-				// Process texture coordinate
-				float s, t;
-				lineStream >> s >> t;
-				texCoords.push_back(glm::vec2(s, t));
-			}
-			else if (token == "vn") {
-				float x, y, z;
-				lineStream >> x >> y >> z;
-				normals.push_back(glm::vec3(x, y, z));
-			}
-			else if (token == "f") {
-				nFaces++;
-
-				// Process face
-				face.clear();
-				size_t slash1, slash2;
-				//int point, texCoord, normal;
-				while (lineStream.good()) {
-					std::string vertString;
-					lineStream >> vertString;
-					int pIndex = -1, nIndex = -1, tcIndex = -1;
-
-					slash1 = vertString.find("/");
-					if (slash1 == std::string::npos){
-						pIndex = atoi(vertString.c_str()) - 1;
-					}
-					else {
-						slash2 = vertString.find("/", slash1 + 1);
-						pIndex = atoi(vertString.substr(0, slash1).c_str())
-							- 1;
-						if (slash2 > slash1 + 1) {
-							tcIndex =
-								atoi(vertString.substr(slash1 + 1, slash2).c_str())
-								- 1;
-						}
-						nIndex =
-							atoi(vertString.substr(slash2 + 1, vertString.length()).c_str())
-							- 1;
-					}
-					if (pIndex == -1) {
-						printf("Missing point index!!!");
-					}
-					else {
-						face.push_back(pIndex);
-					}
-				}
-				// If number of edges in face is greater than 3,
-				// decompose into triangles as a triangle fan.
-				if (face.size() > 3) {
-					int v0 = face[0];
-					int v1 = face[1];
-					int v2 = face[2];
-					// First face
-					faces.push_back(v0);
-					faces.push_back(v1);
-					faces.push_back(v2);
-					for (GLuint i = 3; i < face.size(); i++) {
-						v1 = v2;
-						v2 = face[i];
-						faces.push_back(v0);
-						faces.push_back(v1);
-						faces.push_back(v2);
-					}
-				}
-				else {
-					faces.push_back(face[0]);
-					faces.push_back(face[1]);
-					faces.push_back(face[2]);
-				}
-			}
-		}
-		getline(objStream, line);
-	}
-
-	objStream.close();
-
-	if (normals.size() == 0) {
-		generateAveragedNormals(points, normals, faces);
-	}
-
-	std::vector<glm::vec4> tangents;
-	if (texCoords.size() > 0) {
-		generateTangents(points, normals, faces, texCoords, tangents);
-	}
+	int vertexOffset = 1;
+	int uvOffset = 1;
+	int normalOffset = 1;
 
 	Mesh mesh;
-	mesh.m_PositionBuffer = points;
-	mesh.m_NormalBuffer = normals;
-	mesh.m_Tex2DBuffer = texCoords;
-	mesh.m_TangentBuffer = tangents;
-
-	std::vector<Triangle> faceList;
+	std::vector<GLfloat> storedNormals, storedUVs;
+	std::vector<glm::vec3> localVertices, localNormals;
+	std::vector<glm::vec2> localUVs;
+	TriangleList triangles;
 	std::vector<unsigned short> indices;
-	for (unsigned int i = 0; i < faces.size(); i += 3)
+	std::ifstream file;
+	std::string type, d;
+	GLfloat coordx, coordy, coordz;
+	GLushort val = 0;
+	file.open(path);
+	if (!(file.is_open()))
 	{
-		Triangle triangle;
-		triangle.m_Indices[0] = faces[i];
-		triangle.m_Indices[1] = faces[i+1];
-		triangle.m_Indices[2] = faces[i+2];
-		faceList.push_back(triangle);
-		indices.push_back(faces[i]);
-		indices.push_back(faces[i+1]);
-		indices.push_back(faces[i+2]);
+		std::cout << "Model: could not load " << path << std::endl;
+		return false;
+	}
+	while (file >> type)
+	{
+		if (type == "v")
+		{
+			file >> coordx;
+			file >> coordy;
+			file >> coordz;
+			localVertices.push_back(glm::vec3(coordx, coordy, coordz));
+		}
+		else
+			if (type == "f") //Note needs rewriting for support for models that have neither normals NOR UVs
+			{
+				getline(file, d, '\n');
+				std::stringstream ver(d);
+
+				for (unsigned int i = 0; i < 3; ++i)
+				{
+					std::string rawVert;
+					ver >> rawVert;
+					std::stringstream vert(rawVert);
+					std::string segment;
+					std::vector<std::string> seglist;
+					Triangle triangle;
+					while (std::getline(vert, segment, '/'))
+					{
+						seglist.push_back(segment);
+					}
+
+					if (seglist.size() == 1){
+						if (d != "") {
+							val = atoi(seglist[0].c_str());
+							indices.push_back(val - vertexOffset);
+							triangle.m_Indices[i] = val - vertexOffset;
+						}
+					}
+					else
+						if (seglist.size() == 2){
+							if (seglist[0] != "") {
+								val = atoi(seglist[0].c_str());
+								indices.push_back(val - vertexOffset);
+								triangle.m_Indices[i] = val - vertexOffset;
+							}
+							if (seglist[1] != "") {
+								val = atoi(seglist[1].c_str());
+								storedUVs.push_back((float)(val)-uvOffset);
+							}
+						}
+						else
+							if (seglist.size() == 3){
+								if (seglist[0] != "") {
+									val = atoi(seglist[0].c_str());
+									indices.push_back(val - vertexOffset);
+									triangle.m_Indices[i] = val - vertexOffset;
+								}
+								if (seglist[1] != "") {
+									val = atoi(seglist[1].c_str());
+									storedUVs.push_back((float)(val)-uvOffset);
+								}
+								if (seglist[2] != "") {
+									val = atoi(seglist[2].c_str());
+									storedNormals.push_back((float)(val)-normalOffset);
+								}
+							}
+
+					triangles.push_back(triangle);
+				}
+			}
+			else
+				if (type == "vn")
+				{
+					file >> coordx;
+					file >> coordy;
+					file >> coordz;
+					localNormals.push_back(glm::vec3(coordx, coordy, coordz));
+				}
+				else
+					if (type == "vt")
+					{
+						file >> coordx;
+						file >> coordy;
+						localUVs.push_back(glm::vec2(coordx, coordy));
+					}
+					else
+						if (type == "o" && localVertices.size() != 0)
+						{
+							file >> d;
+							Logger::log(INFO, d.c_str());
+							Mesh nthMesh;
+							for (unsigned int i = 0; i < localVertices.size(); ++i){
+								Vertex v;
+								v.m_Pos = localVertices[i];
+
+								if (localNormals.size() > i) {
+									v.m_Normal = localNormals[i];
+								}
+								else {
+									v.m_Normal = glm::vec3(0, 1, 0);
+								}
+
+								if (localUVs.size() > i){
+									v.m_Tex0 = localUVs[i];
+								}
+								else {
+									v.m_Tex0 = glm::vec2(0, 1);
+								}
+								nthMesh.m_Verts.push_back(v);
+							}
+
+							//nthMesh.m_Tris = triangles;
+							nthMesh.m_IndexBuffer = indices;
+
+							this->prepareMesh(nthMesh, m);
+							this->prepareNormals(nthMesh, m);
+							this->buildMesh(nthMesh, m);
+
+							vertexOffset = localVertices.size() + 1;
+							uvOffset = localUVs.size() + 1;
+							normalOffset = localNormals.size() + 1;
+							localVertices.clear();
+							localNormals.clear();
+							localUVs.clear();
+							indices.clear();
+							storedUVs.clear();
+							storedNormals.clear();
+						}
+						else
+						{
+							getline(file, d, '\n');
+						}
 	}
 
-	mesh.m_IndexBuffer = indices;
-	mesh.m_Tris = faceList;
+	file.close();
 
+	for (unsigned int i = 0; i < localVertices.size(); ++i){
+		Vertex v;
+		v.m_Pos = localVertices[i];
+
+		if (localNormals.size() > i) {
+			v.m_Normal = localNormals[i];
+		}
+		else {
+			v.m_Normal = glm::vec3(0, 1, 0);
+		}
+
+		if (localUVs.size() > i){
+			v.m_Tex0 = localUVs[i];
+		}
+		else {
+			v.m_Tex0 = glm::vec2(0, 1);
+		}
+
+		mesh.m_Verts.push_back(v);
+	}
+
+	//nthMesh.m_Tris = triangles;
+	mesh.m_IndexBuffer = indices;
+
+	this->prepareMesh(mesh, m);
+	this->prepareNormals(mesh, m);
 	this->buildMesh(mesh, m);
+
 	return m;
 }
 
@@ -170,10 +212,6 @@ void ObjLoader::buildMesh(Mesh& mesh, Model* m)
 	glGenBuffers(1, &mesh.normalBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh.normalBuffer);
 	glBufferData(GL_ARRAY_BUFFER, mesh.m_NormalBuffer.size() * sizeof(glm::vec3), &mesh.m_NormalBuffer[0], GL_STATIC_DRAW);
-
-	glGenBuffers(1, &mesh.tangentBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.tangentBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.m_TangentBuffer.size() * sizeof(glm::vec4), &mesh.m_TangentBuffer[0], GL_STATIC_DRAW);
 
 	// Generate a buffer for the indices as well
 	glGenBuffers(1, &mesh.indexBuffer);
@@ -216,18 +254,6 @@ void ObjLoader::buildMesh(Mesh& mesh, Model* m)
 		(void*)0                          // array buffer offset
 		);
 
-	// 4rd attribute buffer : tangents
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.tangentBuffer);
-	glVertexAttribPointer(
-		3,                                // attribute
-		4,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-		);
-
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 
 	glBindVertexArray(0);
@@ -235,102 +261,66 @@ void ObjLoader::buildMesh(Mesh& mesh, Model* m)
 	m->addMesh(mesh);
 }
 
-void ObjLoader::generateAveragedNormals(
-	const std::vector<glm::vec3> & points,
-	std::vector<glm::vec3> & normals,
-	const std::vector<int> & faces)
+// Compute the position of the vertices in object local space
+// in the skeleton's bind pose
+bool ObjLoader::prepareMesh(Mesh& mesh, Model* m)
 {
-	for (glm::uint i = 0; i < points.size(); i++) {
-		normals.push_back(glm::vec3(0.0f));
+	mesh.m_PositionBuffer.clear();
+	mesh.m_Tex2DBuffer.clear();
+
+	// Compute vertex positions
+	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
+	{
+		Vertex& vert = mesh.m_Verts[i];
+
+		mesh.m_PositionBuffer.push_back(vert.m_Pos);
+		mesh.m_Tex2DBuffer.push_back(vert.m_Tex0);
 	}
 
-	for (glm::uint i = 0; i < faces.size(); i += 3) {
-		const glm::vec3 & p1 = points[faces[i]];
-		const glm::vec3 & p2 = points[faces[i + 1]];
-		const glm::vec3 & p3 = points[faces[i + 2]];
+	mesh.m_NormalBuffer.clear();
 
-		glm::vec3 a = p2 - p1;
-		glm::vec3 b = p3 - p1;
-		glm::vec3 n = glm::normalize(glm::cross(a, b));
+	// Loop through all triangles and calculate the normal of each triangle
+	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
+	{
+		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
+		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
+		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
 
-		normals[faces[i]] += n;
-		normals[faces[i + 1]] += n;
-		normals[faces[i + 2]] += n;
+		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
+
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
 	}
-
-	for (glm::uint i = 0; i < normals.size(); i++) {
-		normals[i] = glm::normalize(normals[i]);
-	}
+	return true;
 }
 
-void ObjLoader::generateTangents(
-	const std::vector<glm::vec3> & points,
-	const std::vector<glm::vec3> & normals,
-	const std::vector<int> & faces,
-	const std::vector<glm::vec2> & texCoords,
-	std::vector<glm::vec4> & tangents)
+
+// Compute the vertex normals in the Mesh's bind pose
+bool ObjLoader::prepareNormals(Mesh& mesh, Model* m)
 {
-	std::vector<glm::vec3> tan1Accum;
-	std::vector<glm::vec3> tan2Accum;
+	mesh.m_NormalBuffer.clear();
 
-	for (glm::uint i = 0; i < points.size(); i++) {
-		tan1Accum.push_back(glm::vec3(0.0f));
-		tan2Accum.push_back(glm::vec3(0.0f));
-		tangents.push_back(glm::vec4(0.0f));
-	}
-
-	// Compute the tangent vector
-	for (glm::uint i = 0; i < faces.size(); i += 3)
+	// Loop through all triangles and calculate the normal of each triangle
+	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
 	{
-		const glm::vec3 &p1 = points[faces[i]];
-		const glm::vec3 &p2 = points[faces[i + 1]];
-		const glm::vec3 &p3 = points[faces[i + 2]];
+		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
+		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
+		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
 
-		const glm::vec2 &tc1 = texCoords[faces[i]];
-		const glm::vec2 &tc2 = texCoords[faces[i + 1]];
-		const glm::vec2 &tc3 = texCoords[faces[i + 2]];
+		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
 
-		glm::vec3 q1 = p2 - p1;
-		glm::vec3 q2 = p3 - p1;
-		float s1 = tc2.x - tc1.x, s2 = tc3.x - tc1.x;
-		float t1 = tc2.y - tc1.y, t2 = tc3.y - tc1.y;
-		float r = 1.0f / (s1 * t2 - s2 * t1);
-		glm::vec3 tan1((t2*q1.x - t1*q2.x) * r,
-			(t2*q1.y - t1*q2.y) * r,
-			(t2*q1.z - t1*q2.z) * r);
-		glm::vec3 tan2((s1*q2.x - s2*q1.x) * r,
-			(s1*q2.y - s2*q1.y) * r,
-			(s1*q2.z - s2*q1.z) * r);
-		tan1Accum[faces[i]] += tan1;
-		tan1Accum[faces[i + 1]] += tan1;
-		tan1Accum[faces[i + 2]] += tan1;
-		tan2Accum[faces[i]] += tan2;
-		tan2Accum[faces[i + 1]] += tan2;
-		tan2Accum[faces[i + 2]] += tan2;
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
+		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
 	}
 
-	for (glm::uint i = 0; i < points.size(); ++i)
+	// Now normalize all the normals
+	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
 	{
-		const glm::vec3 &n = normals[i];
-		glm::vec3 &t1 = tan1Accum[i];
-		glm::vec3 &t2 = tan2Accum[i];
-
-		// Gram-Schmidt orthogonalize
-		tangents[i] = glm::vec4(glm::normalize(t1 - (glm::dot(n, t1) * n)), 0.0f);
-		// Store handedness in w
-		tangents[i].w = (glm::dot(glm::cross(n, t1), t2) < 0.0f) ? -1.0f : 1.0f;
+		Vertex& vert = mesh.m_Verts[i];
+		mesh.m_NormalBuffer.push_back(vert.m_Normal);
 	}
-	tan1Accum.clear();
-	tan2Accum.clear();
+
+	return true;
 }
-
-
-void ObjLoader::trimString(std::string & str) {
-	const char * whiteSpace = " \t\n\r";
-	size_t location;
-	location = str.find_first_not_of(whiteSpace);
-	str.erase(0, location);
-	location = str.find_last_not_of(whiteSpace);
-	str.erase(location + 1);
-}
-

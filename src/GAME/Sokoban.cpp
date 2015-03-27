@@ -5,26 +5,26 @@ Sokoban::Sokoban()
 	//FRONT
 	gameboards[0].addConnection(&gameboards[1], 0); //R
 	gameboards[0].addConnection(&gameboards[3], 1); //l
-	gameboards[0].addConnection(&gameboards[4], 2); //u
-	gameboards[0].addConnection(&gameboards[5], 3); //d
+	gameboards[0].addConnection(&gameboards[5], 2); //u
+	gameboards[0].addConnection(&gameboards[4], 3); //d
 	gameboards[0].face = 0;
 	//RIGHT
 	gameboards[1].addConnection(&gameboards[2], 0);
 	gameboards[1].addConnection(&gameboards[0], 1);
-	gameboards[1].addConnection(&gameboards[4], 2);
-	gameboards[1].addConnection(&gameboards[5], 3);
+	gameboards[1].addConnection(&gameboards[5], 2);
+	gameboards[1].addConnection(&gameboards[4], 3);
 	gameboards[1].face = 1;
 	//BACK
 	gameboards[2].addConnection(&gameboards[3], 0);
 	gameboards[2].addConnection(&gameboards[1], 1);
-	gameboards[2].addConnection(&gameboards[4], 2);
-	gameboards[2].addConnection(&gameboards[5], 3);
+	gameboards[2].addConnection(&gameboards[5], 2);
+	gameboards[2].addConnection(&gameboards[4], 3);
 	gameboards[2].face = 2;
 	//LEFT
 	gameboards[3].addConnection(&gameboards[0], 0);
 	gameboards[3].addConnection(&gameboards[2], 1);
-	gameboards[3].addConnection(&gameboards[4], 2);
-	gameboards[3].addConnection(&gameboards[5], 3);
+	gameboards[3].addConnection(&gameboards[5], 2);
+	gameboards[3].addConnection(&gameboards[4], 3);
 	gameboards[3].face = 3;
 	//UP
 	gameboards[4].addConnection(&gameboards[3], 0);
@@ -86,6 +86,22 @@ void Sokoban::processCharacter(const char& c)
 		gameboards[currentBoard].set(1, currentX, currentY);
 		originalgameboards[currentBoard].set(1, currentX, currentY);
 		addWall(currentX, currentY, currentBoard);
+		++currentX;
+		return;
+	}
+	if (c == '2')	//Block
+	{
+		gameboards[currentBoard].set(2, currentX, currentY);
+		originalgameboards[currentBoard].set(2, currentX, currentY);
+		addBlock(currentX, currentY, currentBoard);
+		++currentX;
+		return;
+	}
+	if (c == '3')	//Switch
+	{
+		gameboards[currentBoard].set(3, currentX, currentY);
+		originalgameboards[currentBoard].set(3, currentX, currentY);
+		addSwitch(currentX, currentY, currentBoard);
 		++currentX;
 		return;
 	}
@@ -186,7 +202,7 @@ void Sokoban::addWall(int x, int y, int face)
 	e->GetTransform()->setScale(glm::vec3(scale, scale, scale));
 
 	CGraphics* c = new CGraphics();
-	c->addModel("wall/wall.obj");
+	c->addModel("wall/cube.obj");
 	c->addMaterial("wall/wall.mat");
 	e->addComponent(c, "Graphics");
 
@@ -277,12 +293,160 @@ void Sokoban::addPlayer(int x, int y, int face)
 
 void Sokoban::addSwitch(int x, int y, int face)
 {
+	float scale = 32.f;
+	Entity * e = new Entity();
+	if (face == 0)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * y) - (scale * 4),
+			-(scale * 4) - scale / 2
+			)
+			);
+		e->GetTransform()->setScale(glm::vec3(scale, scale, 2));
+	}
+	if (face == 1)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+		e->GetTransform()->setScale(glm::vec3(2, scale, scale));
+	}
+	if (face == 2)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * (7 - x)) - (scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * 4)
+			)
+			);
+		e->GetTransform()->setScale(glm::vec3(scale, scale, 2));
+	}
+	if (face == 3)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			-(scale * 4) - scale / 2,
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+		e->GetTransform()->setScale(glm::vec3(2, scale, scale));
+	}
+	if (face == 4)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * 4),
+			(scale * y) - (scale * 4)
+			)
+			);
+		e->GetTransform()->setScale(glm::vec3(scale, 2, scale));
+	}
+	if (face == 5)
+	{
 
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			-(scale * 4) - scale/2,
+			(scale * y) - (scale * 4)
+			)
+			);
+
+		e->GetTransform()->setScale(glm::vec3(scale, 2, scale));
+	}
+
+
+	CGraphics* c = new CGraphics();
+	c->addModel("wall/wall.obj");
+	c->addMaterial("switch/switch.mat");
+	e->addComponent(c, "Graphics");
+
+	addEntity(e);
 }
 
 void Sokoban::addBlock(int x, int y, int face)
 {
+	float scale = 32.f;
+	Entity * e = new Entity();
+	if (face == 0)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * y) - (scale * 4),
+			-(scale * 4) - scale
+			)
+			);
+	}
+	if (face == 1)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+	}
+	if (face == 2)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * (7 - x)) - (scale * 4),
+			(scale * y) - (scale * 4),
+			(scale * 4)
+			)
+			);
+	}
+	if (face == 3)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			-(scale * 4) - scale,
+			(scale * y) - (scale * 4),
+			(scale * x) - (scale * 4)
+			)
+			);
+	}
+	if (face == 4)
+	{
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			(scale * 4),
+			(scale * y) - (scale * 4)
+			)
+			);
+	}
+	if (face == 5)
+	{
 
+		e->GetTransform()->setPosition(
+			glm::vec3(
+			(scale * x) - (scale * 4),
+			-(scale * 4) - scale,
+			(scale * y) - (scale * 4)
+			)
+			);
+	}
+
+	e->GetTransform()->setScale(glm::vec3(16, 16, 16));
+
+	CGraphics* c = new CGraphics();
+	c->addModel("shapes/sphere.obj");
+	c->addMaterial("block/block.mat");
+	e->addComponent(c, "Graphics");
+
+	addEntity(e);
 }
 
 
@@ -298,7 +462,7 @@ void Sokoban::addFloor()
 		glm::vec3(scale * 8, scale * 8, scale * 8)
 		);
 	CGraphics* c = new CGraphics();
-	c->addModel("wall/wall.obj");
+	c->addModel("wall/cube.obj");
 	c->addMaterial("ground/floor.mat");
 	e->addComponent(c, "Graphics");
 	addEntity(e);

@@ -40,8 +40,8 @@ bool Material::load(const char* filename){
 	
 	//Set material values from json
 	m_diffuse = ResourceManager::add<Texture>(root.get("diffuse", "vgui/defaults/error.jpg").asString());
-	m_normal = ResourceManager::add<Texture>(root.get("normal", "vgui/defaults/error.jpg").asString());
-	m_specular = ResourceManager::add<Texture>(root.get("specular", "vgui/defaults/error.jpg").asString());
+	m_normal = ResourceManager::add<Texture>(root.get("normal", "vgui/defaults/error_n.jpg").asString());
+	m_specular = ResourceManager::add<Texture>(root.get("specular", "vgui/defaults/error_s.jpg").asString());
 	translucent = root.get("translucent", "0").asBool();
 	fullbright = root.get("fullbright", "0").asBool();
 
