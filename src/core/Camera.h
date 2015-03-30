@@ -36,8 +36,8 @@ public:
 
 	void update();
         
-	void addSkybox(Skybox*);
-	Skybox* getSkybox();
+	void addSkybox(std::string);
+	Skybox& getSkybox();
     
 	void goForward();
 	void goBackward();
@@ -55,7 +55,7 @@ public:
 
 	float horizontalAngle, verticalAngle;
 private:
-	Skybox* m_pSkybox;
+	Skybox m_pSkybox;
 	glm::vec3 m_up, m_target, m_dir, m_right;
 	float fov, aspect_ratio, near_plane, far_plane;
 

@@ -26,7 +26,6 @@ Camera::Camera(){
 
 	useMouse = false;
         
-    m_pSkybox = nullptr;
 
 	m_id.gen();
 	Pipeline::setProjectionMatrix(glm::perspective(fov, aspect_ratio, near_plane, far_plane));
@@ -37,23 +36,27 @@ Camera::Camera(){
 
 
 Camera::Camera(const char* name){
+	oldHorizontalAngle = -1;
+	oldVerticalAngle = -1;
+	oldPosition = glm::vec3(-63.65432f);
 	horizontalAngle = 3.14f;
 	verticalAngle = 0.0f;
 	speed = 5.0f; // 3 units / second
 	mouseSpeed = 0.010f;
 
 	m_target = glm::vec3(0.0f, 0.0f, 1.0f);
-	m_up     = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 
 	float width = (float)Config::_WINDOWWIDTH;
 	float height = (float)Config::_WINDOWHEIGHT;
 	float  ratio = (width /height);
+
 	this->fov = 70.f;
 	this->aspect_ratio = ratio;
 	this->near_plane = 0.25f;
 	this->far_plane = 4096.f;
 
-	m_pSkybox = nullptr;
 
 	m_id.gen(name);
 	Pipeline::setProjectionMatrix(glm::perspective(fov, this->aspect_ratio, near_plane, far_plane));
@@ -143,14 +146,14 @@ void Camera::update(){
 	oldRotation = m_transform.getOrientation();
 }
 
-void Camera::addSkybox(Skybox* skybox){
-    m_pSkybox = skybox;
-	m_pSkybox->setzFar(far_plane);
-	m_pSkybox->createCube();
+void Camera::addSkybox(std::string name){
+	m_pSkybox.load(name);
+	m_pSkybox.setzFar(far_plane);
+	m_pSkybox.createCube();
 }
 
 
-Skybox* Camera::getSkybox(){
+Skybox& Camera::getSkybox(){
     return m_pSkybox;  
 }
 

@@ -21,7 +21,6 @@ public:
 	static int lua_AddCamera(lua_State*);
 	static int lua_GetDirectionalLight(lua_State*);
 	static int lua_AddPointLight(lua_State*);
-	static int lua_AddScript(lua_State*);
 
 	static int lua_CreateSokoban(lua_State*);
 

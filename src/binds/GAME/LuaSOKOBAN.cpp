@@ -15,15 +15,11 @@ const luaL_Reg LuaSokoban::luaBinds[] = {
 int LuaSokoban::lua_CanPlayerMove(lua_State* L)
 {
 	LuaBinder binder(L);
-	Sokoban* state = static_cast<Sokoban*>(StateManager::getState("SOKOBAN"));
-	if (!state)
-	{
-		return 0;
-	}
+	Sokoban& state = static_cast<Sokoban&>(StateManager::getState("SOKOBAN"));
 
-	GameBoard g = state->getGameBoard((int)state->getPlayerPosition().z);
+	GameBoard g = state.getGameBoard((int)state.getPlayerPosition().z);
 
-	bool move = g.canPlayerMove(state->getPlayerPosition().x, state->getPlayerPosition().y, binder.checknumber(1));
+	bool move = g.canPlayerMove((int)state.getPlayerPosition().x, (int)state.getPlayerPosition().y, (int)binder.checknumber(1));
 	if (move)
 	{
 		binder.pushnumber(1);
@@ -55,13 +51,9 @@ int LuaSokoban::lua_BlockMove(lua_State* L)
 int LuaSokoban::lua_GetCurrentFace(lua_State* L)
 {
 	LuaBinder binder(L);
-	Sokoban* state = static_cast<Sokoban*>(StateManager::getState("SOKOBAN"));
-	if (!state)
-	{
-		return 0;
-	}
+	Sokoban& state = static_cast<Sokoban&>(StateManager::getState("SOKOBAN"));
 
-	binder.pushnumber(state->getPlayerPosition().z);
+	binder.pushnumber(state.getPlayerPosition().z);
 
 	return 1;
 }

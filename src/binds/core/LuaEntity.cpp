@@ -83,14 +83,9 @@ int LuaEntity::lua_Find(lua_State* L)
 	LuaBinder binder(L);
 
 	State* state = StateManager::getActiveState();
-	Entity* e = state->getEntity(binder.checkstring(1));
-	if (e != nullptr) {
-		binder.pushusertype(e, "Entity");
-		return 1;
-	}
-
-	return 0;
-		
+	Entity e = state->getEntity(binder.checkstring(1));
+	binder.pushusertype(&e, "Entity");
+	return 1;		
 }
 
 

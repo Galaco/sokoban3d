@@ -17,7 +17,6 @@ Description: Contains the main game loop. Responsible for System &
 #include <SFML/System.hpp>
 
 #include <core/StateManager.h>
-#include <core/states/SplashState.h>
 
 #include "systems/SGraphics.h"
 #include "systems/SAnimation.h"

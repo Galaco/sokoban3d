@@ -35,6 +35,10 @@ Description: Pushes lua bindings to the global table of the lua stack.
 
 #include <binds/GAME/LuaSOKOBAN.h>
 
+
+
+#include <LuaBridge/LuaBridge.h>
+
 class LuaObjectBinds {
 public:
 	LuaObjectBinds();
@@ -44,6 +48,7 @@ public:
 	void setLuaState(lua_State* L);
 
 	void bindObjects();
+	void bind();
 
 private:
     lua_State* m_masterState;

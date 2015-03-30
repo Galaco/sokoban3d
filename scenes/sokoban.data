@@ -1,0 +1,40 @@
+{
+	"scene" : 
+	{
+		"settings" : {
+			"mouse" : {
+				"hidden" : true,
+				"locked" : false
+			}
+		},
+		"directionalLight" : {
+			"color" : {
+				"r" : 1,
+				"g" : 1,
+				"b" : 1
+			},
+			"ambience": 1,
+			"diffuse" : 0.2
+		},
+		"cameras" : {
+			"extendedCamera" : {
+				"name" : "extendedCamera",
+				"transform" : {
+					"pX" : 600,
+					"pY" : 0,
+					"pZ" : -150,
+					"rX" : 3.2,
+					"rY" : 4.75,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"skybox" : "skyboxes/mp_5dim/5dim",
+				"mode" : "CAMERA_ORBIT"
+			}
+		},
+		"entities" : {
+		}
+	}
+}

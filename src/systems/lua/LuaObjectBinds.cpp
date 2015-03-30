@@ -54,3 +54,35 @@ void LuaObjectBinds::bindObjects(){
 	/*	\math */
 	binder.initialize("Vec3", LuaVec3::luaBinds);
 }
+
+void LuaObjectBinds::bind()
+{
+	luabridge::getGlobalNamespace(m_masterState)
+		//gameobject
+		.beginClass<Entity>("entity")
+		.addData("components", &Entity::m_transform)
+		.endClass()
+
+
+
+		//Components
+		.beginClass<Component>("component")
+		.endClass()
+
+		.deriveClass<CAnimation, Component>("animation")
+		.endClass()
+
+		.deriveClass<CGraphics, Component>("graphics")
+		.endClass()
+
+		.deriveClass<CCollision, Component>("collision")
+		.endClass()
+
+		.deriveClass<CSelectable, Component>("selectable")
+		.endClass();
+
+
+
+
+
+}

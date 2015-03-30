@@ -18,6 +18,8 @@ Description: A state within the state machine. Could also be referred
 #include <core/resources/PointLight.h>
 #include <core/resources/LuaScript.h>
 
+#include <json/json.h>
+
 class State {
 public:
 	State();
@@ -25,29 +27,30 @@ public:
 
 	virtual void update(float dt);
 	
-	std::map<std::string, Entity*>& getEntities();
-	std::vector<Camera*>& getCameras();
-	std::vector<PointLight*>& getPointLights();
+	std::map<std::string, Entity>& getEntities();
+	std::vector<Camera>& getCameras();
+	std::vector<PointLight>& getPointLights();
 
-	void addEntity(Entity*);
-	void addCamera(Camera*);
-	void addPointLight(PointLight*);
-	void addScript(LuaScript*);
+	bool load(std::string filename);
 
-	Entity* getEntity(std::string);
-	Camera* getCamera(std::string);
+	void addEntity(Entity);
+	void addCamera(Camera);
+	void addPointLight(PointLight);
+
+	Entity& getEntity(std::string);
+	Camera& getCamera(std::string);
 	Camera* getCurrentCamera();
 	void setCurrentCamera(Camera* camera);
-	DirectionalLight* getDirectionalLight();
+	DirectionalLight& getDirectionalLight();
 
 
 	bool& wantsPriority();
 	bool& canDeprioritise();
 
 	unsigned int priority;
+	std::string m_name;
 	
 protected:
-	std::string m_name;
 
 	bool requestedPriority;
 	bool canHalt;
@@ -55,10 +58,9 @@ protected:
 
 	Camera* m_currentCamera;
 
-	std::map<std::string, Entity*>	m_mEntityList;
-	std::vector<Camera*>	m_mCameraList;
-	std::vector<PointLight*>	m_listPointLight;
-	DirectionalLight*	m_directionalLight;
-	std::vector<LuaScript *>	m_listScript;
+	std::map<std::string, Entity>	m_mEntityList;
+	std::vector<Camera>	m_mCameraList;
+	std::vector<PointLight>	m_listPointLight;
+	DirectionalLight	m_directionalLight;
 };
 #endif

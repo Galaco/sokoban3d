@@ -26,20 +26,21 @@ public:
 	static void terminate();
 	static void update(float dt);
 
-	static void addState(State*, std::string);
+	static State& addState(std::string);
+	static State& addState(State state, std::string name);
 
-	static void setActiveState(State*);
+	static void setActiveState(std::string statename);
 	static State* getActiveState();
 
 
-	static State* getState(std::string);
+	static State& getState(std::string);
 
 
 	static void requestPriority(std::string);
         
 
 private:
-	static std::map<std::string, State*> m_stateList;
+	static std::map<std::string, State> m_stateList;
 	static State* m_pActiveState;
 };
 #endif

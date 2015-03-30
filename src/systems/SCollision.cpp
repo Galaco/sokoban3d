@@ -10,11 +10,11 @@ void SCollision::initialize(){
 }
 	
 void SCollision::update(float dt){
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	std::map<std::string, Entity> entityList = m_CurrentState->getEntities();
 
 	auto it = entityList.begin();
 	while(it != entityList.end()) {
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Selectable");
+		std::vector<Component*> cList = (*it).second.getComponentsByType("Selectable");
 		auto CIterator = cList.begin();
 		while(CIterator != cList.end())
 		{
@@ -22,7 +22,7 @@ void SCollision::update(float dt){
 			++CIterator;
 		}
 
-		cList = (*it).second->getComponentsByType("Collision");
+		cList = (*it).second.getComponentsByType("Collision");
 		CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{

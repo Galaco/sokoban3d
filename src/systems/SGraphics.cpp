@@ -91,33 +91,29 @@ void SGraphics::update(){
 	{
 		rebuildCache();
 	}
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-	
 	m_shaderProg.useProgram();
 	m_shaderProg.setUniform("EyePosition", Pipeline::Eye);
 	m_shaderProg.setUniform("SpecularExponent", 32.f);
 	m_shaderProg.setUniform("parallaxScaleBias", glm::vec2(0.04, 0.02));
 
 	//Temp
-	DirectionalLight* light = m_CurrentState->getDirectionalLight();
-	m_shaderProg.setUniform("LightPosition", glm::vec3(0.0f, 100.0f, 0.0f));
-	m_shaderProg.setUniform("Light.AmbientColor", light->Color);
-	m_shaderProg.setUniform("Light.AmbientIntensity", light->AmbientIntensity);
+	DirectionalLight light = m_CurrentState->getDirectionalLight();
+	m_shaderProg.setUniform("LightPosition", glm::vec3(400.0f, 0.0f, 0.0f));
+	m_shaderProg.setUniform("Light.AmbientColor", light.Color);
+	m_shaderProg.setUniform("Light.AmbientIntensity", light.AmbientIntensity);
 	m_shaderProg.setUniform("Light.DiffuseIntensity", glm::vec3(0.8f, 0.8f, 0.8f));
-	m_shaderProg.setUniform("Light.Position", glm::vec4(0.0f, 10.0f, 0.0f, 1.0));
+	m_shaderProg.setUniform("Light.Position", glm::vec4(400.0f, 0.0f, 0.0f, 1.0));
 	m_shaderProg.setUniform("Light.SpecularColor", 1.0, 1.0, 1.0);
 	m_shaderProg.setUniform("Light.Ls", glm::vec3(0.9f, 0.9f, 0.9f));
 
-	
-	glCullFace(GL_FRONT);
+
+	/*glCullFace(GL_FRONT);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
 	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass1Index);
 	glm::mat4 camView = Pipeline::m_view;
-	Pipeline::setViewMatrix(glm::lookAt(glm::vec3(0, 10, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
+	Pipeline::setViewMatrix(glm::lookAt(glm::vec3(400, 0, 0), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0)));
 	//Render components
 	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
@@ -132,18 +128,16 @@ void SGraphics::update(){
 		++it;
 	}
 
-	Pipeline::setViewMatrix(camView);
-
 	glFlush();
 	glFinish();
 
+	Pipeline::setViewMatrix(camView);*/
 
 	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
 	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass2Index);
-	it = CGraphicsCache.begin();
+	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
 	{
 		if ((*it)->getText())
@@ -200,17 +194,25 @@ void SGraphics::drawEntity(CGraphics* it)
 		if (mat)
 		{
 			//DIFFUSE Texture
-			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, mat->texId(Material::TextureType::DIFFUSE));
-			m_shaderProg.setUniform("textureDiffuse", 0);
+			m_shaderProg.setUniform("textureDiffuse", 1);
 
 			//NORMAL Texture
 			GLuint t = mat->texId(Material::TextureType::NORMAL);
 			if (t != 0)
 			{
-				glActiveTexture(GL_TEXTURE1);
+				glActiveTexture(GL_TEXTURE2);
 				glBindTexture(GL_TEXTURE_2D, t);
-				m_shaderProg.setUniform("textureNormal", 1);
+				m_shaderProg.setUniform("textureNormal", 2);
+			}
+			//SPECULAR Texture
+			t = mat->texId(Material::TextureType::SPECULAR);
+			if (t != 0)
+			{
+				glActiveTexture(GL_TEXTURE3);
+				glBindTexture(GL_TEXTURE_2D, t);
+				m_shaderProg.setUniform("textureSpecular", 3);
 			}
 
 			m_shaderProg.setUniform("FullBright", mat->fullbright);
@@ -221,10 +223,11 @@ void SGraphics::drawEntity(CGraphics* it)
 			}
 		}
 		else {
-			glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
-			m_shaderProg.setUniform("textureDiffuse", 0);
-			m_shaderProg.setUniform("textureNormal", 1);
+			m_shaderProg.setUniform("textureDiffuse", 1);
+			m_shaderProg.setUniform("textureNormal", 2);
+			m_shaderProg.setUniform("textureSpecular", 3);
 		}
 		glDrawElements(GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -245,16 +248,15 @@ void SGraphics::drawSkybox()
 	if (!m_CurrentState || !m_CurrentState->getCurrentCamera()) {
 		return;
 	}
-	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
-	if (!sky) return;
-	sky->useProgram();
+	Skybox sky = m_CurrentState->getCurrentCamera()->getSkybox();
+	sky.useProgram();
 
-	glBindVertexArray(sky->getVao()); 
+	glBindVertexArray(sky.getVao()); 
 
 	glEnable(GL_TEXTURE_2D);
 
 	glActiveTexture(GL_TEXTURE0);
-	sky->bindTexture();
+	sky.bindTexture();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	glBindVertexArray(0);
@@ -300,9 +302,9 @@ void SGraphics::drawText(CGraphics* it)
 	{
 		glBindVertexArray(m[i].uiVAO);
 
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, t->texture->getTexId());
-		m_shaderProg.setUniform("textureDiffuse", 0);
+		m_shaderProg.setUniform("textureDiffuse", 1);
 
 		glDrawArrays(GL_TRIANGLES, 0, m[i].m_vertexCount);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -315,15 +317,16 @@ void SGraphics::drawText(CGraphics* it)
 void SGraphics::rebuildCache()
 {
 	CGraphicsCache.clear();
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	std::map<std::string, Entity> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Graphics");
+		std::vector<Component*> cList = (*it).second.getComponentsByType("Graphics");
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
-			CGraphicsCache.push_back(static_cast<CGraphics*>(*CIterator));
+			CGraphics* c = (CGraphics*)(*CIterator);
+			CGraphicsCache.push_back(c);
 			++CIterator;
 		}
 		++it;

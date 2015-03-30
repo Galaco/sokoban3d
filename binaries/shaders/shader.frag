@@ -15,14 +15,17 @@ struct MaterialInfo {
 };
 uniform MaterialInfo Material;
 
-
-uniform sampler2D textureDiffuse, textureNormal; 
-uniform float SpecularExponent;
-
 //SHADOW MAPPING
 in vec4 ShadowCoord;   
-uniform sampler2DShadow ShadowMap;
+in vec3 LightPos;
+layout(binding=0) uniform sampler2DShadow ShadowMap;
 //END
+
+layout(binding=1) uniform sampler2D textureDiffuse;
+layout(binding=2) uniform sampler2D textureNormal;
+layout(binding=3) uniform sampler2D textureSpecular; 
+uniform float SpecularExponent;
+
 
 in vec3 Position;
 in vec3 Normal;
@@ -35,7 +38,6 @@ in mat3 TBN;    //TBN Matrix for Normal Calculation
 in vec2 parallaxScaleBias;
 
 in vec3 vertPosEye;
-in vec3 lightPosEye;
 in vec3 WorldPos0;
 
 uniform int FullBright;
@@ -49,7 +51,45 @@ uniform vec3 EyePosition;
 
 layout( location = 0 ) out vec4 FragColour;
 
+// Calculate the shadow effect at a given point
+float calculateShadow()
+{
+    //Calculate Shadow
+    float visibility = 0.0;
+	float bias = 0.008; //bias helps eliminate acne
+    
+    vec4 tmp_shadow_coords = ShadowCoord;
+    tmp_shadow_coords.z -= bias; //DEPTH OFFSET DISABLE HERE 
+    
+    //Basic shadow calculation
 
+    //Percentage Closer Filtering (PCF)
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-1, -1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, -1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-1, 1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, 1));
+
+    //comment below here for only minor PCF
+    /*visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, -2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-1, -2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, -2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, -2));
+
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, 2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-1, 2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, 2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, 2));
+
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, -1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, 1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, -1));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, 1));*/
+	//end comment block
+
+    visibility *= 0.25;
+	visibility = 1;
+    return visibility;
+}
 
 vec3 calculateBump()    //Calculate new normal based off Normal Texture and TBN matrix
 {
@@ -83,12 +123,7 @@ void finalPass()
 {
 	vec3 newnormal = calculateBump();
 	vec2 newTexCoord = calculateParallax();
-	
-	//Calcuate shadow
-    vec4 tmp_shadow_coords = ShadowCoord;
-    tmp_shadow_coords.z -= 0.003f; //DEPTH OFFSET DISABLE HERE 
-    float visibility = textureProj(ShadowMap, tmp_shadow_coords);
-	//visibility = 1;
+    float visibility = calculateShadow();
 
 	if (FullBright == 1)
 	{
@@ -98,16 +133,17 @@ void finalPass()
 		vec4 ambient = vec4(Light.AmbientColor * Light.AmbientIntensity, 1.0) * texture(textureDiffuse, newTexCoord);
 
 		//Diffuse
-		vec3 s = normalize(vec3(Light.Position) - Position);
+		vec3 s = normalize(vec3(LightPos) - Position);
 		float sDotN = max( dot(s, newnormal), 0.0 );
 		vec4 diffuse = vec4(clamp(Light.AmbientColor * vec3(texture(textureDiffuse, newTexCoord) ) + Light.DiffuseIntensity * vec3(texture(textureDiffuse, newTexCoord) ) * sDotN,0,1), 1.0);
 
 		//Specular
-		vec4 specular = vec4(0, 0, 0, 0);
+		vec4 specular = vec4(0, 0, 0, 0);	
+		float shininess = 255.0 - (texture2D(textureSpecular, vec2(newTexCoord.s, newTexCoord.t)).r * 255.0);	// Get specular shininess from specular texture
 		vec3 VertexToEye = normalize((EyePosition) - WorldPos0);
-		vec3 LightReflect = normalize(reflect(-normalize(vec3(Light.Position)) - Position, newnormal));
+		vec3 LightReflect = normalize(reflect(-normalize(vec3(LightPos)) - Position, newnormal));
 		float SpecularFactor = max(dot(VertexToEye, LightReflect), 0.0);
-		specular = pow(SpecularFactor, SpecularExponent) * vec4(Light.SpecularColor, 1.0) * vec4(Light.Ls, 0);
+		specular = pow(SpecularFactor, shininess) * vec4(Light.SpecularColor, 1.0) * vec4(Light.Ls, 0);
 		specular = clamp(specular, 0.0, 1.0);
 
 

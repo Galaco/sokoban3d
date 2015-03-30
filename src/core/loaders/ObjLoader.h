@@ -20,6 +20,8 @@ generation
 #include <core/resources/Model.h>
 
 
+
+
 class ObjLoader : public FileTypeLoader {
 public:
 	ObjLoader();
@@ -29,8 +31,7 @@ public:
 
 
 private:
-	bool prepareMesh(Mesh&, Model*);
-	bool prepareNormals(Mesh&, Model*);
 	void buildMesh(Mesh& mesh, Model* m);
+
 };
 #endif

@@ -3,6 +3,8 @@
 	local x = os.clock()
     print("Running setup script");
 	
+	State.Create("Splash", "scenes/splash.data")
+	
 --initialize the main Sokoban script
 	dofile("scripts/sokoban.lua")
 

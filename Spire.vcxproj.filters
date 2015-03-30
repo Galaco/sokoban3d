@@ -61,9 +61,6 @@
     <Filter Include="Header Files\core\resources">
       <UniqueIdentifier>{b09dadab-ce7d-47b5-a6b2-8a33c97113b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\core\states">
-      <UniqueIdentifier>{2458a87d-0349-471b-94fc-b1a379c5a3bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\binds">
       <UniqueIdentifier>{57002205-11db-42a7-95ba-870f626add57}</UniqueIdentifier>
     </Filter>
@@ -111,9 +108,6 @@
     </Filter>
     <Filter Include="Source Files\core\resources">
       <UniqueIdentifier>{3b7b6117-ed85-442f-aa62-a0dbcac6194b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core\states">
-      <UniqueIdentifier>{31605370-99dd-40d7-a44f-74f89b925a66}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\lua">
       <UniqueIdentifier>{a465fa7d-77e1-400c-b7f3-f938c2438ffa}</UniqueIdentifier>
@@ -303,9 +297,6 @@
     <ClInclude Include="src\core\resources\Shader.h">
       <Filter>Header Files\core\resources</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\states\SplashState.h">
-      <Filter>Header Files\core\states</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\helpers\Mouse.h">
       <Filter>Header Files\core\helpers</Filter>
     </ClInclude>
@@ -356,6 +347,9 @@
     </ClInclude>
     <ClInclude Include="src\binds\GAME\LuaSOKOBAN.h">
       <Filter>Header Files\binds\GAME</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\loaders\DaeLoader.h">
+      <Filter>Header Files\core\loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,9 +442,6 @@
     </ClCompile>
     <ClCompile Include="src\core\loaders\Md5Loader.cpp">
       <Filter>Source Files\core\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\states\SplashState.cpp">
-      <Filter>Source Files\core\states</Filter>
     </ClCompile>
     <ClCompile Include="src\core\resources\Skybox.cpp">
       <Filter>Source Files\core\resources</Filter>
@@ -574,6 +565,9 @@
     </ClCompile>
     <ClCompile Include="src\binds\GAME\LuaSOKOBAN.cpp">
       <Filter>Source Files\binds\GAME</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\loaders\DaeLoader.cpp">
+      <Filter>Source Files\core\loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

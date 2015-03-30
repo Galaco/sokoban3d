@@ -41,14 +41,14 @@ public:
 	void setParent(Entity*);
 	void removeParent();
 
+	CTransform m_transform;
+
 protected:
 	std::vector<Component*> 	m_components;
 
     Identifier      m_id;
 
-
 	std::map<std::string, Component*>::iterator m_mComponentListIterator;
-	CTransform m_transform;
 
 	Entity* m_pParent;
 

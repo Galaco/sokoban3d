@@ -206,7 +206,7 @@ void Sokoban::addWall(int x, int y, int face)
 	c->addMaterial("wall/wall.mat");
 	e->addComponent(c, "Graphics");
 
-	addEntity(e);
+	addEntity(*e);
 }
 
 void Sokoban::addPlayer(int x, int y, int face)
@@ -281,14 +281,15 @@ void Sokoban::addPlayer(int x, int y, int face)
 
 	CGraphics* g = new CGraphics();
 	g->addModel("player/boblampclean.md5mesh");
+	//g->addModel("player/Miku/miku3.dae");
 	player->addComponent(g, "Graphics");
 
 
-	CAnimation* a = new CAnimation();
+	/*CAnimation* a = new CAnimation();
 	a->addAnimation("player/boblampclean.md5anim");
-	player->addComponent(a, "Animation");
+	player->addComponent(a, "Animation");*/
 
-	addEntity(player);
+	addEntity(*player);
 }
 
 void Sokoban::addSwitch(int x, int y, int face)
@@ -370,7 +371,7 @@ void Sokoban::addSwitch(int x, int y, int face)
 	c->addMaterial("switch/switch.mat");
 	e->addComponent(c, "Graphics");
 
-	addEntity(e);
+	addEntity(*e);
 }
 
 void Sokoban::addBlock(int x, int y, int face)
@@ -442,11 +443,11 @@ void Sokoban::addBlock(int x, int y, int face)
 	e->GetTransform()->setScale(glm::vec3(16, 16, 16));
 
 	CGraphics* c = new CGraphics();
-	c->addModel("shapes/sphere.obj");
+	c->addModel("block/block.obj");
 	c->addMaterial("block/block.mat");
 	e->addComponent(c, "Graphics");
 
-	addEntity(e);
+	//addEntity(e);
 }
 
 
@@ -464,6 +465,7 @@ void Sokoban::addFloor()
 	CGraphics* c = new CGraphics();
 	c->addModel("wall/cube.obj");
 	c->addMaterial("ground/floor.mat");
+	//c->addMaterial("wall/wall.mat");
 	e->addComponent(c, "Graphics");
-	addEntity(e);
+	addEntity(*e);
 }

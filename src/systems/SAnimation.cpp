@@ -77,11 +77,11 @@ void SAnimation::updateMesh(Model* model, const MD5Animation::FrameSkeleton& ske
 void SAnimation::rebuildCache()
 {
 	CGraphicsCAnimationCache.clear();
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	std::map<std::string, Entity> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("Animation");
+		std::vector<Component*> cList = (*it).second.getComponentsByType("Animation");
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{

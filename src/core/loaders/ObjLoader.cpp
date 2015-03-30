@@ -11,187 +11,77 @@ ObjLoader::~ObjLoader(){
 Model* ObjLoader::load(std::string path){
 	Model* m = new Model;
 	m->setFormat("obj");
-	int vertexOffset = 1;
-	int uvOffset = 1;
-	int normalOffset = 1;
 
-	Mesh mesh;
-	std::vector<GLfloat> storedNormals, storedUVs;
-	std::vector<glm::vec3> localVertices, localNormals;
-	std::vector<glm::vec2> localUVs;
-	TriangleList triangles;
-	std::vector<unsigned short> indices;
-	std::ifstream file;
-	std::string type, d;
-	GLfloat coordx, coordy, coordz;
-	GLushort val = 0;
-	file.open(path);
-	if (!(file.is_open()))
+	const aiScene* scene = importer.ReadFile(path,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices |
+		aiProcess_SortByPType);
+
+	// If the import failed, report it
+	if (!scene)
 	{
-		std::cout << "Model: could not load " << path << std::endl;
+		Logger::log(ERROR_, (std::string("Model: could not load ") + path).c_str());
 		return false;
 	}
-	while (file >> type)
+	// Now we can access the file's contents. 
+	for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
 	{
-		if (type == "v")
+		Mesh mesh;
+
+		aiVector3D* verts = scene->mMeshes[i]->mVertices;
+		aiVector3D* normals = scene->mMeshes[i]->mNormals;
+		aiVector3D* uvs = scene->mMeshes[i]->mTextureCoords[0];
+		aiVector3D* tangents = scene->mMeshes[i]->mTangents;
+
+		for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
 		{
-			file >> coordx;
-			file >> coordy;
-			file >> coordz;
-			localVertices.push_back(glm::vec3(coordx, coordy, coordz));
+			glm::vec3 vertex;
+			vertex.x = verts[j].x;
+			vertex.y = verts[j].y;
+			vertex.z = verts[j].z;
+			mesh.m_PositionBuffer.push_back(vertex);
 		}
-		else
-			if (type == "f") //Note needs rewriting for support for models that have neither normals NOR UVs
+		for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
+		{
+			glm::vec3 normal;
+			normal.x = normals[j].x;
+			normal.y = normals[j].y;
+			normal.z = normals[j].z;
+			mesh.m_NormalBuffer.push_back(normal);
+		}
+		if (uvs != NULL)
+		{
+			for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
 			{
-				getline(file, d, '\n');
-				std::stringstream ver(d);
-
-				for (unsigned int i = 0; i < 3; ++i)
-				{
-					std::string rawVert;
-					ver >> rawVert;
-					std::stringstream vert(rawVert);
-					std::string segment;
-					std::vector<std::string> seglist;
-					Triangle triangle;
-					while (std::getline(vert, segment, '/'))
-					{
-						seglist.push_back(segment);
-					}
-
-					if (seglist.size() == 1){
-						if (d != "") {
-							val = atoi(seglist[0].c_str());
-							indices.push_back(val - vertexOffset);
-							triangle.m_Indices[i] = val - vertexOffset;
-						}
-					}
-					else
-						if (seglist.size() == 2){
-							if (seglist[0] != "") {
-								val = atoi(seglist[0].c_str());
-								indices.push_back(val - vertexOffset);
-								triangle.m_Indices[i] = val - vertexOffset;
-							}
-							if (seglist[1] != "") {
-								val = atoi(seglist[1].c_str());
-								storedUVs.push_back((float)(val)-uvOffset);
-							}
-						}
-						else
-							if (seglist.size() == 3){
-								if (seglist[0] != "") {
-									val = atoi(seglist[0].c_str());
-									indices.push_back(val - vertexOffset);
-									triangle.m_Indices[i] = val - vertexOffset;
-								}
-								if (seglist[1] != "") {
-									val = atoi(seglist[1].c_str());
-									storedUVs.push_back((float)(val)-uvOffset);
-								}
-								if (seglist[2] != "") {
-									val = atoi(seglist[2].c_str());
-									storedNormals.push_back((float)(val)-normalOffset);
-								}
-							}
-
-					triangles.push_back(triangle);
-				}
+				glm::vec2 uv;
+				uv.x = uvs[j].x;
+				uv.y = uvs[j].y;
+				mesh.m_Tex2DBuffer.push_back(uv);
 			}
-			else
-				if (type == "vn")
-				{
-					file >> coordx;
-					file >> coordy;
-					file >> coordz;
-					localNormals.push_back(glm::vec3(coordx, coordy, coordz));
-				}
-				else
-					if (type == "vt")
-					{
-						file >> coordx;
-						file >> coordy;
-						localUVs.push_back(glm::vec2(coordx, coordy));
-					}
-					else
-						if (type == "o" && localVertices.size() != 0)
-						{
-							file >> d;
-							Logger::log(INFO, d.c_str());
-							Mesh nthMesh;
-							for (unsigned int i = 0; i < localVertices.size(); ++i){
-								Vertex v;
-								v.m_Pos = localVertices[i];
-
-								if (localNormals.size() > i) {
-									v.m_Normal = localNormals[i];
-								}
-								else {
-									v.m_Normal = glm::vec3(0, 1, 0);
-								}
-
-								if (localUVs.size() > i){
-									v.m_Tex0 = localUVs[i];
-								}
-								else {
-									v.m_Tex0 = glm::vec2(0, 1);
-								}
-								nthMesh.m_Verts.push_back(v);
-							}
-
-							//nthMesh.m_Tris = triangles;
-							nthMesh.m_IndexBuffer = indices;
-
-							this->prepareMesh(nthMesh, m);
-							this->prepareNormals(nthMesh, m);
-							this->buildMesh(nthMesh, m);
-
-							vertexOffset = localVertices.size() + 1;
-							uvOffset = localUVs.size() + 1;
-							normalOffset = localNormals.size() + 1;
-							localVertices.clear();
-							localNormals.clear();
-							localUVs.clear();
-							indices.clear();
-							storedUVs.clear();
-							storedNormals.clear();
-						}
-						else
-						{
-							getline(file, d, '\n');
-						}
+		}
+		if (tangents != NULL)
+		{
+			for (unsigned int j = 0; j < scene->mMeshes[i]->mNumVertices; ++j)
+			{
+				glm::vec4 tangent;
+				tangent.x = tangents[j].x;
+				tangent.y = tangents[j].y;
+				tangent.z = tangents[j].z;
+				mesh.m_TangentBuffer.push_back(tangent);
+			}
+		}
+		for (unsigned int j = 0; j < scene->mMeshes[i]->mNumFaces; ++j)
+		{
+			mesh.m_IndexBuffer.push_back((unsigned short)scene->mMeshes[i]->mFaces[j].mIndices[0]);
+			mesh.m_IndexBuffer.push_back((unsigned short)scene->mMeshes[i]->mFaces[j].mIndices[1]);
+			mesh.m_IndexBuffer.push_back((unsigned short)scene->mMeshes[i]->mFaces[j].mIndices[2]);
+		}
+		buildMesh(mesh, m);
 	}
 
-	file.close();
 
-	for (unsigned int i = 0; i < localVertices.size(); ++i){
-		Vertex v;
-		v.m_Pos = localVertices[i];
-
-		if (localNormals.size() > i) {
-			v.m_Normal = localNormals[i];
-		}
-		else {
-			v.m_Normal = glm::vec3(0, 1, 0);
-		}
-
-		if (localUVs.size() > i){
-			v.m_Tex0 = localUVs[i];
-		}
-		else {
-			v.m_Tex0 = glm::vec2(0, 1);
-		}
-
-		mesh.m_Verts.push_back(v);
-	}
-
-	//nthMesh.m_Tris = triangles;
-	mesh.m_IndexBuffer = indices;
-
-	this->prepareMesh(mesh, m);
-	this->prepareNormals(mesh, m);
-	this->buildMesh(mesh, m);
-
+	Logger::log(SUCCESS, (std::string("Loaded Model: ") + path).c_str());
 	return m;
 }
 
@@ -212,6 +102,10 @@ void ObjLoader::buildMesh(Mesh& mesh, Model* m)
 	glGenBuffers(1, &mesh.normalBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh.normalBuffer);
 	glBufferData(GL_ARRAY_BUFFER, mesh.m_NormalBuffer.size() * sizeof(glm::vec3), &mesh.m_NormalBuffer[0], GL_STATIC_DRAW);
+
+	glGenBuffers(1, &mesh.tangentBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.tangentBuffer);
+	glBufferData(GL_ARRAY_BUFFER, mesh.m_TangentBuffer.size() * sizeof(glm::vec4), &mesh.m_TangentBuffer[0], GL_STATIC_DRAW);
 
 	// Generate a buffer for the indices as well
 	glGenBuffers(1, &mesh.indexBuffer);
@@ -253,74 +147,21 @@ void ObjLoader::buildMesh(Mesh& mesh, Model* m)
 		0,                                // stride
 		(void*)0                          // array buffer offset
 		);
-
+	// 4rd attribute buffer : tangent
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.tangentBuffer);
+	glVertexAttribPointer(
+		3,                                // attribute
+		4,                                // size
+		GL_FLOAT,                         // type
+		GL_FALSE,                         // normalized?
+		0,                                // stride
+		(void*)0                          // array buffer offset
+		);
+	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 
 	glBindVertexArray(0);
 
 	m->addMesh(mesh);
-}
-
-// Compute the position of the vertices in object local space
-// in the skeleton's bind pose
-bool ObjLoader::prepareMesh(Mesh& mesh, Model* m)
-{
-	mesh.m_PositionBuffer.clear();
-	mesh.m_Tex2DBuffer.clear();
-
-	// Compute vertex positions
-	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
-	{
-		Vertex& vert = mesh.m_Verts[i];
-
-		mesh.m_PositionBuffer.push_back(vert.m_Pos);
-		mesh.m_Tex2DBuffer.push_back(vert.m_Tex0);
-	}
-
-	mesh.m_NormalBuffer.clear();
-
-	// Loop through all triangles and calculate the normal of each triangle
-	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
-	{
-		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
-		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
-		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
-
-		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
-
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
-	}
-	return true;
-}
-
-
-// Compute the vertex normals in the Mesh's bind pose
-bool ObjLoader::prepareNormals(Mesh& mesh, Model* m)
-{
-	mesh.m_NormalBuffer.clear();
-
-	// Loop through all triangles and calculate the normal of each triangle
-	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
-	{
-		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
-		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
-		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
-
-		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
-
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
-	}
-
-	// Now normalize all the normals
-	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
-	{
-		Vertex& vert = mesh.m_Verts[i];
-		mesh.m_NormalBuffer.push_back(vert.m_Normal);
-	}
-
-	return true;
 }

@@ -16,10 +16,6 @@ Game::Game(Engine& engine) : m_engine(engine){
 	m_sCollision.initialize();
 	m_stateManager.initialize();
 
-	//Push splash to state manager
-	SplashState* s = new SplashState;
-	m_stateManager.addState(s, "Splash");
-
 	//Run 
 	LuaScript* l = m_sLuaScript.createScript();
 	l->runFile("init.lua");	

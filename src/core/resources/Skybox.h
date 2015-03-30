@@ -25,6 +25,7 @@ Description: Represents a skybox in the world. Is self contained due
 class Skybox {
 public:
 	Skybox();
+	Skybox(std::string file);
 	~Skybox();
 
 	void load(std::string);

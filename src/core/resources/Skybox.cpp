@@ -11,6 +11,17 @@ Skybox::Skybox() {
 	}
 }
 
+Skybox::Skybox(std::string file) {
+	zFar = 128.f;
+
+	if (!shaderReady)
+	{
+		createShader();
+	}
+
+	load(file);
+}
+
 Skybox::~Skybox(){
 }
 

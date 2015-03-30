@@ -16,6 +16,7 @@ Description: Responsible for determining filetype, and passing the
 
 #include <core/loaders/ObjLoader.h>
 #include <core/loaders/Md5Loader.h>
+#include <core/loaders/DaeLoader.h>
 
 #include <core/resources/Model.h>
 
@@ -31,5 +32,6 @@ public:
 private:
 	static ObjLoader	m_Obj;
 	static Md5Loader	m_Md5;
+	static DaeLoader	m_Dae;
 };
 #endif

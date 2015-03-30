@@ -14,6 +14,11 @@ void SLuaScript::initialize(){
 	luaL_openlibs( m_masterLuaState );
 	m_luaBinds.setLuaState(m_masterLuaState);
 	m_luaBinds.bindObjects();
+
+	/*m_masterLuaState = luaL_newstate();
+	luaL_openlibs(m_masterLuaState);
+	m_luaBinds.bind();*/
+	//ScriptComponent::setVM(luaVM);
 }
 
 lua_State* SLuaScript::getMasterState(){
@@ -64,11 +69,11 @@ void SLuaScript::deleteScript(LuaScript* scriptptr)
 void SLuaScript::rebuildCache()
 {
 	CLuaScriptCache.clear();
-	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
+	std::map<std::string, Entity> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
 	{
-		std::vector<Component*> cList = (*it).second->getComponentsByType("LuaScript");
+		std::vector<Component*> cList = (*it).second.getComponentsByType("LuaScript");
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
@@ -78,11 +83,11 @@ void SLuaScript::rebuildCache()
 		++it;
 	}
 
-	std::vector<Camera*> camList = m_CurrentState->getCameras();
+	std::vector<Camera> camList = m_CurrentState->getCameras();
 	auto it2 = camList.begin();
 	while (it2 != camList.end())
 	{
-		std::vector<Component*> cList = (*it2)->getComponentsByType("LuaScript");
+		std::vector<Component*> cList = (*it2).getComponentsByType("LuaScript");
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
