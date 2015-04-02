@@ -243,12 +243,6 @@
     <ClInclude Include="src\core\ResourceManager.h">
       <Filter>Header Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\State.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\StateManager.h">
-      <Filter>Header Files\core</Filter>
-    </ClInclude>
     <ClInclude Include="src\core\components\CTransform.h">
       <Filter>Header Files\core\core</Filter>
     </ClInclude>
@@ -356,6 +350,12 @@
     </ClInclude>
     <ClInclude Include="src\binds\GAME\LuaSOKOBAN.h">
       <Filter>Header Files\binds\GAME</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Scene.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\SceneManager.h">
+      <Filter>Header Files\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -482,12 +482,6 @@
     <ClCompile Include="src\core\ResourceManager.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\State.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\core\StateManager.cpp">
-      <Filter>Source Files\core</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\System.cpp">
       <Filter>Source Files\core</Filter>
     </ClCompile>
@@ -574,6 +568,12 @@
     </ClCompile>
     <ClCompile Include="src\binds\GAME\LuaSOKOBAN.cpp">
       <Filter>Source Files\binds\GAME</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Scene.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\SceneManager.cpp">
+      <Filter>Source Files\core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

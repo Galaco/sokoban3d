@@ -20,6 +20,7 @@ Description: Stores renderable data for use with the render system
 
 
 #include <core/resources/Material.h>
+#include "CCollision.h"
 
 class CGraphics: public Component {
 public:
@@ -28,7 +29,7 @@ public:
 
 	void setPointLight(PointLight* light);
 	PointLight* getPointLight();
-	void addModel(const char*);
+	void addModel(const char*, bool buildCollisions = false, float cubeSize = 1.f, bool dynamic = false);
 	void setModel(Model*);
 	Model* getModel();
 

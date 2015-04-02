@@ -17,10 +17,5 @@ Model* ModelLoader::load(std::string path){
 	std::string filetype = path.substr(found+1, path.length()-found);
 
 	std::transform(path.begin(), path.end(), path.begin(), ::tolower);
-	if (filetype == "obj") 
-		return m_Obj.load(path);
-	if (filetype == "md5" || filetype == "md5mesh")	
-		return m_Md5.load(path);
-
-	return nullptr;
+	return m_Obj.load(path);
 }

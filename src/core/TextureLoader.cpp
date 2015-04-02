@@ -27,7 +27,7 @@ Texture* TextureLoader::createTexture(std::string path){
 	sf::Image image;
 	Texture* t = new Texture;
 	if(!image.loadFromFile( path ) ){
-		std::string err = "Failed to load image: " + path;
+		std::string err = "Texture: Failed to load Image: " + path;
 		Logger::log(ERROR_, err.c_str());
 		return nullptr;
 	}
@@ -47,7 +47,7 @@ Texture* TextureLoader::createTexture(std::string path){
 	glTexParameteri(GL_TEXTURE_2D , GL_TEXTURE_MIN_FILTER , GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D , GL_TEXTURE_MAG_FILTER , GL_LINEAR);
 
-	std::string msg = "Loaded image: " + path;
+	std::string msg = "Texture: Loaded Image: " + path;
 	Logger::log(SUCCESS, msg.c_str());
 
 	return t;

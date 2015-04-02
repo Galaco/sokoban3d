@@ -46,19 +46,25 @@ void Text::generate(Model* model)
 {
 	Mesh m;
 
+	std::vector<glm::vec3> Positions;
+	std::vector<glm::vec3> Normals;
+	std::vector<glm::vec2> TexCoords;
+	std::vector<VertexBoneData> Bones;
+	std::vector<GLuint> Indices;
+
 	for (unsigned int i = 0; i < m_string.length(); i++){
 		glm::vec3 vertex_up_left = glm::vec3((i*m_height / 2) / 120, m_height / 120, 0);
 		glm::vec3 vertex_up_right = glm::vec3((i*m_height / 2 + m_height / 2) / 120, m_height / 120, 0);
 		glm::vec3 vertex_down_right = glm::vec3((i*m_height / 2 + m_height / 2) / 120, 0, 0);
 		glm::vec3 vertex_down_left = glm::vec3((i*m_height / 2) / 120, 0, 0);
 
-		m.m_PositionBuffer.push_back(vertex_up_left);
-		m.m_PositionBuffer.push_back(vertex_down_left);
-		m.m_PositionBuffer.push_back(vertex_up_right);
+		Positions.push_back(vertex_up_left);
+		Positions.push_back(vertex_down_left);
+		Positions.push_back(vertex_up_right);
 
-		m.m_PositionBuffer.push_back(vertex_down_right);
-		m.m_PositionBuffer.push_back(vertex_up_right);
-		m.m_PositionBuffer.push_back(vertex_down_left);
+		Positions.push_back(vertex_down_right);
+		Positions.push_back(vertex_up_right);
+		Positions.push_back(vertex_down_left);
 		
 
 		char character = m_string[i];
@@ -71,32 +77,35 @@ void Text::generate(Model* model)
 		glm::vec2 uv_down_right = glm::vec2(uv_x + 1.0f / 16.0f - (1 / 32), (uv_y + 1.0f / 16.0f));
 		glm::vec2 uv_down_left = glm::vec2(uv_x + (1 / 32), (uv_y + 1.0f / 16.0f));
 
-		m.m_Tex2DBuffer.push_back(uv_up_left);
-		m.m_Tex2DBuffer.push_back(uv_down_left);
-		m.m_Tex2DBuffer.push_back(uv_up_right);
+		TexCoords.push_back(uv_up_left);
+		TexCoords.push_back(uv_down_left);
+		TexCoords.push_back(uv_up_right);
 
-		m.m_Tex2DBuffer.push_back(uv_down_right);
-		m.m_Tex2DBuffer.push_back(uv_up_right);
-		m.m_Tex2DBuffer.push_back(uv_down_left);
+		TexCoords.push_back(uv_down_right);
+		TexCoords.push_back(uv_up_right);
+		TexCoords.push_back(uv_down_left);
 	}
 
-	m.m_vertexCount = m.m_PositionBuffer.size();
+	MeshEntry entry;
+	entry.NumIndices = Positions.size();
+
+	m.m_Entries.push_back(entry);
 
 	//Gen mesh info
-	glGenVertexArrays(1, &m.uiVAO);
-	glBindVertexArray(m.uiVAO);
+	glGenVertexArrays(1, &m.m_VAO);
+	glBindVertexArray(m.m_VAO);
 
-	glGenBuffers(1, &m.uiBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m.uiBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m.m_PositionBuffer.size() * sizeof(glm::vec3), &m.m_PositionBuffer[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &m.m_Buffers[POS_VB]);
+	glBindBuffer(GL_ARRAY_BUFFER, m.m_Buffers[POS_VB]);
+	glBufferData(GL_ARRAY_BUFFER, Positions.size() * sizeof(glm::vec3), &Positions[0], GL_STATIC_DRAW);
 
-	glGenBuffers(1, &m.uvBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m.uvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m.m_Tex2DBuffer.size() * sizeof(glm::vec2), &m.m_Tex2DBuffer[0], GL_STATIC_DRAW);
+	glGenBuffers(1, &m.m_Buffers[TEXCOORD_VB]);
+	glBindBuffer(GL_ARRAY_BUFFER, m.m_Buffers[TEXCOORD_VB]);
+	glBufferData(GL_ARRAY_BUFFER, TexCoords.size() * sizeof(glm::vec2), &TexCoords[0], GL_STATIC_DRAW);
 
 	// Vertex positions
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, m.uiBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m.m_Buffers[POS_VB]);
 	glVertexAttribPointer(
 		0,                  // attribute
 		3,                  // size
@@ -108,7 +117,7 @@ void Text::generate(Model* model)
 
 	// 2nd attribute buffer : UVs
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, m.uvBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, m.m_Buffers[TEXCOORD_VB]);
 	glVertexAttribPointer(
 		1,                                // attribute
 		2,                                // size

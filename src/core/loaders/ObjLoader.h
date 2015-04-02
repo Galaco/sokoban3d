@@ -29,8 +29,14 @@ public:
 
 
 private:
-	bool prepareMesh(Mesh&, Model*);
-	bool prepareNormals(Mesh&, Model*);
-	void buildMesh(Mesh& mesh, Model* m);
+	void InitMesh(GLuint MeshIndex,
+		const aiMesh* paiMesh,
+		std::vector<glm::vec3>& Positions,
+		std::vector<glm::vec3>& Normals,
+		std::vector<glm::vec2>& TexCoords,
+		std::vector<VertexBoneData>& Bones,
+		std::vector<GLuint>& Indices, Mesh& mesh);
+
+	void LoadBones(unsigned int MeshIndex, const aiMesh* pMesh, std::vector<VertexBoneData>& Bones, Mesh& mesh);
 };
 #endif

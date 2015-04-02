@@ -10,13 +10,13 @@ Description:
 
 #include <map>
 
-#include <core/State.h>
+#include <core/Scene.h>
 #include "GameBoard.h"
 #include "../Components/CAnimation.h"
 #include "../Components/CGraphics.h"
 #include "../Components/CLuaScript.h"
 
-class Sokoban: public State {
+class Sokoban : public Scene {
 public:
 	Sokoban();
 	~Sokoban();

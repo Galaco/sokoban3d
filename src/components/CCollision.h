@@ -26,6 +26,11 @@ public:
 
 	AABB& getCollisionBox();
 
+	void setCollisionBox(AABB bb){ m_collisionBox = bb; };
+
+	float weight;
+	bool dynamic;
+
 private:
 	AABB m_collisionBox;
 };

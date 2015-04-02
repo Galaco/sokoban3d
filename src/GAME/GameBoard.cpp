@@ -56,6 +56,15 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 			MovePlayer(x, y, dir);
 			return true;
 		}
+		if (board[y-1][x] == 2)
+		{
+			if (canBlockMove(x, y - 1, dir))
+			{
+				MoveBlock(x, y, dir);
+				MovePlayer(x, y, dir);
+			}
+			return true;
+		}
 	}
 	else
 	if (dir == 1)	//Move Down
@@ -71,6 +80,15 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 		if (board[y + 1][x] == 0 || board[y + 1][x] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
+			return true;
+		}
+		if (board[y + 1][x] == 2)
+		{
+			if (canBlockMove(x + 1, y, dir))
+			{
+				MoveBlock(x, y, dir);
+				MovePlayer(x, y, dir);
+			}
 			return true;
 		}
 	}
@@ -90,6 +108,15 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 			MovePlayer(x, y, dir);
 			return true;
 		}
+		if (board[y][x-1] == 2)
+		{
+			if (canBlockMove(x, y-1, dir))
+			{
+				MoveBlock(x, y, dir);
+				MovePlayer(x, y, dir);
+			}
+			return true;
+		}
 	}
 	else
 	if (dir == 3)	//Move Right
@@ -105,6 +132,15 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 		if (board[y][x + 1] == 0 || board[y][x+1] == 4)	//Empty square
 		{
 			MovePlayer(x, y, dir);
+			return true;
+		}
+		if (board[y][x + 1] == 2)
+		{
+			if (canBlockMove(x, y + 1, dir))
+			{
+				MoveBlock(x, y, dir);
+				MovePlayer(x, y, dir);
+			}
 			return true;
 		}
 	}
@@ -123,7 +159,7 @@ bool GameBoard::canBlockMove(int x, int y, int dir)
 				return true;
 			}
 		}
-		if (board[y - 1][x] == 0)	//Empty square
+		if (this->board[y][x-1] == 0)	//Empty square
 		{
 			return true;
 		}
@@ -251,11 +287,11 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 	{
 		if (y != 0)
 		{
-			board[x - 1][y] = 4;
+			board[x - 1][y] = 2;
 			board[y][x] = 0;
 		}
 		else {	//Next Board
-			connections[2]->board[y][7] = 4;
+			connections[2]->board[y][7] = 2;
 			board[y][x] = 0;
 		}
 	}
@@ -265,11 +301,11 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 		{
 			if (y != 7)
 			{
-				board[x + 1][y] = 4;
+				board[x + 1][y] = 2;
 				board[y][x] = 0;
 			}
 			else {	//Next Board
-				connections[3]->board[y][0] = 4;
+				connections[3]->board[y][0] = 2;
 				board[y][x] = 0;
 			}
 		}
@@ -278,11 +314,11 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 			{
 				if (x != 0)
 				{
-					board[y][x - 1] = 4;
+					board[y][x - 1] = 2;
 					board[y][x] = 0;
 				}
 				else {	//Next Board
-					connections[1]->board[7][x] = 4;
+					connections[1]->board[7][x] = 2;
 					board[y][x] = 0;
 				}
 			}
@@ -291,11 +327,11 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 				{
 					if (x != 7)
 					{
-						board[y][x + 1] = 4;
+						board[y][x + 1] = 2;
 						board[y][x] = 0;
 					}
 					else {	//Next Board
-						connections[0]->board[0][x] = 4;
+						connections[0]->board[0][x] = 2;
 						board[y][x] = 0;
 					}
 				}

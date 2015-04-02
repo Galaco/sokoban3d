@@ -1,8 +1,8 @@
 #ifndef LUASTATE_H
 #define LUASTATE_H
 
-#include <core/StateManager.h>
-#include <core/State.h>
+#include <core/SceneManager.h>
+#include <core/Scene.h>
 
 #include "../../GAME/Sokoban.h"
 

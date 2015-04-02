@@ -2,6 +2,8 @@
 
 CCollision::CCollision(){
 	m_type = "Collision";
+	weight = 1.f;
+	dynamic = false;
 }
 
 CCollision::~CCollision(){

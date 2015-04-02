@@ -13,7 +13,7 @@ Description: Abstract System class of the component-system
 #include <core/Logger.h>
 
 #include "EventManager.h"
-#include "State.h"
+#include "Scene.h"
 
 
 #include <core/Entity.h>
@@ -30,7 +30,7 @@ public:
     virtual void terminate();
 
 	//static void setCurrentCamera(Camera*);
-	static void setCurrentState(State*);
+	static void setCurrentState(Scene*);
 
 	static void FixedUpdate();
 
@@ -38,7 +38,7 @@ protected:
 	virtual void rebuildCache();
 	static EventManager m_EventManager;
 	//static Camera*		m_currentCamera;
-	static State*		m_CurrentState;
-	static State*		m_PreviousState;
+	static Scene*		m_CurrentState;
+	static Scene*		m_PreviousState;
 };
 #endif

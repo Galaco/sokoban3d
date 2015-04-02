@@ -1,7 +1,7 @@
 #ifndef LUACAMERA_H
 #define LUACAMERA_H
 
-#include <core/StateManager.h>
+#include <core/SceneManager.h>
 #include <core/Camera.h>
 #include <core/resources/Skybox.h>
 

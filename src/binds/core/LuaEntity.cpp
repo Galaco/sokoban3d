@@ -82,7 +82,7 @@ int LuaEntity::lua_Find(lua_State* L)
 {
 	LuaBinder binder(L);
 
-	State* state = StateManager::getActiveState();
+	Scene* state = SceneManager::getActiveState();
 	Entity* e = state->getEntity(binder.checkstring(1));
 	if (e != nullptr) {
 		binder.pushusertype(e, "Entity");
@@ -99,7 +99,7 @@ int LuaEntity::lua_GetComponent(lua_State* L)
 {
 	LuaBinder binder(L);
 
-	State* state = StateManager::getActiveState();
+	Scene* state = SceneManager::getActiveState();
 	Entity* e = static_cast<Entity*>(binder.checkusertype(1, "Entity"));
 	if (e != nullptr) {
 		std::vector<Component*> comp = e->getComponentsByType(binder.checkstring(2));

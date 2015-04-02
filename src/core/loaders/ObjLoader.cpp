@@ -11,316 +11,178 @@ ObjLoader::~ObjLoader(){
 Model* ObjLoader::load(std::string path){
 	Model* m = new Model;
 	m->setFormat("obj");
-	int vertexOffset = 1;
-	int uvOffset = 1;
-	int normalOffset = 1;
 
-	Mesh mesh;
-	std::vector<GLfloat> storedNormals, storedUVs;
-	std::vector<glm::vec3> localVertices, localNormals;
-	std::vector<glm::vec2> localUVs;
-	TriangleList triangles;
-	std::vector<unsigned short> indices;
-	std::ifstream file;
-	std::string type, d;
-	GLfloat coordx, coordy, coordz;
-	GLushort val = 0;
-	file.open(path);
-	if (!(file.is_open()))
+	const aiScene* scene = importer.ReadFile(path,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_JoinIdenticalVertices | 
+		aiProcess_GenNormals |
+		aiProcess_SortByPType);
+
+	// If the import failed, report it
+	if (!scene)
 	{
-		std::cout << "Model: could not load " << path << std::endl;
+		Logger::log(ERROR_, (std::string("Model: Failed to load Mesh: ") + path).c_str());
 		return false;
 	}
-	while (file >> type)
-	{
-		if (type == "v")
-		{
-			file >> coordx;
-			file >> coordy;
-			file >> coordz;
-			localVertices.push_back(glm::vec3(coordx, coordy, coordz));
-		}
-		else
-			if (type == "f") //Note needs rewriting for support for models that have neither normals NOR UVs
-			{
-				getline(file, d, '\n');
-				std::stringstream ver(d);
+	// Now we can access the file's contents. 
 
-				for (unsigned int i = 0; i < 3; ++i)
-				{
-					std::string rawVert;
-					ver >> rawVert;
-					std::stringstream vert(rawVert);
-					std::string segment;
-					std::vector<std::string> seglist;
-					Triangle triangle;
-					while (std::getline(vert, segment, '/'))
-					{
-						seglist.push_back(segment);
-					}
+	Mesh mesh;
+	aiMatrix4x4 tempMat = scene->mRootNode->mTransformation.Inverse();
+	mesh.m_GlobalInverseTransform = 
+		glm::mat4(
+		tempMat.a1, tempMat.a2, tempMat.a3, tempMat.a4,
+		tempMat.b1, tempMat.b2, tempMat.b3, tempMat.b4,
+		tempMat.c1, tempMat.c2, tempMat.c3, tempMat.c4,
+		tempMat.d1, tempMat.d2, tempMat.d3, tempMat.d4
+		);
 
-					if (seglist.size() == 1){
-						if (d != "") {
-							val = atoi(seglist[0].c_str());
-							indices.push_back(val - vertexOffset);
-							triangle.m_Indices[i] = val - vertexOffset;
-						}
-					}
-					else
-						if (seglist.size() == 2){
-							if (seglist[0] != "") {
-								val = atoi(seglist[0].c_str());
-								indices.push_back(val - vertexOffset);
-								triangle.m_Indices[i] = val - vertexOffset;
-							}
-							if (seglist[1] != "") {
-								val = atoi(seglist[1].c_str());
-								storedUVs.push_back((float)(val)-uvOffset);
-							}
-						}
-						else
-							if (seglist.size() == 3){
-								if (seglist[0] != "") {
-									val = atoi(seglist[0].c_str());
-									indices.push_back(val - vertexOffset);
-									triangle.m_Indices[i] = val - vertexOffset;
-								}
-								if (seglist[1] != "") {
-									val = atoi(seglist[1].c_str());
-									storedUVs.push_back((float)(val)-uvOffset);
-								}
-								if (seglist[2] != "") {
-									val = atoi(seglist[2].c_str());
-									storedNormals.push_back((float)(val)-normalOffset);
-								}
-							}
+	// Create the VAO
+	glGenVertexArrays(1, &mesh.m_VAO);
+	glBindVertexArray(mesh.m_VAO);
 
-					triangles.push_back(triangle);
-				}
-			}
-			else
-				if (type == "vn")
-				{
-					file >> coordx;
-					file >> coordy;
-					file >> coordz;
-					localNormals.push_back(glm::vec3(coordx, coordy, coordz));
-				}
-				else
-					if (type == "vt")
-					{
-						file >> coordx;
-						file >> coordy;
-						localUVs.push_back(glm::vec2(coordx, coordy));
-					}
-					else
-						if (type == "o" && localVertices.size() != 0)
-						{
-							file >> d;
-							Logger::log(INFO, d.c_str());
-							Mesh nthMesh;
-							for (unsigned int i = 0; i < localVertices.size(); ++i){
-								Vertex v;
-								v.m_Pos = localVertices[i];
+	// Create the buffers for the vertices attributes
+	glGenBuffers(5, mesh.m_Buffers);
 
-								if (localNormals.size() > i) {
-									v.m_Normal = localNormals[i];
-								}
-								else {
-									v.m_Normal = glm::vec3(0, 1, 0);
-								}
+	mesh.m_Entries.resize(scene->mNumMeshes);
+	mesh.m_Textures.resize(scene->mNumMaterials);
 
-								if (localUVs.size() > i){
-									v.m_Tex0 = localUVs[i];
-								}
-								else {
-									v.m_Tex0 = glm::vec2(0, 1);
-								}
-								nthMesh.m_Verts.push_back(v);
-							}
+	std::vector<glm::vec3> Positions;
+	std::vector<glm::vec3> Normals;
+	std::vector<glm::vec2> TexCoords;
+	std::vector<VertexBoneData> Bones;
+	std::vector<GLuint> Indices;
 
-							//nthMesh.m_Tris = triangles;
-							nthMesh.m_IndexBuffer = indices;
+	GLuint NumVertices = 0;
+	GLuint NumIndices = 0;
 
-							this->prepareMesh(nthMesh, m);
-							this->prepareNormals(nthMesh, m);
-							this->buildMesh(nthMesh, m);
+	// Count the number of vertices and indices
+	for (GLuint i = 0; i < mesh.m_Entries.size(); i++) {
+		mesh.m_Entries[i].MaterialIndex = scene->mMeshes[i]->mMaterialIndex;
+		mesh.m_Entries[i].NumIndices = scene->mMeshes[i]->mNumFaces * 3;
+		mesh.m_Entries[i].BaseVertex = NumVertices;
+		mesh.m_Entries[i].BaseIndex = NumIndices;
 
-							vertexOffset = localVertices.size() + 1;
-							uvOffset = localUVs.size() + 1;
-							normalOffset = localNormals.size() + 1;
-							localVertices.clear();
-							localNormals.clear();
-							localUVs.clear();
-							indices.clear();
-							storedUVs.clear();
-							storedNormals.clear();
-						}
-						else
-						{
-							getline(file, d, '\n');
-						}
+		NumVertices += scene->mMeshes[i]->mNumVertices;
+		NumIndices += mesh.m_Entries[i].NumIndices;
 	}
 
-	file.close();
 
-	for (unsigned int i = 0; i < localVertices.size(); ++i){
-		Vertex v;
-		v.m_Pos = localVertices[i];
+	// Reserve space in the vectors for the vertex attributes and indices
+	Positions.reserve(NumVertices);
+	Normals.reserve(NumVertices);
+	TexCoords.reserve(NumVertices);
+	Bones.resize(NumVertices);
+	Indices.reserve(NumIndices);
 
-		if (localNormals.size() > i) {
-			v.m_Normal = localNormals[i];
-		}
-		else {
-			v.m_Normal = glm::vec3(0, 1, 0);
-		}
-
-		if (localUVs.size() > i){
-			v.m_Tex0 = localUVs[i];
-		}
-		else {
-			v.m_Tex0 = glm::vec2(0, 1);
-		}
-
-		mesh.m_Verts.push_back(v);
+	// Initialize the meshes in the scene one by one
+	for (GLuint i = 0; i < mesh.m_Entries.size(); i++) {
+		const aiMesh* paiMesh = scene->mMeshes[i];
+		InitMesh(i, paiMesh, Positions, Normals, TexCoords, Bones, Indices, mesh);
 	}
 
-	//nthMesh.m_Tris = triangles;
-	mesh.m_IndexBuffer = indices;
+	/*if (!InitMaterials(pScene, Filename)) {
+		return false;
+	}*/
 
-	this->prepareMesh(mesh, m);
-	this->prepareNormals(mesh, m);
-	this->buildMesh(mesh, m);
 
+	// Generate and populate the buffers with vertex attributes and the indices
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[POS_VB]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Positions[0]) * Positions.size(), &Positions[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[TEXCOORD_VB]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(TexCoords[0]) * TexCoords.size(), &TexCoords[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[NORMAL_VB]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Normals[0]) * Normals.size(), &Normals[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[BONE_VB]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Bones[0]) * Bones.size(), &Bones[0], GL_STATIC_DRAW);
+	glEnableVertexAttribArray(5);
+	glVertexAttribIPointer(5, 4, GL_INT, sizeof(VertexBoneData), (const GLvoid*)0);
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(VertexBoneData), (const GLvoid*)16);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.m_Buffers[INDEX_BUFFER]);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices[0]) * Indices.size(), &Indices[0], GL_STATIC_DRAW);
+
+
+	m->addMesh(mesh);
+
+	Logger::log(SUCCESS, (std::string("Model: Loaded Mesh: ") + path).c_str());
 	return m;
 }
 
 
-void ObjLoader::buildMesh(Mesh& mesh, Model* m)
+void ObjLoader::InitMesh(GLuint MeshIndex,
+	const aiMesh* paiMesh,
+	std::vector<glm::vec3>& Positions,
+	std::vector<glm::vec3>& Normals,
+	std::vector<glm::vec2>& TexCoords,
+	std::vector<VertexBoneData>& Bones,
+	std::vector<GLuint>& Indices, Mesh& mesh)
 {
-	glGenVertexArrays(1, &mesh.uiVAO);
-	glBindVertexArray(mesh.uiVAO);
+	const aiVector3D Zero3D(0.0f, 0.0f, 0.0f);
 
-	glGenBuffers(1, &mesh.uiBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.uiBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.m_PositionBuffer.size() * sizeof(glm::vec3), &mesh.m_PositionBuffer[0], GL_STATIC_DRAW);
+	// Populate the vertex attribute vectors
+	for (unsigned int i = 0; i < paiMesh->mNumVertices; i++) {
+		const aiVector3D* pPos = &(paiMesh->mVertices[i]);
+		const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
+		const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
 
-	glGenBuffers(1, &mesh.uvBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.uvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.m_Tex2DBuffer.size() * sizeof(glm::vec2), &mesh.m_Tex2DBuffer[0], GL_STATIC_DRAW);
-
-	glGenBuffers(1, &mesh.normalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.m_NormalBuffer.size() * sizeof(glm::vec3), &mesh.m_NormalBuffer[0], GL_STATIC_DRAW);
-
-	// Generate a buffer for the indices as well
-	glGenBuffers(1, &mesh.indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.m_IndexBuffer.size() * sizeof(unsigned short), &mesh.m_IndexBuffer[0], GL_STATIC_DRAW);
-
-	// Vertex positions
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.uiBuffer);
-	glVertexAttribPointer(
-		0,                  // attribute
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-		);
-
-	// 2nd attribute buffer : UVs
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.uvBuffer);
-	glVertexAttribPointer(
-		1,                                // attribute
-		2,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-		);
-
-	// 3rd attribute buffer : normals
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh.normalBuffer);
-	glVertexAttribPointer(
-		2,                                // attribute
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-		);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
-
-	glBindVertexArray(0);
-
-	m->addMesh(mesh);
-}
-
-// Compute the position of the vertices in object local space
-// in the skeleton's bind pose
-bool ObjLoader::prepareMesh(Mesh& mesh, Model* m)
-{
-	mesh.m_PositionBuffer.clear();
-	mesh.m_Tex2DBuffer.clear();
-
-	// Compute vertex positions
-	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
-	{
-		Vertex& vert = mesh.m_Verts[i];
-
-		mesh.m_PositionBuffer.push_back(vert.m_Pos);
-		mesh.m_Tex2DBuffer.push_back(vert.m_Tex0);
+		Positions.push_back(glm::vec3(pPos->x, pPos->y, pPos->z));
+		Normals.push_back(glm::vec3(pNormal->x, pNormal->y, pNormal->z));
+		TexCoords.push_back(glm::vec2(pTexCoord->x, pTexCoord->y));
 	}
 
-	mesh.m_NormalBuffer.clear();
+	LoadBones(MeshIndex, paiMesh, Bones, mesh);
 
-	// Loop through all triangles and calculate the normal of each triangle
-	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
-	{
-		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
-		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
-		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
-
-		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
-
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
+	// Populate the index buffer
+	for (unsigned int i = 0; i < paiMesh->mNumFaces; i++) {
+		const aiFace& Face = paiMesh->mFaces[i];
+		assert(Face.mNumIndices == 3);
+		Indices.push_back(Face.mIndices[0]);
+		Indices.push_back(Face.mIndices[1]);
+		Indices.push_back(Face.mIndices[2]);
 	}
-	return true;
 }
 
 
-// Compute the vertex normals in the Mesh's bind pose
-bool ObjLoader::prepareNormals(Mesh& mesh, Model* m)
+void ObjLoader::LoadBones(unsigned int MeshIndex, const aiMesh* pMesh, std::vector<VertexBoneData>& Bones, Mesh& mesh)
 {
-	mesh.m_NormalBuffer.clear();
+	for (unsigned int i = 0; i < pMesh->mNumBones; i++) {
+		unsigned int BoneIndex = 0;
+		std::string BoneName(pMesh->mBones[i]->mName.data);
 
-	// Loop through all triangles and calculate the normal of each triangle
-	for (unsigned int i = 0; i < mesh.m_Tris.size(); ++i)
-	{
-		glm::vec3 v0 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Pos;
-		glm::vec3 v1 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Pos;
-		glm::vec3 v2 = mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Pos;
+		if (mesh.m_BoneMapping.find(BoneName) == mesh.m_BoneMapping.end()) {
+			// Allocate an index for a new bone
+			BoneIndex = mesh.m_NumBones;
+			mesh.m_NumBones++;
+			BoneInfo bi;
+			mesh.m_BoneInfo.push_back(bi);
+			aiMatrix4x4 temp = pMesh->mBones[i]->mOffsetMatrix;
+			mesh.m_BoneInfo[BoneIndex].BoneOffset = glm::mat4(
+				temp.a1, temp.a2, temp.a3, temp.a4,
+				temp.b1, temp.b2, temp.b3, temp.b4,
+				temp.c1, temp.c2, temp.c3, temp.c4,
+				temp.d1, temp.d2, temp.d3, temp.d4
+				);
+			mesh.m_BoneMapping[BoneName] = BoneIndex;
+		}
+		else {
+			BoneIndex = mesh.m_BoneMapping[BoneName];
+		}
 
-		glm::vec3 normal = glm::cross(v2 - v0, v1 - v0);
-
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[0]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[1]].m_Normal += normal;
-		mesh.m_Verts[mesh.m_Tris[i].m_Indices[2]].m_Normal += normal;
+		for (unsigned int j = 0; j < pMesh->mBones[i]->mNumWeights; j++) {
+			unsigned int VertexID = mesh.m_Entries[MeshIndex].BaseVertex + pMesh->mBones[i]->mWeights[j].mVertexId;
+			float Weight = pMesh->mBones[i]->mWeights[j].mWeight;
+			Bones[VertexID].AddBoneData(BoneIndex, Weight);
+		}
 	}
-
-	// Now normalize all the normals
-	for (unsigned int i = 0; i < mesh.m_Verts.size(); ++i)
-	{
-		Vertex& vert = mesh.m_Verts[i];
-		mesh.m_NormalBuffer.push_back(vert.m_Normal);
-	}
-
-	return true;
 }

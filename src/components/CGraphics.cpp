@@ -26,9 +26,27 @@ PointLight* CGraphics::getPointLight() {
 	return m_pPointlight;
 }
 
-void CGraphics::addModel(const char* dir) 
+void CGraphics::addModel(const char* dir, bool buildCollisions, float cubeSize, bool dynamic) 
 { 
 	m_pModel = m_Resources.add<Model>(dir);
+
+	if (buildCollisions)
+	{
+		CCollision* collision = new CCollision;
+		AABB boundingBox;
+		boundingBox.build(
+			-16 * cubeSize,
+			-16 * cubeSize,
+			-16 * cubeSize,
+			16 * cubeSize,
+			16 * cubeSize,
+			16 * cubeSize
+		);
+		collision->setCollisionBox(boundingBox);
+		collision->dynamic = dynamic;
+		m_entity->addComponent(collision, "Collision");
+	}
+	
 }
 
 void CGraphics::setModel(Model* model) 

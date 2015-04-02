@@ -101,10 +101,10 @@ void SGraphics::update(){
 	m_shaderProg.setUniform("parallaxScaleBias", glm::vec2(0.04, 0.02));
 
 	//Temp
-	DirectionalLight* light = m_CurrentState->getDirectionalLight();
+	DirectionalLight light = m_CurrentState->getDirectionalLight();
 	m_shaderProg.setUniform("LightPosition", glm::vec3(0.0f, 100.0f, 0.0f));
-	m_shaderProg.setUniform("Light.AmbientColor", light->Color);
-	m_shaderProg.setUniform("Light.AmbientIntensity", light->AmbientIntensity);
+	m_shaderProg.setUniform("Light.AmbientColor", light.Color);
+	m_shaderProg.setUniform("Light.AmbientIntensity", light.AmbientIntensity);
 	m_shaderProg.setUniform("Light.DiffuseIntensity", glm::vec3(0.8f, 0.8f, 0.8f));
 	m_shaderProg.setUniform("Light.Position", glm::vec4(0.0f, 10.0f, 0.0f, 1.0));
 	m_shaderProg.setUniform("Light.SpecularColor", 1.0, 1.0, 1.0);
@@ -191,51 +191,56 @@ void SGraphics::drawEntity(CGraphics* it)
 	m_shaderProg.setUniform("ShadowMatrix", Pipeline::m_ShadowVP * Pipeline::m_model);
 
 	// Render the meshes
-	MeshList& m = it->getModel()->getMeshes();
-	for (unsigned int i = 0; i < m.size(); ++i)
+	std::vector<Mesh>& m = it->getModel()->getMeshes();
+	glBindVertexArray(m[0].m_VAO);
+
+	Material* mat = it->getOverrideMaterial(0);
+	if (mat)
 	{
-		glBindVertexArray(m[i].uiVAO);
+		//DIFFUSE Texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, mat->texId(Material::TextureType::DIFFUSE));
+		m_shaderProg.setUniform("textureDiffuse", 0);
 
-		Material* mat = it->getOverrideMaterial(i);
-		if (mat)
+		//NORMAL Texture
+		GLuint t = mat->texId(Material::TextureType::NORMAL);
+		if (t != 0)
 		{
-			//DIFFUSE Texture
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, mat->texId(Material::TextureType::DIFFUSE));
-			m_shaderProg.setUniform("textureDiffuse", 0);
-
-			//NORMAL Texture
-			GLuint t = mat->texId(Material::TextureType::NORMAL);
-			if (t != 0)
-			{
-				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, t);
-				m_shaderProg.setUniform("textureNormal", 1);
-			}
-
-			m_shaderProg.setUniform("FullBright", mat->fullbright);
-			m_shaderProg.setUniform("Translucent", mat->translucent);
-			if (mat->translucent)
-			{
-				glEnable(GL_BLEND);
-			}
-		}
-		else {
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m[i].m_TexID);
-			m_shaderProg.setUniform("textureDiffuse", 0);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, t);
 			m_shaderProg.setUniform("textureNormal", 1);
 		}
-		glDrawElements(GL_TRIANGLES, m[i].m_IndexBuffer.size(), GL_UNSIGNED_SHORT, (void*)0);
-		glBindTexture(GL_TEXTURE_2D, 0);
 
-		glBindVertexArray(0);
-		if (mat)
+		m_shaderProg.setUniform("FullBright", mat->fullbright);
+		m_shaderProg.setUniform("Translucent", mat->translucent);
+		if (mat->translucent)
 		{
-			if (mat->translucent)
-			{
-				glDisable(GL_BLEND);
-			}
+			glEnable(GL_BLEND);
+		}
+	}
+	else {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, *m[0].m_texID);
+		m_shaderProg.setUniform("textureDiffuse", 0);
+		m_shaderProg.setUniform("textureNormal", 1);
+	}
+
+	for (unsigned int i = 0; i < m[i].m_Entries.size(); i++) 
+	{
+		glDrawElementsBaseVertex(GL_TRIANGLES,
+			m[i].m_Entries[i].NumIndices,
+			GL_UNSIGNED_INT,
+			(void*)(sizeof(unsigned int) * m[i].m_Entries[i].BaseIndex),
+			m[i].m_Entries[i].BaseVertex);
+	}
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	glBindVertexArray(0);
+	if (mat)
+	{
+		if (mat->translucent)
+		{
+			glDisable(GL_BLEND);
 		}
 	}
 }
@@ -245,16 +250,16 @@ void SGraphics::drawSkybox()
 	if (!m_CurrentState || !m_CurrentState->getCurrentCamera()) {
 		return;
 	}
-	Skybox* sky = m_CurrentState->getCurrentCamera()->getSkybox();
-	if (!sky) return;
-	sky->useProgram();
+	Skybox sky = m_CurrentState->getCurrentCamera()->getSkybox();
+	if (sky.getVao() == -1) return;
+	sky.useProgram();
 
-	glBindVertexArray(sky->getVao()); 
+	glBindVertexArray(sky.getVao()); 
 
 	glEnable(GL_TEXTURE_2D);
 
 	glActiveTexture(GL_TEXTURE0);
-	sky->bindTexture();
+	sky.bindTexture();
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	glBindVertexArray(0);
@@ -295,16 +300,16 @@ void SGraphics::drawText(CGraphics* it)
 	m_shaderProg.setUniform("Translucent", 1);
 
 	// Render the meshes
-	MeshList& m = it->getModel()->getMeshes();
+	std::vector<Mesh>& m = it->getModel()->getMeshes();
 	for (unsigned int i = 0; i < m.size(); ++i)
 	{
-		glBindVertexArray(m[i].uiVAO);
+		glBindVertexArray(m[i].m_VAO);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, t->texture->getTexId());
 		m_shaderProg.setUniform("textureDiffuse", 0);
 
-		glDrawArrays(GL_TRIANGLES, 0, m[i].m_vertexCount);
+		glDrawArrays(GL_TRIANGLES, 0, m[i].m_Entries[0].NumIndices);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glBindVertexArray(0);

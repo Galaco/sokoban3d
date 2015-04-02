@@ -10,6 +10,7 @@ Description: System that handles and processes collisions
 
 #include <map>
 #include <vector>
+#include <math.h>
 #include <core/System.h>
 
 
@@ -29,7 +30,12 @@ public:
 	void update(float);
 
 private:
-	void processSelectable(CSelectable*);
-	void processCollideable(CCollision*);
+	void processCollideable(CCollision* pCollision, CTransform* pTransform, CCollision* opCollision, CTransform* opTransform);
+
+	glm::vec3 calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3> bb2);
+	void rebuildCache();
+
+	static std::map<CCollision*, CTransform*> CCollisionCTransformCache;
+	static std::map<CCollision*, CTransform*> DynamicCCollisionCTransformCache;
 };
 #endif

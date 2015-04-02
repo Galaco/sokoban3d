@@ -10,7 +10,7 @@ Md5Loader::~Md5Loader(){
 
 Model* Md5Loader::load(std::string path){
 	Model* m = new Model;
-	std::ifstream file(path);
+	/*std::ifstream file(path);
 	if ( !file.is_open() ) {
 		Logger::log(ERROR_, std::string("Animation: Failed to open " + path).c_str());
 		return false;
@@ -30,7 +30,7 @@ Model* Md5Loader::load(std::string path){
 	file.seekg(pos);
 	assert( fileLength > 0 );
 
-	m->getJoints().clear();
+	//m->getJoints().clear();
 	m->getMeshes().clear();
 
 	file >> param;
@@ -45,12 +45,12 @@ Model* Md5Loader::load(std::string path){
 			file.ignore( fileLength, '\n' );				//Doom specific entries it seems. Ignore
 		} else if ( param == "numJoints" ) {
 			file >> m->getJointCount();
-			 m->getJoints().reserve( m->getJointCount());	//Joints in the object
+			 //m->getJoints().reserve( m->getJointCount());	//Joints in the object
 		} else if ( param == "numMeshes" ) {
 			file >>  m->getMeshCount();
 			 m->getMeshes().reserve( m->getMeshCount());	//Meshes in the object
 		} else if ( param == "joints" ) {
-			Joint joint;
+			/*Joint joint;
 			file >> junk; // Read the '{' character
 			for ( int i = 0; i <  m->getJointCount(); ++i )	//Data is:name, parent, pos.xyz, rot.xyz
 			{
@@ -85,7 +85,7 @@ Model* Md5Loader::load(std::string path){
 			{
 				if ( param == "shader" )
 				{
-					file >> mesh.m_Shader;
+					/*file >> mesh.m_Shader;
 					size_t n;
 					while ( ( n = mesh.m_Shader.find('\"') ) != std::string::npos ) mesh.m_Shader.erase(n,1);
 					std::string shaderPath = mesh.m_Shader;
@@ -231,9 +231,8 @@ Model* Md5Loader::load(std::string path){
 	assert(  m->getJoints().size() ==  m->getJointCount() );
 	assert(  m->getMeshes().size() ==  m->getMeshCount() );
 
-	m->setFormat("md5mesh");
-	Model* model = static_cast<Model*>(m);
-	return model;
+	m->setFormat("md5mesh");*/
+	return m;
 }
 
 
@@ -241,7 +240,7 @@ Model* Md5Loader::load(std::string path){
 // in the skeleton's bind pose
 bool Md5Loader::prepareMesh( Mesh& mesh, Model* m )
 {
-	mesh.m_PositionBuffer.clear();
+	/*mesh.m_PositionBuffer.clear();
 	mesh.m_Tex2DBuffer.clear();
 
 	// Compute vertex positions
@@ -305,7 +304,7 @@ bool Md5Loader::prepareMesh( Mesh& mesh, Model* m )
 			const Joint& joint = m->getJoints()[weight.m_JointID];
 			vert.m_Normal += ( normal * joint.m_Orient ) * weight.m_Bias;
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -314,7 +313,7 @@ bool Md5Loader::prepareMesh( Mesh& mesh, Model* m )
 // Compute the vertex normals in the Mesh's bind pose
 bool Md5Loader::prepareNormals( Mesh& mesh, Model* m )
 {
-	mesh.m_NormalBuffer.clear();
+	/*mesh.m_NormalBuffer.clear();
 
 	// Loop through all triangles and calculate the normal of each triangle
 	for ( unsigned int i = 0; i < mesh.m_Tris.size(); ++i )
@@ -350,6 +349,6 @@ bool Md5Loader::prepareNormals( Mesh& mesh, Model* m )
 			vert.m_Normal += ( normal * joint.m_Orient ) * weight.m_Bias;
 		}
 	}
-
+	*/
 	return true;
 }

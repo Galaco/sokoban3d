@@ -24,11 +24,16 @@ const luaL_Reg LuaState::luaBinds[] = {
 int LuaState::lua_Create(lua_State* L)
 {
 	LuaBinder binder(L);	
-	State* state = StateManager::getState(binder.checkstring(1));
+	Scene* state = SceneManager::getState(binder.checkstring(1));
 	if (state == nullptr)
 	{
-		State* s = new State;
-		StateManager::addState(s, binder.checkstring(1));
+		Scene* s = new Scene;
+		std::string path = binder.checkstring(2);
+		if (path != "")
+		{
+			s->load(path);
+		}
+		SceneManager::addState(s, binder.checkstring(1));
 		binder.pushusertype(s, "State");
 	} 
 	else {
@@ -40,11 +45,11 @@ int LuaState::lua_Create(lua_State* L)
 int LuaState::lua_CreateSokoban(lua_State* L)
 {
 	LuaBinder binder(L);
-	State* state = StateManager::getState(binder.checkstring(1));
+	Scene* state = SceneManager::getState(binder.checkstring(1));
 	if (state == nullptr)
 	{
 		Sokoban* s = new Sokoban;
-		StateManager::addState(s, binder.checkstring(1));
+		SceneManager::addState(s, binder.checkstring(1));
 		binder.pushusertype(s, "State");
 	}
 	else {
@@ -56,7 +61,7 @@ int LuaState::lua_CreateSokoban(lua_State* L)
 int LuaState::lua_Destroy(lua_State* L)
 {
 	LuaBinder binder(L);
-	State* state = (State*)binder.checkusertype(1, "State");
+	Scene* state = (Scene*)binder.checkusertype(1, "State");
 	delete state;
 	return 0;
 }
@@ -65,7 +70,7 @@ int LuaState::lua_AddEntity(lua_State* L)
 {
 	LuaBinder binder(L);
 	Entity* entity = static_cast<Entity*>(binder.checkusertype(1, "Entity"));
-	State* state = StateManager::getState(binder.checkstring(2));
+	Scene* state = SceneManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
 		state->addEntity(entity);
@@ -78,7 +83,7 @@ int LuaState::lua_AddCamera(lua_State* L)
 {
 	LuaBinder binder(L);
 	Camera* cam = static_cast<Camera*>(binder.checkusertype(1, "Camera"));
-	State* state = StateManager::getState(binder.checkstring(2));
+	Scene* state = SceneManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
 		state->addCamera(cam);
@@ -90,13 +95,12 @@ int LuaState::lua_AddCamera(lua_State* L)
 int LuaState::lua_GetDirectionalLight(lua_State* L)
 {
 	LuaBinder binder(L);
-	State* state = StateManager::getState(binder.checkstring(1));
+	Scene* state = SceneManager::getState(binder.checkstring(1));
 	if (state == nullptr)
 	{
 	return 0;
 	}
-	DirectionalLight* light = state->getDirectionalLight();
-	binder.pushusertype(light, "DirectionalLight");
+	binder.pushusertype(&state->getDirectionalLight(), "DirectionalLight");
 
 	return 1;
 
@@ -119,7 +123,7 @@ int LuaState::lua_GetState(lua_State* L)
 {
 	LuaBinder binder(L);
 
-	State* state = StateManager::getState(binder.checkstring(1));
+	Scene* state = SceneManager::getState(binder.checkstring(1));
 	if (state == nullptr)
 	{
 		return 0;
@@ -132,11 +136,11 @@ int LuaState::lua_GetState(lua_State* L)
 int LuaState::lua_RequestPriority(lua_State* L)
 {
 	LuaBinder binder(L);
-	State* s = StateManager::getState(binder.checkstring(1));
+	Scene* s = SceneManager::getState(binder.checkstring(1));
 	if (s != nullptr)
 	{
 		s->wantsPriority() = true;
-		s->priority = StateManager::getActiveState()->priority + 1;
+		s->priority = SceneManager::getActiveState()->priority + 1;
 	}
 
 	return 0;
@@ -145,7 +149,7 @@ int LuaState::lua_RequestPriority(lua_State* L)
 int LuaState::lua_AddPointLight(lua_State* L){
 	LuaBinder binder(L);
 	PointLight* light = static_cast<PointLight*>(binder.checkusertype(1, "PointLight"));
-	State* state = StateManager::getState(binder.checkstring(2));
+	Scene* state = SceneManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
 		state->addPointLight(light);
@@ -157,7 +161,7 @@ int LuaState::lua_AddPointLight(lua_State* L){
 int LuaState::lua_AddScript(lua_State* L){
 	LuaBinder binder(L);
 	LuaScript* script = static_cast<LuaScript*>(binder.checkusertype(1, "LuaScript"));
-	State* state = StateManager::getState(binder.checkstring(2));
+	Scene* state = SceneManager::getState(binder.checkstring(2));
 	if (state != nullptr)
 	{
 		state->addScript(script);
@@ -169,7 +173,7 @@ int LuaState::lua_AddScript(lua_State* L){
 int LuaState::lua_Deprioritise(lua_State* L)
 {
 	LuaBinder binder(L);
-	State* s = StateManager::getState(binder.checkstring(1));
+	Scene* s = SceneManager::getState(binder.checkstring(1));
 	if (s != nullptr)
 	{
 		s->canDeprioritise() = true;

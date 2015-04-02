@@ -1,0 +1,178 @@
+{
+	"scene" : 
+	{
+		"settings" : {
+			"mouse" : {
+				"hidden" : true,
+				"locked" : false
+			}
+		},
+		"directionalLight" : {
+			"color" : {
+				"r" : 1,
+				"g" : 1,
+				"b" : 1
+			},
+			"ambience": 1,
+			"diffuse" : 1
+		},
+		"cameras" : {
+			"defaultCamera" : {
+				"name" : "defaultCamera",
+				"transform" : {
+					"pX" : 0,
+					"pY" : 800,
+					"pZ" : 0,
+					"rX" : 80.11,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"skybox" : "skyboxes/mp_5dim/5dim",
+				"mode" : "CAMERA_ORBIT"
+			}
+		},
+		"entities" : {
+			"bg" : {
+				"name" : "bg",
+				"transform" : {
+					"pX" : 0,
+					"pY" : 0,
+					"pZ" : 0,
+					"rX" : 180,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"model" : "shapes/quad.obj",
+						"material" : "vgui/menubg.mat",
+						"rendermode" : "RENDER_2D"
+					}
+				}
+			},
+			"title" : {
+				"name" : "title",
+				"transform" : {
+					"pX" : -0.4,
+					"pY" : 0.25,
+					"pZ" : -0.5,
+					"rX" : 0,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"text" : "3D|SOKOBAN",
+						"textSize" : 14,
+						"rendermode" : "RENDER_2D"
+					}
+				}	
+			},
+			"extended" : {
+				"name" : "extended",
+				"transform" : {
+					"pX" : -0.39,
+					"pY" : 0,
+					"pZ" : -0.5,
+					"rX" : 0,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"text" : "[E] - Play",
+						"textSize" : 6,
+						"rendermode" : "RENDER_2D"
+					}
+				},
+				"script": {
+					  "path": "objects/menu/extended.lua",
+					  "identifier": "Extended"
+				}
+			},
+			"options" : {
+				"name" : "options",
+				"transform" : {
+					"pX" : -0.39,
+					"pY" : -0.075,
+					"pZ" : -0.5,
+					"rX" : 0,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"text" : "[W] - Options",
+						"textSize" : 6,
+						"rendermode" : "RENDER_2D"
+					}
+				},
+				"script": {
+					  "path": "objects/menu/options.lua",
+					  "table": "Options"
+				}
+			},
+			"quit" : {
+				"name" : "quit",
+				"transform" : {
+					"pX" : -0.39,
+					"pY" : -0.15,
+					"pZ" : -0.5,
+					"rX" : 0,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"text" : "[Q] - Quit",
+						"textSize" : 6,
+						"rendermode" : "RENDER_2D"
+					}
+				},
+				"script": {
+					  "path": "objects/menu/exit.lua",
+					  "identifier": "Exit"
+				}
+			},
+			"credits" : {
+				"name" : "credits",
+				"transform" : {
+					"pX" : 0.6,
+					"pY" : -0.95,
+					"pZ" : -0.5,
+					"rX" : 0,
+					"rY" : 0,
+					"rZ" : 0,
+					"sX" : 1,
+					"sY" : 1,
+					"sZ" : 1
+				},
+				"components": {
+					"graphics": {
+						"text" : "by Joshua Martin",
+						"textSize" : 5,
+						"rendermode" : "RENDER_2D"
+					}
+				}
+			}
+		}
+	}
+}

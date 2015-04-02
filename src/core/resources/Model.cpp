@@ -10,12 +10,13 @@ Model::~Model(){
 	//Cleanup
 	auto it = m_meshList.begin();
 	while (it != m_meshList.end()){
-		glDeleteVertexArrays(1, &(*it).uiVAO);
-		glDeleteVertexArrays(1, &(*it).indexBuffer);
-		glDeleteVertexArrays(1, &(*it).normalBuffer);
-		glDeleteVertexArrays(1, &(*it).uiBuffer);
-		glDeleteVertexArrays(1, &(*it).uvBuffer);
-		glDeleteVertexArrays(1, &(*it).tangentBuffer);
+		glDeleteVertexArrays(1, &(*it).m_VAO);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[INDEX_BUFFER]);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[POS_VB]);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[NORMAL_VB]);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[TEXCOORD_VB]);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[BONE_VB]);
+		glDeleteVertexArrays(1, &(*it).m_Buffers[NUM_VBs]);
 		++it;
 	}
 }
@@ -30,29 +31,27 @@ std::string Model::getFormat(){
 
 void Model::addMesh(Mesh& mesh){
 	if (m_textureList.find("Default") != m_textureList.end() &&
-		mesh.m_TexID == 99999){
-			mesh.m_TexID = m_textureList["Default"].getTexId();
+		mesh.m_texID[mesh.numTextures] == 99999){
+		mesh.m_texID[mesh.numTextures] = m_textureList["Default"].getTexId();
+		mesh.numTextures++;
 	}
 	m_meshList.push_back(mesh);
 }
 std::vector<Mesh>& Model::getMeshes(){
 	return m_meshList;
 }
-std::vector<Joint>& Model::getJoints(){
-	return m_JointList;
-}
 
 void Model::addTexture(std::string id, Texture* tex){
 	m_textureList[id] = *tex;
-	if (m_meshList.size() == 1 && m_meshList[0].m_TexID == 99999) 
+	if (m_meshList.size() == 1 && m_meshList[0].m_texID[0] == 99999) 
 	{
-		m_meshList[0].m_TexID = m_textureList[id].getTexId();
+		m_meshList[0].m_texID[0] = m_textureList[id].getTexId();
 	}
 	else 
 	{
 		for (unsigned short i = 0; i < m_meshList.size(); ++i){
-			if (m_meshList[i].m_TexID == 99999) {
-				m_meshList[i].m_TexID = m_textureList[id].getTexId();
+			if (m_meshList[i].m_texID[0] == 99999) {
+				m_meshList[i].m_texID[0] = m_textureList[id].getTexId();
 			}
 		}
 	}

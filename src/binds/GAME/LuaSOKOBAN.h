@@ -2,7 +2,7 @@
 #define LUASOKOBAN_H
 
 #include "../../GAME/Sokoban.h"
-#include <core/StateManager.h>
+#include <core/SceneManager.h>
 
 #include <binds/LuaClass.h>
 

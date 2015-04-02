@@ -1,5 +1,5 @@
 {
-	"diffuse": "switch/switch.png",
+	"diffuse": "switch/plinth.png",
 	"normal": "wall/wall_n.png",
 	"specular": "wall/wall_s.png",
 	"translucent": 0,

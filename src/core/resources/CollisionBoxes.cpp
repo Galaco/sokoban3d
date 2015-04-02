@@ -10,7 +10,7 @@ Collision::~Collision() {
 
 void AABB::buildFromModel(Model* model)
 {
-	auto it = model->getMeshes().begin();
+	/*auto it = model->getMeshes().begin();
 	while (it != model->getMeshes().end())
 	{
 		for (unsigned int i = 0; i < (*it).m_PositionBuffer.size(); i++)
@@ -53,7 +53,7 @@ void AABB::buildFromModel(Model* model)
 	}
 	else {
 		m_mode = true;
-	}
+	}*/
 }
 
 

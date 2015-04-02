@@ -125,7 +125,7 @@ local function turn(direction)
 end
 
 local function handleKeys()
-	if(Keyboard.KeyDown("i")) 
+	if(Keyboard.KeyDown("w")) 
 	then 
 		if(SOKOBAN.CanPlayerMove(0) == 1)
 		then
@@ -137,7 +137,7 @@ local function handleKeys()
 			movesMade = movesMade + 1
 		end
 
-	elseif(Keyboard.KeyDown("j")) 
+	elseif(Keyboard.KeyDown("a")) 
 	then
 		if(SOKOBAN.CanPlayerMove(2) == 1)
 		then
@@ -148,7 +148,7 @@ local function handleKeys()
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
 		end
-	elseif(Keyboard.KeyDown("k")) 
+	elseif(Keyboard.KeyDown("s")) 
 	then
 		if(SOKOBAN.CanPlayerMove(1) == 1)
 		then
@@ -159,7 +159,7 @@ local function handleKeys()
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
 		end
-	elseif(Keyboard.KeyDown("l")) 
+	elseif(Keyboard.KeyDown("d")) 
 	then
 		if(SOKOBAN.CanPlayerMove(3) == 1)
 		then
@@ -262,7 +262,7 @@ function Update()
 	then 
 	
 		handleKeys()
-	elseif(moving == 31) 
+	elseif(moving == 32) 
 	then 
 		moving = 0 
 	else 

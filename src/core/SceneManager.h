@@ -9,37 +9,37 @@ Description: Responsible for handling what state is the current state.
 			 Only 1 state can be active at once. Non-active states are
 			 on-hold.
 *********************************************************************/
-#ifndef STATEMANAGER_H
-#define STATEMANAGER_H
+#ifndef SCENEMANAGER_H
+#define SCENEMANAGER_H
 
 #include <map>
 
-#include <core/State.h>
+#include <core/Scene.h>
 #include <core/System.h>
 
-class StateManager {
+class SceneManager {
 public:
-	StateManager();
-	~StateManager();
+	SceneManager();
+	~SceneManager();
         
 	static void initialize();
 	static void terminate();
 	static void update(float dt);
 
-	static void addState(State*, std::string);
+	static void addState(Scene*, std::string);
 
-	static void setActiveState(State*);
-	static State* getActiveState();
+	static void setActiveState(Scene*);
+	static Scene* getActiveState();
 
 
-	static State* getState(std::string);
+	static Scene* getState(std::string);
 
 
 	static void requestPriority(std::string);
         
 
 private:
-	static std::map<std::string, State*> m_stateList;
-	static State* m_pActiveState;
+	static std::map<std::string, Scene*> m_stateList;
+	static Scene* m_pActiveState;
 };
 #endif

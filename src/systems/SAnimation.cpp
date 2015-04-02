@@ -38,7 +38,7 @@ void SAnimation::updateAnimation(CAnimation* anim, CGraphics* model, float dt){
 }
 
 void SAnimation::updateMesh(Model* model, const MD5Animation::FrameSkeleton& skel){
-    std::vector<Mesh>& meshes = model->getMeshes();
+    /*std::vector<Mesh>& meshes = model->getMeshes();
     for ( unsigned int h = 0; h < meshes.size(); ++h ){
 		for ( unsigned int i = 0; i < meshes[h].m_Verts.size(); ++i )
 		{
@@ -71,7 +71,7 @@ void SAnimation::updateMesh(Model* model, const MD5Animation::FrameSkeleton& ske
 		glBufferData(GL_ARRAY_BUFFER, meshes[h].m_NormalBuffer.size() * sizeof(glm::vec3), &meshes[h].m_NormalBuffer[0] , GL_STREAM_DRAW);
 
 		glBindVertexArray(0); 
-    }
+    }*/
 }
 
 void SAnimation::rebuildCache()

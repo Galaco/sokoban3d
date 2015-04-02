@@ -4,7 +4,7 @@
 movesMade = 0
 
 -- Initialize the main 3d state
-	State.CreateSokoban("SOKOBAN")
+	State.CreateSokoban("SOKOBAN", "")
 	
 --Set the states ambient light
 	local dirLight = State.GetDirectionalLight("SOKOBAN")

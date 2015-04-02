@@ -24,70 +24,118 @@ Description: Storage for raw mesh data. Note the differences between
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/euler_angles.hpp>
 
-typedef std::vector<glm::vec3> PositionBuffer;
-typedef std::vector<glm::vec3> NormalBuffer;
-typedef std::vector<glm::vec2> Tex2DBuffer;
-typedef std::vector<glm::vec4> TangentBuffer;
-typedef std::vector<unsigned short> IndexBuffer;
 
-struct Vertex
-{
-	glm::vec3   m_Pos;
-	glm::vec3   m_Normal;
-	glm::vec2   m_Tex0;
-	glm::vec4   m_Tangent;
-	int         m_StartWeight;
-	int         m_WeightCount;
+#define INVALID_MATERIAL 0xFFFFFFFF
+#define NUM_BONES_PER_VERTEX 4
+
+enum VB_TYPES {
+	INDEX_BUFFER,
+	POS_VB,
+	NORMAL_VB,
+	TEXCOORD_VB,
+	BONE_VB,
+	NUM_VBs
 };
-typedef std::vector<Vertex> VertexList;
 
-struct Triangle
+struct BoneInfo
 {
-	int             m_Indices[3];
-};
-typedef std::vector<Triangle> TriangleList;
+	glm::mat4 BoneOffset;
+	glm::mat4 FinalTransformation;
 
-struct Weight
+	BoneInfo()
+	{
+		//BoneOffset.SetZero();
+		//FinalTransformation.SetZero();
+	}
+};
+
+struct VertexBoneData
 {
-	int             m_JointID;
-	float           m_Bias;
-	glm::vec3       m_Pos;
+	GLuint IDs[NUM_BONES_PER_VERTEX];
+	float Weights[NUM_BONES_PER_VERTEX];
+
+	VertexBoneData()
+	{
+		Reset();
+	};
+
+	void Reset()
+	{
+		IDs[0] = 0;
+		IDs[1] = 0;
+		IDs[2] = 0;
+		IDs[3] = 0;
+		Weights[0] = 0;
+		Weights[1] = 0;
+		Weights[2] = 0;
+		Weights[3] = 0;
+	}
+
+	void AddBoneData(unsigned int BoneID, float Weight)
+	{
+		for (unsigned int i = 0; i < NUM_BONES_PER_VERTEX; i++) {
+			if (Weights[i] == 0.0) {
+				IDs[i] = BoneID;
+				Weights[i] = Weight;
+				return;
+			}
+		}
+
+		// should never get here - more bones than we have space for
+		assert(0);
+	}
 };
-typedef std::vector<Weight> WeightList;
 
-struct Joint
-{
-	std::string     m_Name;
-	int             m_ParentID;
-	glm::vec3       m_Pos;
-	glm::quat       m_Orient;
+struct MeshEntry {
+	MeshEntry()
+	{
+		NumIndices = 0;
+		BaseVertex = 0;
+		BaseIndex = 0;
+		MaterialIndex = INVALID_MATERIAL;
+	}
+
+	unsigned int NumIndices;
+	unsigned int BaseVertex;
+	unsigned int BaseIndex;
+	unsigned int MaterialIndex;
 };
-typedef std::vector<Joint> JointList;
 
-struct Mesh
-{
-	Mesh(): m_TexID(99999){};
-	std::string		name;
-	std::string     m_Shader;
-	// This vertex list stores the vertices in the bind pose.
-	VertexList      m_Verts;
-	TriangleList    m_Tris;
-	WeightList      m_Weights;
 
-	// A texture ID for the material
-	GLuint          m_TexID;
+class Mesh {
+public:
+	Mesh()
+	{
+		numTextures = 0;
+		for (unsigned int i = 0; i < 16; ++i)
+		{
+			m_texID[i] = 99999;
+		}
+	};
 
-	// These buffers are used for rendering the animated mesh
-	PositionBuffer  m_PositionBuffer;   // Vertex position stream
-	NormalBuffer    m_NormalBuffer;     // Vertex normals stream
-	Tex2DBuffer     m_Tex2DBuffer;      // Texture coordinate set
-	IndexBuffer     m_IndexBuffer;      // Vertex index buffer
-	TangentBuffer     m_TangentBuffer;      // Vertex Tangent buffer
-	GLuint				uiVAO, uiBuffer, indexBuffer, uvBuffer, normalBuffer, tangentBuffer;
-	int iSize, iBufferType;
-	bool bDataUploaded;
-	unsigned int m_vertexCount;
+
+	std::vector<MeshEntry> m_Entries;
+	std::vector<Texture*> m_Textures;
+
+
+	std::map<std::string, GLuint> m_BoneMapping; // maps a bone name to its index
+	GLuint m_NumBones;
+	std::vector<BoneInfo> m_BoneInfo;
+	glm::mat4 m_GlobalInverseTransform;
+
+	GLuint m_texID[16];
+	unsigned int numTextures;
+
+	GLuint m_VAO;
+	GLuint m_Buffers[NUM_VBs];
+
+	glm::vec2 BBX, BBY, BBZ;
 };
-typedef std::vector<Mesh> MeshList;
+
+
+
+
+
+
 
 #endif

@@ -15,11 +15,10 @@ SplashState::SplashState()
 	splash->GetTransform()->setOrientation(glm::vec3(0.f, -90.f, 0.f));
 	addEntity(splash);
 
-	m_directionalLight = new DirectionalLight();
-	m_directionalLight->AmbientIntensity = 0.f;
-	m_directionalLight->Color = glm::vec3(1.f, 1.f, 1.f);
-	m_directionalLight->DiffuseIntensity = 1.f;
-	m_directionalLight->Direction = glm::vec3(1.0f, 0.0f, 0.0f);
+	m_directionalLight.AmbientIntensity = 0.f;
+	m_directionalLight.Color = glm::vec3(1.f, 1.f, 1.f);
+	m_directionalLight.DiffuseIntensity = 1.f;
+	m_directionalLight.Direction = glm::vec3(1.0f, 0.0f, 0.0f);
 }
 
 void SplashState::update(float dt = 0)

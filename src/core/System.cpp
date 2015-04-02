@@ -2,8 +2,8 @@
 
 EventManager System::m_EventManager;
 //Camera* System::m_currentCamera;
-State*	System::m_CurrentState;
-State*	System::m_PreviousState;
+Scene*	System::m_CurrentState;
+Scene*	System::m_PreviousState;
 
 System::System(){
     //m_currentCamera = nullptr;
@@ -31,7 +31,7 @@ void System::terminate(){
 //}
 
 
-void System::setCurrentState(State* state){
+void System::setCurrentState(Scene* state){
 	m_PreviousState = m_CurrentState;
 	m_CurrentState = state;
 }

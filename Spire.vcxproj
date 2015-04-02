@@ -61,7 +61,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/lua/lib;$(SolutionDir)/libraries/jsoncpp/lib;$(SolutionDir)/libraries/assimp/lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp;lua5.2.lib;lib_json-d.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp.lib;lua5.2.lib;lib_json-d.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-system-s-d.lib;sfml-graphics-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT; LIBCMT;</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>GLEW_STATIC;SFML_STATIC;_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)\src\extern;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua/include;$(SolutionDir)/libraries/src/extern;$(SolutionDir)/libraries/jsoncpp/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/libraries/SFML/include;$(SolutionDir)/libraries/GLEW/include;$(SolutionDir)\src\extern;$(SolutionDir)/src;$(SolutionDir)/libraries/GLFW/include;$(SolutionDir)/libraries/glm/include;$(SolutionDir)/libraries/lua/include;$(SolutionDir)/libraries/src/extern;$(SolutionDir)/libraries/jsoncpp/include;$(SolutionDir)/libraries/assimp/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -83,8 +83,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>lua5.2.lib;lib_json.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-graphics-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/lua/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/jsoncpp/lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp.lib;lua5.2.lib;lib_json.lib;opengl32.lib;glfw3dll.lib;glew32s.lib;sfml-graphics-s.lib;sfml-system-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/SFML/lib;$(SolutionDir)/libraries/lua/lib;$(SolutionDir)/libraries/GLEW/lib;$(SolutionDir)/libraries/GLFW/lib;$(SolutionDir)/libraries/jsoncpp/lib;$(SolutionDir)/libraries/assimp/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -146,8 +146,8 @@
     <ClInclude Include="src\core\resources\Skybox.h" />
     <ClInclude Include="src\core\resources\Text.h" />
     <ClInclude Include="src\core\resources\Texture.h" />
-    <ClInclude Include="src\core\State.h" />
-    <ClInclude Include="src\core\StateManager.h" />
+    <ClInclude Include="src\core\Scene.h" />
+    <ClInclude Include="src\core\SceneManager.h" />
     <ClInclude Include="src\core\states\SplashState.h" />
     <ClInclude Include="src\core\System.h" />
     <ClInclude Include="src\core\TextureLoader.h" />
@@ -219,8 +219,8 @@
     <ClCompile Include="src\core\resources\Skybox.cpp" />
     <ClCompile Include="src\core\resources\Text.cpp" />
     <ClCompile Include="src\core\resources\Texture.cpp" />
-    <ClCompile Include="src\core\State.cpp" />
-    <ClCompile Include="src\core\StateManager.cpp" />
+    <ClCompile Include="src\core\Scene.cpp" />
+    <ClCompile Include="src\core\SceneManager.cpp" />
     <ClCompile Include="src\core\states\SplashState.cpp" />
     <ClCompile Include="src\core\System.cpp" />
     <ClCompile Include="src\core\TextureLoader.cpp" />

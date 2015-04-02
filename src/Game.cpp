@@ -2,7 +2,7 @@
 
 bool Game::m_isRunning;
 double Game::m_FRAMELENGTH = 0.012; //works better than 0.01667?
-StateManager Game::m_stateManager;
+SceneManager Game::m_stateManager;
 
 Game::Game(Engine& engine) : m_engine(engine){
 	m_engine = engine;
@@ -45,7 +45,7 @@ void Game::update(){
 		// update systems
 		m_sLuaScript.update((float)m_frameTime);
 		m_sAnimation.update((float)m_frameTime);
-		//m_sCollision.update((float)m_frameTime);
+		m_sCollision.update((float)m_frameTime);
 
 		// render
 		m_sGraphics.update();

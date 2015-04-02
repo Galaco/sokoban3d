@@ -11,14 +11,14 @@ Engine::Engine(){
 	if (m_config.load()){
 		Logger::log(SUCCESS, "Configuration: Loaded data/core/base.cfg");
 		if (Config::_FULLSCREEN) {
-			pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "Sokoban 3D", glfwGetPrimaryMonitor(), NULL);
+			pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "3D Sokoban", glfwGetPrimaryMonitor(), NULL);
 		} else {
-			pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "Sokoban 3D", NULL, NULL);
+			pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "3D Sokoban", NULL, NULL);
 		}
 	}
 	else {
 		Logger::log(WARNING, "Configuration: Failed to load 'data/core/base.cfg'. Using defaults.");
-		pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "Sokoban 3D", NULL, NULL);
+		pWindow = glfwCreateWindow(Config::_WINDOWWIDTH, Config::_WINDOWHEIGHT, "3D Sokoban", NULL, NULL);
 	}
 	
 	if (!pWindow) glfwTerminate();

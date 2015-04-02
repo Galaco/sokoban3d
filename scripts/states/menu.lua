@@ -1,6 +1,7 @@
 -- game.lua
 -- Initialize the main game state, where the actual Sokoban gameplay will take place
-	State.Create("mainmenu")
+	State.Create("mainmenu", "")
+	
 	
 --Set the states ambient light
 	local dirLight = State.GetDirectionalLight("mainmenu")

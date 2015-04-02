@@ -2,7 +2,7 @@
 #define LUAENTITY_H
 
 #include <core/Entity.h>
-#include <core/StateManager.h>
+#include <core/SceneManager.h>
 
 #include <binds/LuaClass.h>
 #include <components/CGraphics.h>

@@ -16,7 +16,7 @@ Description: Contains the main game loop. Responsible for System &
 
 #include <SFML/System.hpp>
 
-#include <core/StateManager.h>
+#include <core/SceneManager.h>
 #include <core/states/SplashState.h>
 
 #include "systems/SGraphics.h"
@@ -55,6 +55,6 @@ private:
 	SCollision      m_sCollision;
 
     static double m_FRAMELENGTH;
-	static StateManager m_stateManager;
+	static SceneManager m_stateManager;
 };
 #endif

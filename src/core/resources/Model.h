@@ -29,7 +29,6 @@ public:
 
 	void addMesh(Mesh&);
 	std::vector<Mesh>& getMeshes();
-	std::vector<Joint>& getJoints();
 
 	void addTexture(std::string, Texture*);
 	std::map<std::string, Texture>& getTextures();
@@ -41,8 +40,8 @@ public:
 	int& getJointCount();
 
 protected:
-	MeshList m_meshList;
-	JointList m_JointList;
+	std::vector<Mesh> m_meshList;
+
 	std::map<std::string, Texture> m_textureList;
 
 	std::string m_format;

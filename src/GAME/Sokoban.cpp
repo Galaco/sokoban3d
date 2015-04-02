@@ -173,7 +173,7 @@ void Sokoban::addWall(int x, int y, int face)
 			glm::vec3(
 				-(scale * 4) - scale,
 				(scale * y) - (scale * 4),
-				(scale * x) - (scale * 4)
+				(scale * (7-x)) - (scale * 4)
 			)
 		);
 	}
@@ -202,9 +202,9 @@ void Sokoban::addWall(int x, int y, int face)
 	e->GetTransform()->setScale(glm::vec3(scale, scale, scale));
 
 	CGraphics* c = new CGraphics();
-	c->addModel("wall/cube.obj");
-	c->addMaterial("wall/wall.mat");
 	e->addComponent(c, "Graphics");
+	c->addModel("wall/cube.obj", true, 1.f, false);
+	c->addMaterial("wall/wall.mat");
 
 	addEntity(e);
 }
@@ -219,7 +219,7 @@ void Sokoban::addPlayer(int x, int y, int face)
 			glm::vec3(
 			(scale * x) - (scale * 4),
 			(scale * y) - (scale * 4),
-			-(scale * 4) - scale
+			-(scale * 4)
 			)
 			);
 	}
@@ -227,7 +227,7 @@ void Sokoban::addPlayer(int x, int y, int face)
 	{
 		player->GetTransform()->setPosition(
 			glm::vec3(
-			(scale * 4) - scale / 2,
+			(scale * 4),
 			(scale * y) - (scale * 4),
 			(scale * x) - (scale * 4)
 			)
@@ -239,7 +239,7 @@ void Sokoban::addPlayer(int x, int y, int face)
 			glm::vec3(
 			(scale * x) - (scale * 4),
 			(scale * y) - (scale * 4),
-			(scale * 4) - scale/2
+			(scale * 4)
 			)
 			);
 	}
@@ -247,9 +247,9 @@ void Sokoban::addPlayer(int x, int y, int face)
 	{
 		player->GetTransform()->setPosition(
 			glm::vec3(
-			-(scale * 4) - scale,
+			-(scale * 4),
 			(scale * y) - (scale * 4),
-			(scale * x) - (scale * 4)
+			(scale * (7-x)) - (scale * 4)
 			)
 			);
 	}
@@ -269,24 +269,27 @@ void Sokoban::addPlayer(int x, int y, int face)
 		player->GetTransform()->setPosition(
 			glm::vec3(
 			(scale * x) - (scale * 4),
-			-(scale * 4) - scale,
+			-(scale * 4),
 			(scale * y) - (scale * 4)
 			)
 			);
 	}
 	playerPosition = glm::vec3(x, y, face);
 
-	player->GetTransform()->setScale(glm::vec3(0.5, 0.5, 0.5));
+	player->GetTransform()->setScale(glm::vec3(4, 4, 4));
 	player->GetTransform()->setOrientation(glm::vec3(0, 90, 0));
 
 	CGraphics* g = new CGraphics();
-	g->addModel("player/boblampclean.md5mesh");
+	//g->addModel("player/boblampclean.md5mesh");
 	player->addComponent(g, "Graphics");
+	g->addModel("wall/wall.obj", true, 0.8f, true);
+	//g->addModel("miku/negimiku.dae", true);
+	g->addMaterial("switch/switch.mat");
 
 
-	CAnimation* a = new CAnimation();
-	a->addAnimation("player/boblampclean.md5anim");
-	player->addComponent(a, "Animation");
+	//CAnimation* a = new CAnimation();
+	//a->addAnimation("player/boblampclean.md5anim");
+	//player->addComponent(a, "Animation");
 
 	addEntity(player);
 }
@@ -304,18 +307,18 @@ void Sokoban::addSwitch(int x, int y, int face)
 			-(scale * 4) - scale / 2
 			)
 			);
-		e->GetTransform()->setScale(glm::vec3(scale, scale, 2));
+		e->GetTransform()->setOrientation(glm::vec3(0, 180, 0));
 	}
 	if (face == 1)
 	{
 		e->GetTransform()->setPosition(
 			glm::vec3(
-			(scale * 4),
+			(scale * 4) - scale / 2,
 			(scale * y) - (scale * 4),
 			(scale * x) - (scale * 4)
 			)
 			);
-		e->GetTransform()->setScale(glm::vec3(2, scale, scale));
+		e->GetTransform()->setOrientation(glm::vec3(0,90,0));
 	}
 	if (face == 2)
 	{
@@ -323,10 +326,9 @@ void Sokoban::addSwitch(int x, int y, int face)
 			glm::vec3(
 			(scale * (7 - x)) - (scale * 4),
 			(scale * y) - (scale * 4),
-			(scale * 4)
+			(scale * 4) - scale / 2
 			)
 			);
-		e->GetTransform()->setScale(glm::vec3(scale, scale, 2));
 	}
 	if (face == 3)
 	{
@@ -334,25 +336,23 @@ void Sokoban::addSwitch(int x, int y, int face)
 			glm::vec3(
 			-(scale * 4) - scale / 2,
 			(scale * y) - (scale * 4),
-			(scale * x) - (scale * 4)
+			(scale * (7 - x)) - (scale * 4)
 			)
 			);
-		e->GetTransform()->setScale(glm::vec3(2, scale, scale));
+		e->GetTransform()->setOrientation(glm::vec3(0, 270, 0));
 	}
 	if (face == 4)
 	{
 		e->GetTransform()->setPosition(
 			glm::vec3(
 			(scale * x) - (scale * 4),
-			(scale * 4),
+			(scale * 4) - scale / 2,
 			(scale * y) - (scale * 4)
 			)
 			);
-		e->GetTransform()->setScale(glm::vec3(scale, 2, scale));
 	}
 	if (face == 5)
 	{
-
 		e->GetTransform()->setPosition(
 			glm::vec3(
 			(scale * x) - (scale * 4),
@@ -360,13 +360,12 @@ void Sokoban::addSwitch(int x, int y, int face)
 			(scale * y) - (scale * 4)
 			)
 			);
-
-		e->GetTransform()->setScale(glm::vec3(scale, 2, scale));
 	}
 
 
+	e->GetTransform()->setScale(glm::vec3(0.75, 0.75, 0.75));
 	CGraphics* c = new CGraphics();
-	c->addModel("wall/wall.obj");
+	c->addModel("switch/plinth.dae");
 	c->addMaterial("switch/switch.mat");
 	e->addComponent(c, "Graphics");
 
@@ -413,7 +412,7 @@ void Sokoban::addBlock(int x, int y, int face)
 			glm::vec3(
 			-(scale * 4) - scale,
 			(scale * y) - (scale * 4),
-			(scale * x) - (scale * 4)
+			(scale * (7 - x)) - (scale * 4)
 			)
 			);
 	}
@@ -439,12 +438,12 @@ void Sokoban::addBlock(int x, int y, int face)
 			);
 	}
 
-	e->GetTransform()->setScale(glm::vec3(16, 16, 16));
+	e->GetTransform()->setScale(glm::vec3(15, 15, 15));
 
 	CGraphics* c = new CGraphics();
-	c->addModel("shapes/sphere.obj");
-	c->addMaterial("block/block.mat");
 	e->addComponent(c, "Graphics");
+	c->addModel("block/block.obj", true, 1.f, true);
+	c->addMaterial("block/block.mat");
 
 	addEntity(e);
 }
@@ -453,7 +452,7 @@ void Sokoban::addBlock(int x, int y, int face)
 void Sokoban::addFloor()
 {
 	float scale = 32.f;
-	Entity * e = new Entity();
+	Entity * e = new Entity("PLANET");
 	e->GetTransform()->setPosition(
 		glm::vec3(-scale / 2, -scale/2, -scale / 2)
 	);
@@ -462,8 +461,8 @@ void Sokoban::addFloor()
 		glm::vec3(scale * 8, scale * 8, scale * 8)
 		);
 	CGraphics* c = new CGraphics();
-	c->addModel("wall/cube.obj");
-	c->addMaterial("ground/floor.mat");
 	e->addComponent(c, "Graphics");
+	c->addModel("wall/cube.obj", true, 8, false);
+	c->addMaterial("ground/floor.mat");
 	addEntity(e);
 }

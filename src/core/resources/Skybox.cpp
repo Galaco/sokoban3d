@@ -4,7 +4,7 @@ bool Skybox::shaderReady = false;
 
 Skybox::Skybox() {
 	zFar = 128.f;
-
+	vao = -1;
 	if (!shaderReady)
 	{
 		createShader();

@@ -12,11 +12,11 @@ Description: Exception to rules. Splash state is non-optional, hence
 
 #include <string>
 
-#include <core/State.h>
+#include <core/Scene.h>
 
 #include "../../components/CGraphics.h"
 
-class SplashState : public State {
+class SplashState : public Scene {
 public:
 	SplashState();
 

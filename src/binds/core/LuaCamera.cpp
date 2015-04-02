@@ -56,9 +56,7 @@ int LuaCamera::lua_AddSkybox(lua_State* L)
 {
 	LuaBinder binder(L);
 	Camera* entity = (Camera*)binder.checkusertype(1, "Camera");
-	Skybox* sky = new Skybox;
-	sky->load(binder.checkstring(2));
-	entity->addSkybox(sky);
+	entity->addSkybox(binder.checkstring(2));
 	return 0;
 }
 
@@ -66,7 +64,7 @@ int LuaCamera::lua_ActiveCamera(lua_State* L)
 {
 	LuaBinder binder(L);
 
-	Camera* cam = StateManager::getActiveState()->getCurrentCamera();
+	Camera* cam = SceneManager::getActiveState()->getCurrentCamera();
 	binder.pushusertype(cam, "Camera");
 
 	return 1;
@@ -151,7 +149,7 @@ int LuaCamera::lua_ToggleMouse(lua_State* L)
 int LuaCamera::lua_Find(lua_State* L){
 	LuaBinder binder(L);
 
-	State* state = StateManager::getActiveState();
+	Scene* state = SceneManager::getActiveState();
 	Camera* e = state->getCamera(binder.checkstring(1));
 
 	binder.pushusertype(e, "Camera");
@@ -161,7 +159,7 @@ int LuaCamera::lua_Find(lua_State* L){
 int LuaCamera::lua_SetActive(lua_State* L){
 	LuaBinder binder(L);
 
-	State* state = StateManager::getActiveState();
+	Scene* state = SceneManager::getActiveState();
 	Camera* e = state->getCamera(binder.checkstring(1));
 	if (e != nullptr) {
 		state->setCurrentCamera(e);

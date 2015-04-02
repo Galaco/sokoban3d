@@ -2,13 +2,13 @@
 Project: Dissertation
 Author: Josh Martin
 
-Name: State
+Name: Scene
 Description: A state within the state machine. Could also be referred 
 			 to as a scene. More than anything, its a data store that 
 			 classes can get and set, and are contained within.
 *********************************************************************/
-#ifndef STATE_H
-#define STATE_H
+#ifndef SCENE_H
+#define SCENE_H
 
 #include <string>
 
@@ -18,16 +18,20 @@ Description: A state within the state machine. Could also be referred
 #include <core/resources/PointLight.h>
 #include <core/resources/LuaScript.h>
 
-class State {
+#include <json/json.h>
+
+class Scene {
 public:
-	State();
-	virtual ~State();
+	Scene();
+	virtual ~Scene();
 
 	virtual void update(float dt);
 	
 	std::map<std::string, Entity*>& getEntities();
 	std::vector<Camera*>& getCameras();
 	std::vector<PointLight*>& getPointLights();
+
+	bool load(std::string filename);
 
 	void addEntity(Entity*);
 	void addCamera(Camera*);
@@ -38,7 +42,7 @@ public:
 	Camera* getCamera(std::string);
 	Camera* getCurrentCamera();
 	void setCurrentCamera(Camera* camera);
-	DirectionalLight* getDirectionalLight();
+	DirectionalLight& getDirectionalLight();
 
 
 	bool& wantsPriority();
@@ -58,7 +62,7 @@ protected:
 	std::map<std::string, Entity*>	m_mEntityList;
 	std::vector<Camera*>	m_mCameraList;
 	std::vector<PointLight*>	m_listPointLight;
-	DirectionalLight*	m_directionalLight;
+	DirectionalLight m_directionalLight;
 	std::vector<LuaScript *>	m_listScript;
 };
 #endif
