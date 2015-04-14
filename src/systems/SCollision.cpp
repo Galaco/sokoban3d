@@ -54,14 +54,16 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 	if (gotCollision)
 	{
 		glm::vec3 mtd = calcMTD(box1, box2);
-		std::string name = opCollision->getOwner()->getId();
 
 		if (!opCollision->dynamic)	// If the second object is static, it should not be moved
 		{
-			pTransform->getPosition() += mtd;
+			if (pCollision->getOwner()->getId() != "PLAYER")
+			{
+				pTransform->getPosition() += mtd;
+			}
 		}
 		else {
-			if (name == "PLAYER")
+			if (opCollision->getOwner()->getId() == "PLAYER")
 			{
 				pTransform->getPosition() += mtd;
 			}
@@ -69,33 +71,6 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 				opTransform->getPosition() += mtd;
 			}
 		}
-
-		/*if (name == "PLAYER")
-		{
-			if (opCollision->dynamic == false)
-			{
-				pTransform->getPosition() += mtd;
-			}
-			else {
-				opTransform->getPosition() -= mtd;
-			}
-		}
-		else {
-			name = opCollision->getOwner()->getId();
-			if (name == "PLAYER")
-			{
-				if (pCollision->dynamic == false)
-				{
-					opTransform->getPosition() += mtd;
-				}
-				else {
-					pTransform->getPosition() -= mtd;
-				}
-			}
-			else {
-				opTransform->getPosition() += mtd;
-			}
-		}*/
 	}
 }
 

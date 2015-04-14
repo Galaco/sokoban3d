@@ -26,4 +26,11 @@ currentLevel = 1
 	CGraphics.AddText(g, "Time Elapsed: ", 8)
 	CGraphics.SetRenderMode(g, "RENDER_2D")	
 	Entity.AddComponent(e, g, "Graphics")
+	
+	
+	local script = CScript.Create()
+	Entity.AddComponent(e, script, "LuaScript")
+	CScript.AddScript(script, "interface/timeElapsed.lua")
+
 	State.AddEntity(e, "SOKOBAN")
+	

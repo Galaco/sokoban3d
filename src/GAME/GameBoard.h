@@ -26,11 +26,18 @@ public:
 	int face;
 	static glm::vec3* playerPosition;
 
+	int switchCount;
+	int activeSwitches;
+
+	bool complete;
+
 private:
 	GameBoard* connections[4];
 
 	void MovePlayer(int x, int y, int dir);
 	void MoveBlock(int x, int y, int dir);
+
+	void checkComplete();
 };
 #endif
 

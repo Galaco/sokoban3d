@@ -86,10 +86,13 @@ Material* CGraphics::getOverrideMaterial(unsigned int index)
 
 void CGraphics::addText(const char* string, double size)
 {
-	if (!m_pModel)
+	if (m_pModel)
 	{
-		m_pModel = new Model;
+		delete m_pModel;
 	}
+
+	m_pModel = new Model;
+
 	if (m_pText)
 	{
 		delete m_pText;

@@ -70,7 +70,7 @@ float calculateShadow()
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, 1));
 
     //comment below here for only minor PCF
-    /*visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, -2));
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, -2));
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-1, -2));
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(1, -2));
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, -2));
@@ -81,7 +81,7 @@ float calculateShadow()
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, -1));
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(-2, 1));
     visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, -1));
-    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, 1));*/
+    visibility += textureProjOffset(ShadowMap, tmp_shadow_coords, ivec2(2, 1));
 	//end comment block
 
     visibility *= 0.25;

@@ -34,6 +34,7 @@ private:
 		std::vector<glm::vec3>& Positions,
 		std::vector<glm::vec3>& Normals,
 		std::vector<glm::vec2>& TexCoords,
+		std::vector<glm::vec4>& Tangents,
 		std::vector<VertexBoneData>& Bones,
 		std::vector<GLuint>& Indices, Mesh& mesh);
 

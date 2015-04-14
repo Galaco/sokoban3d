@@ -42,6 +42,8 @@ Sokoban::Sokoban()
 	load("assets/levels/extended/01.s3d");
 
 	GameBoard::playerPosition = &playerPosition;
+
+	numSwitches = 0;
 }
 
 Sokoban::~Sokoban()
@@ -64,9 +66,36 @@ void Sokoban::load(std::string filename)
 	}
 	file.close();
 
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		if (gameboards[i].switchCount == 0)
+		{
+			gameboards[i].complete = true;
+		}
+	}
 
 
 	addFloor();
+
+	elapsedTime = 0;
+}
+
+void Sokoban::update(float dt)
+{
+	elapsedTime += dt;
+	
+	if (gameboards[0].complete &&
+		gameboards[1].complete &&
+		gameboards[2].complete &&
+		gameboards[3].complete &&
+		gameboards[4].complete &&
+		gameboards[5].complete)
+	{
+		Logger::log(ERROR_, "Game complete");
+	}
+
+	Scene::update(dt);
+
 }
 
 
@@ -83,33 +112,31 @@ void Sokoban::processCharacter(const char& c)
 	}
 	if (c == '1')	//Wall
 	{
-		gameboards[currentBoard].set(1, currentX, currentY);
-		originalgameboards[currentBoard].set(1, currentX, currentY);
+		gameboards[currentBoard].set(1, currentY, currentX);
 		addWall(currentX, currentY, currentBoard);
 		++currentX;
 		return;
 	}
 	if (c == '2')	//Block
 	{
-		gameboards[currentBoard].set(2, currentX, currentY);
-		originalgameboards[currentBoard].set(2, currentX, currentY);
+		gameboards[currentBoard].set(2, currentY, currentX);
 		addBlock(currentX, currentY, currentBoard);
 		++currentX;
 		return;
 	}
 	if (c == '3')	//Switch
 	{
-		gameboards[currentBoard].set(3, currentX, currentY);
-		originalgameboards[currentBoard].set(3, currentX, currentY);
+		gameboards[currentBoard].set(3, currentY, currentX);
 		addSwitch(currentX, currentY, currentBoard);
 		++currentX;
+		gameboards[currentBoard].switchCount++;
+		numSwitches++;
 		return;
 	}
 
 	if (c == '4')	//Player
 	{
-		gameboards[currentBoard].set(4, currentX, currentY);
-		originalgameboards[currentBoard].set(4, currentX, currentY);
+		gameboards[currentBoard].set(4, currentY, currentX);
 		addPlayer(currentX, currentY, currentBoard);
 		++currentX;
 		return;
@@ -442,7 +469,7 @@ void Sokoban::addBlock(int x, int y, int face)
 
 	CGraphics* c = new CGraphics();
 	e->addComponent(c, "Graphics");
-	c->addModel("block/block.obj", true, 1.f, true);
+	c->addModel("block/block.obj", true, 0.9f, true);
 	c->addMaterial("block/block.mat");
 
 	addEntity(e);

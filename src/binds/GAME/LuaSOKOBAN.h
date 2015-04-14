@@ -18,6 +18,7 @@ public:
 	static int lua_BlockMove(lua_State* L);
 
 	static int lua_GetCurrentFace(lua_State* L);
+	static int lua_GetElapsedTime(lua_State* L);
 
 	static const luaL_Reg luaBinds[];
 };

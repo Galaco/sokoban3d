@@ -20,6 +20,9 @@ Description: A state within the state machine. Could also be referred
 
 #include <json/json.h>
 
+
+#include "../GAME/GameBoard.h"
+
 class Scene {
 public:
 	Scene();
@@ -49,6 +52,12 @@ public:
 	bool& canDeprioritise();
 
 	unsigned int priority;
+
+
+
+	glm::vec3& getPlayerPosition(){ return playerPosition; };
+	GameBoard& getGameBoard(int id){ return gameboards[id]; };
+	glm::vec3 playerPosition;	//X,Y,BoardId
 	
 protected:
 	std::string m_name;
@@ -64,5 +73,8 @@ protected:
 	std::vector<PointLight*>	m_listPointLight;
 	DirectionalLight m_directionalLight;
 	std::vector<LuaScript *>	m_listScript;
+
+
+	static GameBoard gameboards[6];
 };
 #endif

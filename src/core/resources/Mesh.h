@@ -34,6 +34,7 @@ enum VB_TYPES {
 	NORMAL_VB,
 	TEXCOORD_VB,
 	BONE_VB,
+	TANGENT_VB,
 	NUM_VBs
 };
 

@@ -23,13 +23,14 @@ public:
 
 	void load(std::string);
 
+	void update(float dt);
 
-	glm::vec3& getPlayerPosition(){ return playerPosition; };
-	GameBoard& getGameBoard(int id){ return gameboards[id]; };
+
+
+
+	float elapsedTime;
 
 private:
-	GameBoard gameboards[6];
-	GameBoard originalgameboards[6];
 	void processCharacter(const char& c);
 
 	void addWall(int x, int y, int face);
@@ -39,6 +40,7 @@ private:
 	void addBlock(int x, int y, int face);
 
 	Entity* player;
-	glm::vec3 playerPosition;	//X,Y,BoardId
+
+	int numSwitches;
 };
 #endif

@@ -15,7 +15,7 @@ Model* ObjLoader::load(std::string path){
 	const aiScene* scene = importer.ReadFile(path,
 		aiProcess_CalcTangentSpace |
 		aiProcess_Triangulate |
-		aiProcess_JoinIdenticalVertices | 
+		aiProcess_JoinIdenticalVertices |
 		aiProcess_GenNormals |
 		aiProcess_SortByPType);
 
@@ -29,7 +29,7 @@ Model* ObjLoader::load(std::string path){
 
 	Mesh mesh;
 	aiMatrix4x4 tempMat = scene->mRootNode->mTransformation.Inverse();
-	mesh.m_GlobalInverseTransform = 
+	mesh.m_GlobalInverseTransform =
 		glm::mat4(
 		tempMat.a1, tempMat.a2, tempMat.a3, tempMat.a4,
 		tempMat.b1, tempMat.b2, tempMat.b3, tempMat.b4,
@@ -42,7 +42,7 @@ Model* ObjLoader::load(std::string path){
 	glBindVertexArray(mesh.m_VAO);
 
 	// Create the buffers for the vertices attributes
-	glGenBuffers(5, mesh.m_Buffers);
+	glGenBuffers(6, mesh.m_Buffers);
 
 	mesh.m_Entries.resize(scene->mNumMeshes);
 	mesh.m_Textures.resize(scene->mNumMaterials);
@@ -50,6 +50,7 @@ Model* ObjLoader::load(std::string path){
 	std::vector<glm::vec3> Positions;
 	std::vector<glm::vec3> Normals;
 	std::vector<glm::vec2> TexCoords;
+	std::vector<glm::vec4> Tangents;
 	std::vector<VertexBoneData> Bones;
 	std::vector<GLuint> Indices;
 
@@ -72,18 +73,19 @@ Model* ObjLoader::load(std::string path){
 	Positions.reserve(NumVertices);
 	Normals.reserve(NumVertices);
 	TexCoords.reserve(NumVertices);
+	Tangents.reserve(NumVertices);
 	Bones.resize(NumVertices);
 	Indices.reserve(NumIndices);
 
 	// Initialize the meshes in the scene one by one
 	for (GLuint i = 0; i < mesh.m_Entries.size(); i++) {
 		const aiMesh* paiMesh = scene->mMeshes[i];
-		InitMesh(i, paiMesh, Positions, Normals, TexCoords, Bones, Indices, mesh);
+		InitMesh(i, paiMesh, Positions, Normals, TexCoords, Tangents, Bones, Indices, mesh);
 	}
 
 	/*if (!InitMaterials(pScene, Filename)) {
 		return false;
-	}*/
+		}*/
 
 
 	// Generate and populate the buffers with vertex attributes and the indices
@@ -101,6 +103,17 @@ Model* ObjLoader::load(std::string path){
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Normals[0]) * Normals.size(), &Normals[0], GL_STATIC_DRAW);
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+
+	if (Tangents.size() > 0)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[TANGENT_VB]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Tangents[0]) * Tangents.size(), &Tangents[0], GL_STATIC_DRAW);
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, 0);
+	}
+	
+
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh.m_Buffers[BONE_VB]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Bones[0]) * Bones.size(), &Bones[0], GL_STATIC_DRAW);
@@ -125,6 +138,7 @@ void ObjLoader::InitMesh(GLuint MeshIndex,
 	std::vector<glm::vec3>& Positions,
 	std::vector<glm::vec3>& Normals,
 	std::vector<glm::vec2>& TexCoords,
+	std::vector<glm::vec4>& Tangents,
 	std::vector<VertexBoneData>& Bones,
 	std::vector<GLuint>& Indices, Mesh& mesh)
 {
@@ -135,10 +149,12 @@ void ObjLoader::InitMesh(GLuint MeshIndex,
 		const aiVector3D* pPos = &(paiMesh->mVertices[i]);
 		const aiVector3D* pNormal = &(paiMesh->mNormals[i]);
 		const aiVector3D* pTexCoord = paiMesh->HasTextureCoords(0) ? &(paiMesh->mTextureCoords[0][i]) : &Zero3D;
+		const aiVector3D* pTangent = paiMesh->HasTangentsAndBitangents() ? &(paiMesh->mTangents[i]) : &Zero3D;
 
 		Positions.push_back(glm::vec3(pPos->x, pPos->y, pPos->z));
 		Normals.push_back(glm::vec3(pNormal->x, pNormal->y, pNormal->z));
 		TexCoords.push_back(glm::vec2(pTexCoord->x, pTexCoord->y));
+		Tangents.push_back(glm::vec4(pTangent->x, pTangent->y, pTangent->z, 1.f));
 	}
 
 	LoadBones(MeshIndex, paiMesh, Bones, mesh);

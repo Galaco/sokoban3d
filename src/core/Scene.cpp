@@ -4,6 +4,8 @@
 #include "../components/CGraphics.h"
 #include "../components/CLuaScript.h"
 
+GameBoard Scene::gameboards[6];
+
 Scene::Scene()
 {
 	priority = 1;

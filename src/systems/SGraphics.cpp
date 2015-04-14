@@ -1,5 +1,6 @@
 #include "SGraphics.h"
 
+
 //Initialize statics. Note these aren't required to be static, but for clarity are
 std::vector<CGraphics*> SGraphics::CGraphicsCache;
 
@@ -56,7 +57,6 @@ void SGraphics::initialize(){
 		* glm::lookAt(glm::vec3(100, 100, 100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 }
 
-
 void SGraphics::generateShadowBuffer()
 {
 
@@ -111,7 +111,7 @@ void SGraphics::update(){
 	m_shaderProg.setUniform("Light.Ls", glm::vec3(0.9f, 0.9f, 0.9f));
 
 	
-	glCullFace(GL_FRONT);
+	/*glCullFace(GL_FRONT);
 	glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
@@ -138,12 +138,12 @@ void SGraphics::update(){
 	glFinish();
 
 
-	glCullFace(GL_BACK);
+	glCullFace(GL_BACK);*/
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
 	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass2Index);
-	it = CGraphicsCache.begin();
+	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
 	{
 		if ((*it)->getText())
@@ -224,14 +224,13 @@ void SGraphics::drawEntity(CGraphics* it)
 		m_shaderProg.setUniform("textureDiffuse", 0);
 		m_shaderProg.setUniform("textureNormal", 1);
 	}
-
-	for (unsigned int i = 0; i < m[i].m_Entries.size(); i++) 
+	for (unsigned int i = 0; i < m[i].m_Entries.size(); i++)
 	{
 		glDrawElementsBaseVertex(GL_TRIANGLES,
-			m[i].m_Entries[i].NumIndices,
+			m.at(i).m_Entries.at(i).NumIndices,
 			GL_UNSIGNED_INT,
-			(void*)(sizeof(unsigned int) * m[i].m_Entries[i].BaseIndex),
-			m[i].m_Entries[i].BaseVertex);
+			(void*)(sizeof(unsigned int) * m.at(i).m_Entries.at(i).BaseIndex),
+			m.at(i).m_Entries.at(i).BaseVertex);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	

@@ -1,0 +1,7 @@
+{
+	"diffuse": "wall/wall.png",
+	"normal": "wall/wall_n.png",
+	"specular": "wall/wall_s.png",
+	"translucent": 0,
+	"fullbright": 0
+}
