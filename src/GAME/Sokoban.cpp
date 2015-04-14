@@ -1,4 +1,8 @@
 #include "Sokoban.h"
+#include "../core/SceneManager.h"
+
+int Sokoban::level = 1;
+Sokoban::BoardLoader Sokoban::boardloader;
 
 Sokoban::Sokoban()
 {
@@ -39,11 +43,15 @@ Sokoban::Sokoban()
 	gameboards[5].addConnection(&gameboards[2], 3);
 	gameboards[5].face = 5;
 
-	load("assets/levels/extended/01.s3d");
+	load("assets/levels/extended/0"+std::to_string(Sokoban::level)+".s3d");
 
 	GameBoard::playerPosition = &playerPosition;
 
 	numSwitches = 0;
+	completeSides = 0;
+	boardloader.currentBoard = 0;
+	boardloader.currentX = 0;
+	boardloader.currentY = 0;
 }
 
 Sokoban::~Sokoban()
@@ -52,13 +60,14 @@ Sokoban::~Sokoban()
 }
 
 
-void Sokoban::load(std::string filename)
+bool Sokoban::load(std::string filename)
 {
 	std::ifstream file;
 	file.open(filename);
 	if (!(file.is_open()))
 	{
 		Logger::log(ERROR_, "Failed to load level");
+		return false;
 	}
 	typedef std::istreambuf_iterator<char> buf_iter;
 	for (buf_iter i(file), e; i != e; ++i){
@@ -68,30 +77,68 @@ void Sokoban::load(std::string filename)
 
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		if (gameboards[i].switchCount == 0)
-		{
-			gameboards[i].complete = true;
-		}
+		gameboards[i].checkComplete();
 	}
 
 
 	addFloor();
 
 	elapsedTime = 0;
+	Sokoban::level++;
+
+	return true;
+}
+
+void Sokoban::nextLevel()
+{
+	reset();
+	if ( !load("assets/levels/extended/0" + std::to_string(Sokoban::level) + ".s3d") )
+	{
+		Scene* s = SceneManager::getState("mainmenu");
+		if (!s)
+		{
+			Logger::log(FATAL, "An error has been encountered that could not be recovered from: ERR_NO_SCENE");
+		}
+
+		Sokoban::level++;
+		s->wantsPriority() = true;
+		s->priority = SceneManager::getActiveState()->priority + 1;
+		SceneManager::getActiveState()->canDeprioritise() = true;
+		s = nullptr;
+	}
+}
+
+void Sokoban::reset()
+{
+	m_mEntityList.clear();
+
+	Scene::completeSides = 0;
+
+	for (unsigned int i = 0; i < 6; ++i)
+	{
+		gameboards[i].reset();
+	}
+
+	boardloader.currentBoard = 0;
+	boardloader.currentX = 0;
+	boardloader.currentY = 0;
+
+	Scene::ForceRecache = true;
 }
 
 void Sokoban::update(float dt)
 {
 	elapsedTime += dt;
 	
-	if (gameboards[0].complete &&
-		gameboards[1].complete &&
-		gameboards[2].complete &&
-		gameboards[3].complete &&
-		gameboards[4].complete &&
-		gameboards[5].complete)
+	if ((gameboards[0].checkComplete() &&
+		gameboards[1].checkComplete() &&
+		gameboards[2].checkComplete() &&
+		gameboards[3].checkComplete() &&
+		gameboards[4].checkComplete() &&
+		gameboards[5].checkComplete()) || Scene::completeSides == 1)
 	{
 		Logger::log(ERROR_, "Game complete");
+		nextLevel();
 	}
 
 	Scene::update(dt);
@@ -101,44 +148,42 @@ void Sokoban::update(float dt)
 
 void Sokoban::processCharacter(const char& c)
 {
-	static int currentBoard = 0;
-	static int currentX = 0;
-	static int currentY = 0;
+	
 
 	if (c == '0')		// Empty Square
 	{
-		++currentX;
+		++boardloader.currentX;
 		return;
 	}
 	if (c == '1')	//Wall
 	{
-		gameboards[currentBoard].set(1, currentY, currentX);
-		addWall(currentX, currentY, currentBoard);
-		++currentX;
+		gameboards[boardloader.currentBoard].set(1, boardloader.currentY, boardloader.currentX);
+		addWall(boardloader.currentX, boardloader.currentY, boardloader.currentBoard);
+		++boardloader.currentX;
 		return;
 	}
 	if (c == '2')	//Block
 	{
-		gameboards[currentBoard].set(2, currentY, currentX);
-		addBlock(currentX, currentY, currentBoard);
-		++currentX;
+		gameboards[boardloader.currentBoard].set(2, boardloader.currentY, boardloader.currentX);
+		addBlock(boardloader.currentX, boardloader.currentY, boardloader.currentBoard);
+		++boardloader.currentX;
 		return;
 	}
 	if (c == '3')	//Switch
 	{
-		gameboards[currentBoard].set(3, currentY, currentX);
-		addSwitch(currentX, currentY, currentBoard);
-		++currentX;
-		gameboards[currentBoard].switchCount++;
+		gameboards[boardloader.currentBoard].set(3, boardloader.currentY, boardloader.currentX);
+		addSwitch(boardloader.currentX, boardloader.currentY, boardloader.currentBoard);
+		++boardloader.currentX;
+		gameboards[boardloader.currentBoard].switchCount++;
 		numSwitches++;
 		return;
 	}
 
 	if (c == '4')	//Player
 	{
-		gameboards[currentBoard].set(4, currentY, currentX);
-		addPlayer(currentX, currentY, currentBoard);
-		++currentX;
+		gameboards[boardloader.currentBoard].set(4, boardloader.currentY, boardloader.currentX);
+		addPlayer(boardloader.currentX, boardloader.currentY, boardloader.currentBoard);
+		++boardloader.currentX;
 		return;
 	}
 
@@ -146,13 +191,13 @@ void Sokoban::processCharacter(const char& c)
 
 	if (c == '\n')	//NEW LINE
 	{
-		++currentY;
-		currentX = 0;
+		++boardloader.currentY;
+		boardloader.currentX = 0;
 
-		if (currentY > 8)
+		if (boardloader.currentY > 8)
 		{
-			currentY = 0;
-			++currentBoard;
+			boardloader.currentY = 0;
+			++boardloader.currentBoard;
 		}
 		return;
 	}

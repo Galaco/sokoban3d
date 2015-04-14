@@ -13,7 +13,7 @@ void SAnimation::initialize(){
 }
 	
 void SAnimation::update(float dt){
-	if (m_CurrentState != m_PreviousState)
+	if ((m_CurrentState != m_PreviousState) || Scene::ForceRecache)
 	{
 		rebuildCache();
 	}

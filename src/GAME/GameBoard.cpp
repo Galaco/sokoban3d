@@ -1,5 +1,7 @@
 #include "GameBoard.h"
 
+#include "../core/Scene.h"
+
 glm::vec3* GameBoard::playerPosition;
 
 GameBoard::GameBoard()
@@ -253,6 +255,25 @@ void GameBoard::MovePlayer(int x, int y, int dir)
 				}
 }
 
+
+
+bool GameBoard::checkComplete()
+{
+	if (this->switchCount == this->activeSwitches)
+	{
+		if (!complete)
+		{
+			Scene::completeSides++;
+			complete = true;
+		}
+	}
+	else {
+		complete = false;
+	}
+
+	return complete;
+}
+
 void GameBoard::MoveBlock(int x, int y, int dir)
 {
 	if (dir == 0)		//UP
@@ -281,6 +302,14 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 		{
 			set(5, y + 1, x);	//space now switch+ball
 			activeSwitches++;
+			checkComplete();
+			if (!(switchCount != activeSwitches) && switchCount == activeSwitches)
+			{
+				complete = true;
+			}
+			else {
+				complete = false;
+			}
 		}
 		else {
 			set(2, y + 1, x);	//New Space now ball
@@ -337,15 +366,4 @@ void GameBoard::MoveBlock(int x, int y, int dir)
 		}	
 	}
 
-}
-
-void GameBoard::checkComplete()
-{
-	if (this->switchCount == this->activeSwitches)
-	{
-		this->complete = true;
-	}
-	else {
-		complete = false;
-	}
 }

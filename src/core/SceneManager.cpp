@@ -24,6 +24,7 @@ void SceneManager::terminate()
 
 void SceneManager::update(float dt)
 {
+	Scene::ForceRecache = false;
 	m_pActiveState->update(dt);
 	auto it = m_stateList.begin();
 	while (it != m_stateList.end())

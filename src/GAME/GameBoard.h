@@ -29,6 +29,7 @@ public:
 	int switchCount;
 	int activeSwitches;
 
+	bool checkComplete();
 	bool complete;
 
 private:
@@ -37,7 +38,6 @@ private:
 	void MovePlayer(int x, int y, int dir);
 	void MoveBlock(int x, int y, int dir);
 
-	void checkComplete();
 };
 #endif
 

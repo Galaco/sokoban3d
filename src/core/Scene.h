@@ -53,8 +53,10 @@ public:
 
 	unsigned int priority;
 
+	static bool ForceRecache;
 
 
+	static int completeSides;
 	glm::vec3& getPlayerPosition(){ return playerPosition; };
 	GameBoard& getGameBoard(int id){ return gameboards[id]; };
 	glm::vec3 playerPosition;	//X,Y,BoardId

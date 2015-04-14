@@ -87,7 +87,7 @@ void SGraphics::generateShadowBuffer()
 }
 	
 void SGraphics::update(){
-	if (m_CurrentState != m_PreviousState)
+	if ((m_CurrentState != m_PreviousState) || Scene::ForceRecache)
 	{
 		rebuildCache();
 	}

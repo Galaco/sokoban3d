@@ -21,14 +21,24 @@ public:
 	Sokoban();
 	~Sokoban();
 
-	void load(std::string);
+	bool load(std::string);
 
 	void update(float dt);
 
+	void reset();
 
-
+	void nextLevel();
 
 	float elapsedTime;
+	static int level;
+
+	struct BoardLoader{
+		int currentBoard = 0;
+		int currentX = 0;
+		int currentY = 0;
+	};
+
+	static BoardLoader boardloader;
 
 private:
 	void processCharacter(const char& c);

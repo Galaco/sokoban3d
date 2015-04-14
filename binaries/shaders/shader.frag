@@ -154,7 +154,7 @@ void finalPass()
 
 	if (Translucent == 1)
 	{
-		FragColour.a = texture(textureDiffuse, newTexCoord);
+		FragColour.a = texture(textureDiffuse, newTexCoord).a;
 	} else 
 	{
 		FragColour.a = 1.0;

@@ -13,7 +13,7 @@ void SCollision::initialize(){
 }
 	
 void SCollision::update(float dt){
-	if (m_CurrentState != m_PreviousState)
+	if ((m_CurrentState != m_PreviousState) || Scene::ForceRecache)
 	{
 		rebuildCache();
 	}

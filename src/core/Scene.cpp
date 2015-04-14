@@ -4,6 +4,9 @@
 #include "../components/CGraphics.h"
 #include "../components/CLuaScript.h"
 
+int Scene::completeSides = 0;
+bool Scene::ForceRecache = false;
+
 GameBoard Scene::gameboards[6];
 
 Scene::Scene()
@@ -21,11 +24,13 @@ Scene::~Scene()
 	while (it != m_mEntityList.end())
 	{
 		delete it->second;
+		++it;
 	}
 	auto it2 = m_mCameraList.begin();
 	while (it2 != m_mCameraList.end())
 	{
-		delete it->second;
+		//delete it->second;
+		++it2;
 	}
 
 	delete m_currentCamera;
