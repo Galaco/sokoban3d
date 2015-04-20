@@ -198,3 +198,61 @@ void Camera::rebuildView()
 	Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), m_transform.getPosition() + m_dir, m_up));
 	Pipeline::Eye = m_transform.getPosition();
 }
+
+
+void Camera::rotate(glm::vec3 axis, float angle, bool additive)
+{
+	if (cameraMode == CameraMode::CAMERA_ORBIT)
+	{
+		float x = 0;
+		float y = 0;
+
+		if (axis.x == 1)
+		{
+			x = angle;
+		}
+		if (axis.y == 1)
+		{
+			y = angle;
+		}
+
+		if (additive)
+		{
+			m_transform.getOrientation().y += x;
+			m_transform.getOrientation().x += y;
+		}
+		else {
+			m_transform.getOrientation().y = x;
+			m_transform.getOrientation().x = y;
+		}
+
+		if (m_transform.getOrientation().x > 360) m_transform.getOrientation().x -= 360;
+		if (m_transform.getOrientation().x < -360)  m_transform.getOrientation().x += 360;
+
+		if (m_transform.getOrientation().y > 360) m_transform.getOrientation().y -= 360;
+		if (m_transform.getOrientation().y < -360)  m_transform.getOrientation().y += 360;
+
+		glm::vec3 forward = glm::normalize(m_transform.getPosition() - glm::vec3(0, 0, 0));
+		glm::vec3 right = glm::cross(glm::vec3(0, 1, 0), forward);
+		glm::vec3 up = glm::cross(right, forward);
+
+		m_transform.getPosition() = glm::rotate(m_transform.getPosition(), -x, up);
+		m_transform.getPosition() = glm::rotate(m_transform.getPosition(), y, right);
+
+
+		forward = glm::vec3(0, 0, 0) - m_transform.getPosition();
+
+		m_right = glm::cross(up, forward);
+		up = glm::normalize(glm::cross(forward, m_right));
+		Pipeline::setViewMatrix(glm::lookAt(m_transform.getPosition(), glm::vec3(0, 0, 0), up));
+	}
+
+
+	Pipeline::Eye = m_transform.getPosition();
+
+	oldHorizontalAngle = m_transform.getOrientation().y;
+	oldVerticalAngle = m_transform.getOrientation().x;
+	oldPosition = m_transform.getPosition();
+	oldRotation = m_transform.getOrientation();
+
+}

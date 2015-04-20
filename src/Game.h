@@ -51,10 +51,9 @@ private:
 	//Systems
 	SGraphics		m_sGraphics;
 	SAnimation      m_sAnimation;
-	SLuaScript      m_sLuaScript;
+	SLuaScript      m_sScript;
 	SCollision      m_sCollision;
 
-    static double m_FRAMELENGTH;
-	static SceneManager m_stateManager;
+	static SceneManager m_sceneManager;
 };
 #endif

@@ -7,6 +7,14 @@ local this = nil
 local transform = nil
 local reload = 1
 
+
+
+local function rotateCamera(face)
+	if(face == 0)	
+			local nt = Vec3.Create(0, 90, 00)
+	then
+end
+
 local function turn(direction)
 	--Front
 	if (face == 0)
@@ -135,6 +143,7 @@ local function handleKeys(dir)
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 
 	elseif( dir == "a") 
@@ -147,6 +156,7 @@ local function handleKeys(dir)
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	elseif(dir == "s") 
 	then
@@ -158,6 +168,7 @@ local function handleKeys(dir)
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	elseif(dir == "d") 
 	then
@@ -169,6 +180,7 @@ local function handleKeys(dir)
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	end
 end

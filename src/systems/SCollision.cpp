@@ -57,19 +57,16 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 
 		if (!opCollision->dynamic)	// If the second object is static, it should not be moved
 		{
-			if (pCollision->getOwner()->getId() != "PLAYER")
-			{
-				pTransform->getPosition() += mtd;
-			}
+			pTransform->getPosition() += mtd;
+			return;
+		}
+		
+		if (opCollision->getOwner()->getId() == "PLAYER")
+		{
+			pTransform->getPosition() -= mtd;
 		}
 		else {
-			if (opCollision->getOwner()->getId() == "PLAYER")
-			{
-				pTransform->getPosition() += mtd;
-			}
-			else {
-				opTransform->getPosition() += mtd;
-			}
+			opTransform->getPosition() += mtd;
 		}
 	}
 }
@@ -108,6 +105,7 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 		mtd.y = top;
 	else
 		mtd.y = bottom;
+
 	if (abs(back) < front)
 		mtd.z = back;
 	else
@@ -116,20 +114,19 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 	// 0 the axis with the largest mtd value.
 	if (abs(mtd.x) < abs(mtd.y)) {
 		mtd.y = 0;
-		if (abs(mtd.x) < abs(mtd.z)) {
-			mtd.z = 0;
-		}
-		else {
+
+		if (abs(mtd.z) < abs(mtd.x)) 
 			mtd.x = 0;
-		}
+		else
+			mtd.z = 0;
+
 	} else {
 		mtd.x = 0;
-		if (abs(mtd.z) < abs(mtd.y)) {
+
+		if (abs(mtd.z) < abs(mtd.y)) 
 			mtd.y = 0;
-		}
-		else {
+		else 
 			mtd.z = 0;
-		}
 	}
 
 	return mtd;

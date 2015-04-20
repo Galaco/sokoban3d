@@ -9,6 +9,7 @@ Description:
 #define GAMEBOARD_H
 
 #include <glm/glm.hpp>
+#include <vector>
 
 class GameBoard {
 public:
@@ -24,7 +25,7 @@ public:
 
 	int board[8][8];
 	int face;
-	static glm::vec3* playerPosition;
+	static glm::vec3 playerPosition;
 
 	int switchCount;
 	int activeSwitches;

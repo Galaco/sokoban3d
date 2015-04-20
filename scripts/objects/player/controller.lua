@@ -7,6 +7,30 @@ local this = nil
 local transform = nil
 local reload = 1
 
+
+
+
+local function rotateCamera(face)
+	--[[local ent = Camera.Find("extendedCamera")
+	if(face == 0)	
+	then
+		Camera.Rotate(ent, 0, 1, 0, 0)
+	end
+	if(face == 1)
+	then
+		Camera.Rotate(ent, 0, 1, 0, 90)
+	end
+	if(face == 2)	
+	then
+		Camera.Rotate(ent, 0, 1, 0, 180)
+	end
+	if(face == 3)	
+	then
+		Camera.Rotate(ent, 0, 1, 0, 270)
+	end]]--
+end
+
+
 local function turn(direction)
 	--Front
 	if (face == 0)
@@ -135,6 +159,7 @@ local function handleKeys()
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 
 	elseif(Keyboard.KeyDown("a")) 
@@ -147,6 +172,7 @@ local function handleKeys()
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	elseif(Keyboard.KeyDown("s")) 
 	then
@@ -158,6 +184,7 @@ local function handleKeys()
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	elseif(Keyboard.KeyDown("d")) 
 	then
@@ -169,6 +196,7 @@ local function handleKeys()
 			oldFace = face
 			face = SOKOBAN.CurrentFace()
 			movesMade = movesMade + 1
+			rotateCamera(face)
 		end
 	end
 end

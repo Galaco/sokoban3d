@@ -31,6 +31,7 @@ public:
 	static int lua_Find(lua_State*);
 	static int lua_SetActive(lua_State*);
 	static int lua_SetMode(lua_State*);
+	static int lua_Rotate(lua_State*);
 
 	static const luaL_Reg luaBinds[];
 };

@@ -39,6 +39,8 @@ public:
 	};
 
 	static BoardLoader boardloader;
+	bool gameOver;
+	float gameCompleteTime;
 
 private:
 	void processCharacter(const char& c);
@@ -48,6 +50,7 @@ private:
 	void addPlayer(int x, int y, int face);
 	void addSwitch(int x, int y, int face);
 	void addBlock(int x, int y, int face);
+	void addHud();
 
 	Entity* player;
 

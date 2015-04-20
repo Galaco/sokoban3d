@@ -45,6 +45,7 @@ public:
 	void goRight();
 	void goUp();
 	void goDown();
+	void rotate(glm::vec3 axis, float angle, bool additive = true);
 
 	void setCameraMode(int i){
 		cameraMode = i;

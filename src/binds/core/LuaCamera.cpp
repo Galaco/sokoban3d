@@ -24,6 +24,7 @@ const luaL_Reg LuaCamera::luaBinds[] = {
 	{ "Find", lua_Find },
 	{ "SetActive", lua_SetActive },
 	{ "SetMode", lua_SetMode },
+	{ "Rotate", lua_Rotate },
 	{ NULL, NULL }
 };
 
@@ -184,6 +185,17 @@ int LuaCamera::lua_SetMode(lua_State* L){
 				e->setCameraMode(1);
 			}
 		}
+	}
+
+	return 0;
+}
+
+int LuaCamera::lua_Rotate(lua_State* L){
+	LuaBinder binder(L);
+
+	Camera* e = (Camera*)binder.checkusertype(1, "Camera");
+	if (e != nullptr) {
+		e->rotate(glm::vec3(binder.checknumber(2), binder.checknumber(3), binder.checknumber(4)), (float) binder.checknumber(5), false);
 	}
 
 	return 0;

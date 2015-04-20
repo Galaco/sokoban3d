@@ -14,6 +14,7 @@
     <ProjectGuid>{ED255728-27FE-4A3E-BC66-DB2F1E6E7956}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Spire</RootNamespace>
+    <ProjectName>Sokoban3D</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

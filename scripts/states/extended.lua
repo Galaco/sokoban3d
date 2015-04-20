@@ -36,14 +36,6 @@ movesMade = 0
 -- end
 
 
-local playerController = Entity.Create("PlayerController")
-State.AddEntity(playerController, "SOKOBAN")
-	
-local script = CScript.Create()
-Entity.AddComponent(playerController, script, "LuaScript")
-CScript.AddScript(script, "objects/player/controller.lua")
-
-
 
 
 
