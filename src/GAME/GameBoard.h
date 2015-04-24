@@ -11,6 +11,8 @@ Description:
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "../core/helpers/Keyboard.h"
+
 class GameBoard {
 public:
 	GameBoard();

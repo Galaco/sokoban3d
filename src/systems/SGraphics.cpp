@@ -33,17 +33,16 @@ void SGraphics::initialize(){
 	m_shaderProg.linkProgram();
 
 
-	pass1Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "recordDepth");
+	//pass1Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "recordDepth");
 	pass2Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "finalPass");
-	generateShadowBuffer();
+	//generateShadowBuffer();
 
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
-	glCullFace(GL_FRONT);
 	glEnable(GL_DEPTH_TEST);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -59,7 +58,6 @@ void SGraphics::initialize(){
 
 void SGraphics::generateShadowBuffer()
 {
-
 	// The framebuffer, which regroups 0, 1, or more textures, and 0 or 1 depth buffer.
 	GLuint FramebufferName = 0;
 	glGenFramebuffers(1, &FramebufferName);
@@ -91,9 +89,6 @@ void SGraphics::update(){
 	{
 		rebuildCache();
 	}
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
 	
 	m_shaderProg.useProgram();
 	m_shaderProg.setUniform("EyePosition", Pipeline::Eye);
@@ -138,11 +133,11 @@ void SGraphics::update(){
 	glFinish();
 
 
-	glCullFace(GL_BACK);*/
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glCullFace(GL_BACK);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);*/
 	//glViewport(0, 0, Config::_WINDOWHEIGHT, Config::_WINDOWHEIGHT);
 	glUniformSubroutinesuiv(GL_FRAGMENT_SHADER, 1, &pass2Index);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	auto it = CGraphicsCache.begin();
 	while (it != CGraphicsCache.end())
 	{
@@ -249,10 +244,18 @@ void SGraphics::drawSkybox()
 	if (!m_CurrentState || !m_CurrentState->getCurrentCamera()) {
 		return;
 	}
-	Skybox sky = m_CurrentState->getCurrentCamera()->getSkybox();
+	Skybox& sky = m_CurrentState->getCurrentCamera()->getSkybox();
 	if (sky.getVao() == -1) return;
 	sky.useProgram();
 
+	GLint OldCullFaceMode;
+	glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
+	GLint OldDepthFuncMode;
+	glGetIntegerv(GL_DEPTH_FUNC, &OldDepthFuncMode);
+
+	glCullFace(GL_FRONT);
+	glDepthFunc(GL_LEQUAL);
+	glDepthMask(GL_FALSE);
 	glBindVertexArray(sky.getVao()); 
 
 	glEnable(GL_TEXTURE_2D);
@@ -262,6 +265,11 @@ void SGraphics::drawSkybox()
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 	glBindVertexArray(0);
+
+
+	glDepthMask(GL_TRUE);
+	glCullFace(OldCullFaceMode);
+	glDepthFunc(OldDepthFuncMode);
 }
 
 void SGraphics::drawText(CGraphics* it)

@@ -113,15 +113,15 @@ void Skybox::createCube(){
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 
-GLuint& Skybox::getVbo(){
+GLuint Skybox::getVbo(){
 	return vbo;
 }
 
-GLuint& Skybox::getVao(){
+GLuint Skybox::getVao(){
 	return vao;
 }
 
-GLuint& Skybox::getTexture(){
+GLuint Skybox::getTexture(){
 	return m_texture;
 }
 

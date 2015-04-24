@@ -1,0 +1,6 @@
+{
+	"diffuse": "player/guard1_body.tga",
+	"specular": "player/guard1_body_s.tga",
+	"translucent": 0,
+	"fullbright": 0
+}

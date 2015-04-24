@@ -33,9 +33,9 @@ public:
 	void createCube();
 
 	void setzFar(float dist);
-	GLuint& getVbo();
-	GLuint& getVao();
-	GLuint& getTexture();
+	GLuint getVbo();
+	GLuint getVao();
+	GLuint getTexture();
 	void bindTexture();
 
 	void useProgram();

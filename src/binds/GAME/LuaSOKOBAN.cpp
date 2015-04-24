@@ -22,9 +22,9 @@ int LuaSokoban::lua_CanPlayerMove(lua_State* L)
 		return 0;
 	}
 
-	GameBoard g = state->getGameBoard((int)state->getPlayerPosition().z);
+	GameBoard g = state->getGameBoard((int)state->getGameBoard(0).playerPosition.z);
 
-	bool move = g.canPlayerMove((int)state->getPlayerPosition().x, (int)state->getPlayerPosition().y, (int)binder.checknumber(1));
+	bool move = g.canPlayerMove((int)state->getGameBoard(0).playerPosition.x, (int)state->getGameBoard(0).playerPosition.y, (int)binder.checknumber(1));
 	if (move)
 	{
 		binder.pushnumber(1);
@@ -62,7 +62,7 @@ int LuaSokoban::lua_GetCurrentFace(lua_State* L)
 		return 0;
 	}
 
-	binder.pushnumber(state->getPlayerPosition().z);
+	binder.pushnumber(state->getGameBoard(0).playerPosition.z);
 
 	return 1;
 }

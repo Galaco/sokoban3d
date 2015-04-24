@@ -154,10 +154,10 @@ void finalPass()
 
 	if (Translucent == 1)
 	{
-		FragColour.a = texture(textureDiffuse, newTexCoord).a;
-	} else 
-	{
-		FragColour.a = 1.0;
+		//if (FragColour.rgb == vec3(0.f,0.f,0.f))
+		//{	
+			FragColour.a = texture(textureDiffuse, newTexCoord).a;
+		//}
 	}
 }
 

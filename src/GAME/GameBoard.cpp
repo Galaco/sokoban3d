@@ -46,6 +46,7 @@ void GameBoard::reset()
 
 void GameBoard::set(int id, int x, int y)
 {
+	if (x < 0 || y < 0 || y>7 || x>7) return;
 	board[x][y] = id;	//Reversed to keep data parallel will src
 }
 
@@ -125,7 +126,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 		}
 		if (board[y][x-1] == 2)
 		{
-			if (canBlockMove(x, y - 1, dir))
+			if (canBlockMove(x-1, y, dir))
 			{
 				MoveBlock(x - 1, y, dir);
 				checkComplete();

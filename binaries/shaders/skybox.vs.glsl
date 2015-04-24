@@ -8,6 +8,6 @@ out vec3 TexCoord;
 
 void main()
 {
-	gl_Position = (VP * vec4 (Position, 1.0)).xyzw;
+	gl_Position = (VP * vec4 (Position, 1.0)).xyww;
     TexCoord = Position;
 }

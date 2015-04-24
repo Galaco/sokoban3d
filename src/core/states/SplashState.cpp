@@ -24,12 +24,12 @@ SplashState::SplashState()
 void SplashState::update(float dt = 0)
 {
 	m_runningTime += dt;
-	if (m_runningTime < 2.f && m_runningTime > 1.f)
+	if (m_runningTime < 1.f)
 	{
-		splash->GetTransform()->getOrientation().y += (90* dt);
+		splash->GetTransform()->getOrientation().y -= (90* dt);
 	}
 
-	if (m_runningTime >= 4)
+	if (m_runningTime >= 2.25)
 	{
 		canDeprioritise() = true;
 	}

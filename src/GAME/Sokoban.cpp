@@ -71,6 +71,7 @@ bool Sokoban::load(std::string filename)
 	if (!(file.is_open()))
 	{
 		Logger::log(ERROR_, "Failed to load level");
+		Sokoban::level = 0;
 		return false;
 	}
 	typedef std::istreambuf_iterator<char> buf_iter;
@@ -88,7 +89,6 @@ bool Sokoban::load(std::string filename)
 	addFloor();
 	addHud();
 
-	elapsedTime = 0;
 	Sokoban::level++;
 
 	return true;
@@ -131,6 +131,8 @@ void Sokoban::reset()
 	Scene::ForceRecache = true;
 	gameCompleteTime = 0.f;
 	gameOver = false;
+
+	elapsedTime = 0;
 }
 
 void Sokoban::update(float dt)
@@ -142,7 +144,7 @@ void Sokoban::update(float dt)
 		gameboards[2].checkComplete() &&
 		gameboards[3].checkComplete() &&
 		gameboards[4].checkComplete() &&
-		gameboards[5].checkComplete()) || Scene::completeSides == 1 )
+		gameboards[5].checkComplete()) || Scene::completeSides == 1 || Keyboard::get("n") )
 		)
 	{
 		if (!gameOver)
@@ -372,15 +374,15 @@ void Sokoban::addPlayer(int x, int y, int face)
 	}
 	playerPosition = glm::vec3(x, y, face);
 
-	player->GetTransform()->setScale(glm::vec3(4, 4, 4));
+	player->GetTransform()->setScale(glm::vec3(0.5,0.5,0.5));
 	player->GetTransform()->setOrientation(glm::vec3(0, 90, 0));
 
 	CGraphics* g = new CGraphics();
-	//g->addModel("player/boblampclean.md5mesh");
 	player->addComponent(g, "Graphics");
-	g->addModel("wall/wall.obj", true, 0.8f, false);
+	g->addModel("player/boblampclean.md5mesh", true, 0.8f, false);
+	//g->addModel("wall/wall.obj", true, 0.8f, false);
 	//g->addModel("miku/negimiku.dae", true);
-	g->addMaterial("switch/switch.mat");
+	g->addMaterial("player/guard.mat");
 
 
 	//CAnimation* a = new CAnimation();
@@ -548,7 +550,7 @@ void Sokoban::addBlock(int x, int y, int face)
 
 	CGraphics* c = new CGraphics();
 	e->addComponent(c, "Graphics");
-	c->addModel("block/block.obj", true, 0.8f, true);
+	c->addModel("block/block.obj", true, 0.98f, true);
 	c->addMaterial("block/block.mat");
 
 	addEntity(e);
@@ -574,16 +576,16 @@ void Sokoban::addFloor()
 
 void Sokoban::addHud()
 {
-	Entity * e = new Entity("CURRENTLEVEL");
-	e->GetTransform()->setPosition(
+	Entity * currentlevel = new Entity("CURRENTLEVEL");
+	currentlevel->GetTransform()->setPosition(
 		glm::vec3(-0.95, 0.9, -0.5)
 		);
 
 	CGraphics* c = new CGraphics();
 	c->addText(std::string(std::string("Current Level: ") + std::to_string(level)).c_str(), 10);
 	c->setRenderMode(RENDER_MODE_2D);
-	e->addComponent(c, "Graphics");
-	addEntity(e);
+	currentlevel->addComponent(c, "Graphics");
+	addEntity(currentlevel);
 
 
 
@@ -591,7 +593,7 @@ void Sokoban::addHud()
 	Entity * time = new Entity("TIMETAKEN");
 	time->GetTransform()->setPosition(
 		glm::vec3(-0.95, 0.8, -0.5)
-		);
+	);
 
 	CGraphics* graphics = new CGraphics();
 	graphics->addText("Time Elapsed: ", 8);
@@ -599,7 +601,7 @@ void Sokoban::addHud()
 	time->addComponent(graphics, "Graphics");
 
 	CLuaScript* script = new CLuaScript;
+	time->addComponent(script, "LuaScript");
 	script->addScript("interface/timeElapsed.lua");
-	time->addComponent(script, "Script");
 	addEntity(time);
 }
