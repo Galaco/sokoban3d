@@ -379,7 +379,7 @@ void Sokoban::addPlayer(int x, int y, int face)
 
 	CGraphics* g = new CGraphics();
 	player->addComponent(g, "Graphics");
-	g->addModel("player/boblampclean.md5mesh", true, 0.8f, false);
+	g->addModel("player/boblampclean.md5mesh", true, 0.75f, false);
 	//g->addModel("wall/wall.obj", true, 0.8f, false);
 	//g->addModel("miku/negimiku.dae", true);
 	g->addMaterial("player/guard.mat");

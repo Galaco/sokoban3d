@@ -25,20 +25,16 @@ void GameBoard::reset()
 	switchCount = 0;
 	activeSwitches = 0;
 	complete = false;
-	//board.clear();
 	playerPosition.x = 0;
 	playerPosition.y = 0;
 	playerPosition.z = 0;
 
 	for (int i = 0; i < 8; ++i)
 	{
-		//std::vector<int> v;
 		for (int j = 0; j < 8; ++j)
 		{
-			//v.push_back(0);
 			board[i][j] = 0;
 		}
-		//board.push_back(v);
 
 	}
 }
@@ -72,7 +68,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 		}
 		if (board[y-1][x] == 2)
 		{
-			if (canBlockMove(x - 1, y, dir))
+			if (canBlockMove(x, y-1, dir))
 			{
 				MoveBlock(x, y - 1, dir);
 				checkComplete();
@@ -99,7 +95,7 @@ bool GameBoard::canPlayerMove(int x2, int y2, int dir)
 		}
 		if (board[y + 1][x] == 2)
 		{
-			if (canBlockMove(x + 1, y, dir))
+			if (canBlockMove(x, y+1, dir))
 			{
 				MoveBlock(x, y + 1, dir);
 				checkComplete();
