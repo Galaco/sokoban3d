@@ -22,7 +22,7 @@ int LuaSokoban::lua_CanPlayerMove(lua_State* L)
 		return 0;
 	}
 
-	GameBoard g = state->getGameBoard((int)state->getGameBoard(0).playerPosition.z);
+	GameBoard& g = state->getGameBoard((int)state->getGameBoard(0).playerPosition.z);
 
 	bool move = g.canPlayerMove((int)state->getGameBoard(0).playerPosition.x, (int)state->getGameBoard(0).playerPosition.y, (int)binder.checknumber(1));
 	if (move)

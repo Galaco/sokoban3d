@@ -222,7 +222,7 @@ void GameBoard::MovePlayer(int x, int y, int dir)
 			playerPosition.y++;
 		}
 		else {	//Next Board
-			connections[3]->board[y][0] = 4;
+			connections[3]->board[y+1][0] = 4;
 			set(0, y, x);
 			playerPosition.y = 0;
 			playerPosition.z = (float)connections[3]->face;
@@ -238,7 +238,7 @@ void GameBoard::MovePlayer(int x, int y, int dir)
 			playerPosition.x--;
 		}
 		else {	//Next Board
-			connections[1]->board[7][x] = 4;
+			connections[1]->board[y][7] = 4;
 			set(0, y, x);
 			playerPosition.x = 7;
 			playerPosition.z = (float)connections[1]->face;
@@ -254,7 +254,7 @@ void GameBoard::MovePlayer(int x, int y, int dir)
 			playerPosition.x++;
 		}
 		else {	//Next Board
-			connections[0]->board[0][x] = 4;
+			connections[0]->board[y][0] = 4;
 			set(0, y, x);
 			playerPosition.x = 0;
 			playerPosition.z = (float)connections[0]->face;
