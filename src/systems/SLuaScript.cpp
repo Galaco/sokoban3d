@@ -10,10 +10,10 @@ SLuaScript::~SLuaScript(){
 }
 
 void SLuaScript::initialize(){
-	m_masterLuaState = luaL_newstate();
+	m_masterLuaState = luaL_newstate();	//Initialize Lua
 	luaL_openlibs( m_masterLuaState );
 	m_luaBinds.setLuaState(m_masterLuaState);
-	m_luaBinds.bindObjects();
+	m_luaBinds.bindObjects();	//Bind objects to lua
 }
 
 lua_State* SLuaScript::getMasterState(){
@@ -32,15 +32,14 @@ void SLuaScript::update(float dt){
 		rebuildCache();
 	}
 
-	auto it = CLuaScriptCache.begin();
+	auto it = CLuaScriptCache.begin();		//Update entity scripts
 	while (it != CLuaScriptCache.end())
 	{
-		(*it)->getScript()->update(dt);
+		(*it)->getScript()->update(dt);	
 		++it;
 	}
 	
-
-	auto itRaw = m_globalScripts.begin();
+	auto itRaw = m_globalScripts.begin();	//Update script with no attachment
 	while(itRaw != m_globalScripts.end()) {
 		(*itRaw)->update(dt);
 		++itRaw;
@@ -63,7 +62,7 @@ void SLuaScript::deleteScript(LuaScript* scriptptr)
 
 void SLuaScript::rebuildCache()
 {
-	CLuaScriptCache.clear();
+	CLuaScriptCache.clear();	//Empty cache
 	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
@@ -72,7 +71,7 @@ void SLuaScript::rebuildCache()
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
-			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));
+			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));	//Insert object into cache
 			++CIterator;
 		}
 		++it;
@@ -86,7 +85,7 @@ void SLuaScript::rebuildCache()
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
-			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));
+			CLuaScriptCache.push_back(static_cast<CLuaScript*>(*CIterator));	//Insert camera into cache
 			++CIterator;
 		}
 		++it2;

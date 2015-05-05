@@ -25,7 +25,7 @@ public:
 	ModelLoader();
 	~ModelLoader();
         
-    Model* load(std::string);
+    Model* load(std::string);	//Loads a model from a string
 
         
 private:

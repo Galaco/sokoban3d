@@ -23,14 +23,14 @@ public:
         
 	void initialize(const char*, const luaL_Reg*);
         
-	void pushnumber(double);
-	double checknumber(int);
+	void pushnumber(double);	//Push a number to Lua
+	double checknumber(int);	//Pull a number from Lua
         
-	void pushstring(const char*);
-	const char* checkstring(int);
+	void pushstring(const char*);	//Push a string to Lua	
+	const char* checkstring(int);	//Pull a string from Lua
         
-	void pushusertype(void*, const char*);
-	void* checkusertype(int, const char*);
+	void pushusertype(void*, const char*);	//Push any class type to Lua
+	void* checkusertype(int, const char*);	//Pull any class type from Lua
 private:
 	int checktype(void*, const char*);
 	void releaseusertype(void*);

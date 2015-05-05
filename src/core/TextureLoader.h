@@ -21,9 +21,9 @@ public:
 	TextureLoader();
 	~TextureLoader();
         
-    Texture* load(std::string);
+    Texture* load(std::string);	//Load a texture (with name checks)
 
-    Texture* createTexture(std::string);
+    Texture* createTexture(std::string);	//Create a texture (doesn't check name)
 private:
 };
 #endif

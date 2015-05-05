@@ -18,7 +18,7 @@ LuaObjectBinds::~LuaObjectBinds(){
 void LuaObjectBinds::bindObjects(){
     LuaBinder binder(m_masterState);
 
-
+	// This simply binds all the luaBinds in each Lua class included
 	/*  \ */
 	binder.initialize("Game", LuaGame::luaBinds);
 

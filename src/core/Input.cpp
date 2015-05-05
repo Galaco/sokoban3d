@@ -50,16 +50,16 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 		switch(key)
 		{ 
 		case GLFW_KEY_UP:
-			Keyboard::KEY_UP = true;
+			Keyboard::Keys[196] = true;
 			break;
 		case GLFW_KEY_DOWN:
-			Keyboard::KEY_DOWN = true;
+			Keyboard::Keys[197] = true;
 			break;
 		case GLFW_KEY_LEFT:
-			Keyboard::KEY_LEFT = true;
+			Keyboard::Keys[198] = true;
 			break;
 		case GLFW_KEY_RIGHT:
-			Keyboard::KEY_RIGHT = true;
+			Keyboard::Keys[199] = true;
 			break;
 		}
 	}
@@ -72,16 +72,16 @@ void Input::keyCallback(GLFWwindow* window, int key, int scancode, int action, i
 			Keyboard::KEY_ESC = false;
 			break;
 		case GLFW_KEY_UP:
-			Keyboard::KEY_UP = false;
+			Keyboard::Keys[196] = false;
 			break;
 		case GLFW_KEY_DOWN:
-			Keyboard::KEY_DOWN = false;
+			Keyboard::Keys[197] = false;
 			break;
 		case GLFW_KEY_LEFT:
-			Keyboard::KEY_LEFT = false;
+			Keyboard::Keys[198] = false;
 			break;
 		case GLFW_KEY_RIGHT:
-			Keyboard::KEY_RIGHT = false;
+			Keyboard::Keys[199] = false;
 			break;
 		}
 	}

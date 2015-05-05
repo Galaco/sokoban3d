@@ -2,9 +2,9 @@
 Project: Dissertation
 Author: Josh Martin
 
-Name: State Machine
+Name: State Machine (Scene Manager)
 Description: Responsible for handling what state is the current state.
-			 A state is rsponsible for its own priority and requesting
+			 A state is responsible for its own priority and requesting
 			 priority. The manager determines what should be active.
 			 Only 1 state can be active at once. Non-active states are
 			 on-hold.
@@ -35,7 +35,7 @@ public:
 	static Scene* getState(std::string);
 
 
-	static void requestPriority(std::string);
+	static void requestPriority(std::string);	//scene name that wants priority
         
 
 private:

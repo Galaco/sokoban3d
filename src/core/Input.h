@@ -23,7 +23,7 @@ public:
 
 	~Input();
 
-	void		pollEvents();
+	void		pollEvents();	//Poll for events
 	static void keyCallback(GLFWwindow*, int, int, int, int);
 	static void mouseKeyCallback(GLFWwindow*, int, int, int);
 	static void cursorCallback(GLFWwindow*, double, double);

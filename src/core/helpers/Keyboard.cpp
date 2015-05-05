@@ -79,7 +79,7 @@ Keyboard::~Keyboard(){
 }
 
 bool Keyboard::get(std::string charcode){
-	//converts and ascii key to Apex Key
+	//converts and ascii key to raw Key
 	std::transform(charcode.begin(), charcode.end(), charcode.begin(), ::tolower);
 	if (charcode.length() == 1)
 	{
@@ -88,16 +88,16 @@ bool Keyboard::get(std::string charcode){
 		return Keys[code];
 	}
 	else {
-		if (charcode == "up") return (bool)Key::KEY_UP;
-		if (charcode == "down") return (bool)Key::KEY_DOWN;
-		if (charcode == "left") return (bool)Key::KEY_LEFT;
-		if (charcode == "right") return (bool)Key::KEY_RIGHT;
+		if (charcode == "up") return Keys[196];
+		if (charcode == "down") return Keys[197];
+		if (charcode == "left") return Keys[198];
+		if (charcode == "right") return Keys[199];
 		if (charcode == "esc") return (bool)Key::KEY_ESC;
 	}
 	return 0;
 }
 Key Keyboard::ascii(std::string charcode){
-	//converts and ascii key to Apex Key
+	//converts and ascii key to raw Key
 	std::transform(charcode.begin(), charcode.end(), charcode.begin(), ::tolower);
 	if (charcode == "up") return Key::KEY_UP;
 	if (charcode == "down") return Key::KEY_DOWN;

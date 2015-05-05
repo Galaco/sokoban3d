@@ -76,7 +76,7 @@ void SAnimation::updateMesh(Model* model, const MD5Animation::FrameSkeleton& ske
 
 void SAnimation::rebuildCache()
 {
-	CGraphicsCAnimationCache.clear();
+	CGraphicsCAnimationCache.clear();	//Empty cache
 	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
@@ -85,7 +85,7 @@ void SAnimation::rebuildCache()
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
-			CGraphicsCAnimationCache[static_cast<CAnimation*>(*CIterator)] = static_cast<CGraphics*>((*CIterator)->getOwner()->getComponent("Graphics"));
+			CGraphicsCAnimationCache[static_cast<CAnimation*>(*CIterator)] = static_cast<CGraphics*>((*CIterator)->getOwner()->getComponent("Graphics"));	//Add graphics to animation cache
 			++CIterator;
 		}
 		++it;

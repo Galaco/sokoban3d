@@ -18,10 +18,10 @@ SGraphics::~SGraphics(){
 }
 
 void SGraphics::initialize(){
-	//Initialize the renderer
-	bool vsLoad = m_shader[0].loadShader("binaries/shaders/shader.vert", GL_VERTEX_SHADER);
-	bool fsLoad = m_shader[1].loadShader("binaries/shaders/shader.frag", GL_FRAGMENT_SHADER);
-	bool gsLoad = m_shader[2].loadShader("binaries/shaders/shader.geom", GL_GEOMETRY_SHADER);
+	//Initialize the shaders
+	bool vsLoad = m_shader[0].loadShader("binaries/shaders/shader.vert", GL_VERTEX_SHADER);		//Vertex
+	bool fsLoad = m_shader[1].loadShader("binaries/shaders/shader.frag", GL_FRAGMENT_SHADER);	//Fragment
+	bool gsLoad = m_shader[2].loadShader("binaries/shaders/shader.geom", GL_GEOMETRY_SHADER);	//Geometry (unused)
 
 	if (!vsLoad || !fsLoad || !gsLoad)
 		Logger::log(FATAL, "Could not load core shader/s.");
@@ -32,14 +32,15 @@ void SGraphics::initialize(){
 	//m_shaderProg.addShaderToProgram(&m_shader[2]);
 	m_shaderProg.linkProgram();
 
-
+	//Obtain subroutines
 	//pass1Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "recordDepth");
 	pass2Index = glGetSubroutineIndex(m_shaderProg.getProgramID(), GL_FRAGMENT_SHADER, "finalPass");
 	//generateShadowBuffer();
 
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glEnable(GL_CULL_FACE);
+	//Initial state requirements/optimisations
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
+	glEnable(GL_CULL_FACE);	//Not requires, ups render performance by culling unseen faces
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDepthFunc(GL_LEQUAL);
@@ -326,7 +327,7 @@ void SGraphics::drawText(CGraphics* it)
 
 void SGraphics::rebuildCache()
 {
-	CGraphicsCache.clear();
+	CGraphicsCache.clear();	//Empty cache
 	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
@@ -335,7 +336,7 @@ void SGraphics::rebuildCache()
 		auto CIterator = cList.begin();
 		while (CIterator != cList.end())
 		{
-			CGraphicsCache.push_back(static_cast<CGraphics*>(*CIterator));
+			CGraphicsCache.push_back(static_cast<CGraphics*>(*CIterator));	//Add component to cache
 			++CIterator;
 		}
 		++it;

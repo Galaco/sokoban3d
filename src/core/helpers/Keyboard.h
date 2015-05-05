@@ -45,5 +45,6 @@ public:
 	static double MOUSEX, MOUSEY;
 
 	static bool Keys[200];
+
 };
 #endif

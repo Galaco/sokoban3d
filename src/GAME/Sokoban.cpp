@@ -53,6 +53,9 @@ Sokoban::Sokoban()
 
 	gameOver = false;
 	gameCompleteTime = 0.f;
+
+
+	glClearColor(0.115f, 0.565f, 0.66f, 1.0f);
 }
 
 Sokoban::~Sokoban()
@@ -374,7 +377,7 @@ void Sokoban::addPlayer(int x, int y, int face)
 	}
 	playerPosition = glm::vec3(x, y, face);
 
-	player->GetTransform()->setScale(glm::vec3(0.5,0.5,0.5));
+	player->GetTransform()->setScale(glm::vec3(0.35,0.35,0.35));
 	player->GetTransform()->setOrientation(glm::vec3(0, 90, 0));
 
 	CGraphics* g = new CGraphics();

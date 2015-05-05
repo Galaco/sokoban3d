@@ -45,7 +45,6 @@ void SceneManager::setActiveState(Scene* newState)
 {
 	m_pActiveState = newState;
 	System::setCurrentState(newState);
-	//System::setCurrentCamera((*it).second->getCurrentCamera());
 }
 
 Scene* SceneManager::getActiveState()

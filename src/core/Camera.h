@@ -39,12 +39,12 @@ public:
 	void addSkybox(std::string);
 	Skybox& getSkybox();
     
-	void goForward();
-	void goBackward();
-	void goLeft();
-	void goRight();
-	void goUp();
-	void goDown();
+	void goForward();	 //Function exist for convenience and due to regular use cases
+	void goBackward();	 //Function exist for convenience and due to regular use cases
+	void goLeft();		 //Function exist for convenience and due to regular use cases
+	void goRight();		 //Function exist for convenience and due to regular use cases
+	void goUp();		 //Function exist for convenience and due to regular use cases
+	void goDown();		 //Function exist for convenience and due to regular use cases
 	void rotate(glm::vec3 axis, float angle, bool additive = true);
 
 	void setCameraMode(int i){

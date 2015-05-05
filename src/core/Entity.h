@@ -25,11 +25,11 @@ public:
     Entity(const char*);
 	~Entity();
 
-	void addComponent(Component*, const char*);
-	void removeComponent(Component*);
+	void addComponent(Component*, const char*);	//Add a component to entity storage
+	void removeComponent(Component*);	//Remove a component from storage
 
-	Component* getComponent(std::string);
-	std::vector<Component*> getComponentsByType(std::string);
+	Component* getComponent(std::string);	//Get a component from storage
+	std::vector<Component*> getComponentsByType(std::string);	//Get a list of components of a given type
 
 	std::string getId();
 	void setId(std::string id);

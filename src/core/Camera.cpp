@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+#include <core/helpers/Keyboard.h>
+
 #define PI 3.14159265359
 #define TO_RAD(x) (x*(PI/180))
 
@@ -69,7 +71,6 @@ void Camera::update(){
 			m_transform.getOrientation().y += Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
 			m_transform.getOrientation().x += Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
 		}
-
 		//Rebuild MVP only when camera moved
 		if (m_transform.getOrientation().x == oldVerticalAngle &&
 			m_transform.getOrientation().y == oldHorizontalAngle &&
@@ -109,6 +110,26 @@ void Camera::update(){
 		float x = Config::_SENSITIVITY * float(Config::_WINDOWWIDTH / 2 - Mouse::_X);
 		float y = Config::_SENSITIVITY * float(Config::_WINDOWHEIGHT / 2 - Mouse::_Y);
 
+		if (Keyboard::get("left"))
+		{
+			x = -0.1;
+		}
+		else {
+			if (Keyboard::get("right"))
+			{
+				x = 0.1;
+			}
+		}
+		if (Keyboard::get("up"))
+		{
+			y = -0.1;
+		}
+		else {
+			if (Keyboard::get("down"))
+			{
+				y = 0.1;
+			}
+		}
 		m_transform.getOrientation().y += x;
 		m_transform.getOrientation().x += y;
 

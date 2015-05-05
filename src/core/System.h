@@ -29,7 +29,6 @@ public:
         
     virtual void terminate();
 
-	//static void setCurrentCamera(Camera*);
 	static void setCurrentState(Scene*);
 
 	static void FixedUpdate();
@@ -37,7 +36,6 @@ public:
 protected:
 	virtual void rebuildCache();
 	static EventManager m_EventManager;
-	//static Camera*		m_currentCamera;
 	static Scene*		m_CurrentState;
 	static Scene*		m_PreviousState;
 };

@@ -60,14 +60,6 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 			pTransform->getPosition() += mtd;
 			return;
 		}
-		
-		if (opCollision->getOwner()->getId() == "PLAYER")
-		{
-			pTransform->getPosition() -= mtd;
-		}
-		else {
-			opTransform->getPosition() += mtd;
-		}
 	}
 }
 
@@ -75,7 +67,6 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3> bb2)
 {
 	//change second box position. bb1 will not change
-
 	glm::vec3 amin = bb1[0];
 	glm::vec3 amax = bb1[1];
 	glm::vec3 bmin = bb2[0];
@@ -95,17 +86,20 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 	if (top > 0 || bottom < 0) return mtd;
 	if (front > 0 || back < 0) return mtd;
 
-	// box intersect. work out the mtd on both x and y axes.
+	// box intersect. work out the mtd on both x and y and z axes.
+	//X
 	if (abs(left) < right)
 		mtd.x = left;
 	else
 		mtd.x = right;
 
+	//Y
 	if (abs(top) < bottom)
 		mtd.y = top;
 	else
 		mtd.y = bottom;
 
+	//Z
 	if (abs(back) < front)
 		mtd.z = back;
 	else
@@ -115,18 +109,17 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 	if (abs(mtd.x) < abs(mtd.y)) {
 		mtd.y = 0;
 
-		if (abs(mtd.z) < abs(mtd.x)) 
-			mtd.x = 0;
-		else
+		if (abs(mtd.x) < abs(mtd.z)) 
 			mtd.z = 0;
-
+		else
+			mtd.x = 0;
 	} else {
 		mtd.x = 0;
 
-		if (abs(mtd.z) < abs(mtd.y)) 
-			mtd.y = 0;
-		else 
+		if (abs(mtd.y) < abs(mtd.z)) 
 			mtd.z = 0;
+		else 
+			mtd.y = 0;
 	}
 
 	return mtd;
@@ -134,7 +127,7 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 
 void SCollision::rebuildCache()
 {
-	CCollisionCTransformCache.clear();
+	CCollisionCTransformCache.clear();	//Empty cache
 	std::map<std::string, Entity*> entityList = m_CurrentState->getEntities();
 	auto it = entityList.begin();
 	while (it != entityList.end())
@@ -146,7 +139,7 @@ void SCollision::rebuildCache()
 			CCollisionCTransformCache[static_cast<CCollision*>(*CIterator)] = (*CIterator)->getOwner()->GetTransform();
 			if ((static_cast<CCollision*>(*CIterator))->dynamic)
 			{
-				DynamicCCollisionCTransformCache[static_cast<CCollision*>(*CIterator)] = (*CIterator)->getOwner()->GetTransform();
+				DynamicCCollisionCTransformCache[static_cast<CCollision*>(*CIterator)] = (*CIterator)->getOwner()->GetTransform();	//Add transform to collision map cache
 			}
 			++CIterator;
 		}

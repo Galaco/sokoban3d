@@ -28,9 +28,9 @@ public:
 	
 	~Logger();
 
-	static void log(e_priority priority, const char* msg);
+	static void log(e_priority priority, const char* msg);	// Log a message onto the console
 
-	static void write(const char* msg);
+	static void write(const char* msg);	//Write a message to the debug file
 
 private:
 	static std::fstream m_file;

@@ -1,12 +1,10 @@
 #include "System.h"
 
 EventManager System::m_EventManager;
-//Camera* System::m_currentCamera;
 Scene*	System::m_CurrentState;
 Scene*	System::m_PreviousState;
 
 System::System(){
-    //m_currentCamera = nullptr;
 	m_PreviousState = nullptr;
 }
 
@@ -26,11 +24,6 @@ void System::terminate(){
     
 }
 
-//void System::setCurrentCamera(Camera* camera){
-//	m_currentCamera = camera;
-//}
-
-
 void System::setCurrentState(Scene* state){
 	m_PreviousState = m_CurrentState;
 	m_CurrentState = state;
@@ -41,7 +34,7 @@ void System::rebuildCache()
 
 }
 
-void System::FixedUpdate()
+void System::FixedUpdate()	//Function exists to allow system to properly re-cache themselves
 {
 	static int i = 0;
 	if (i == 2)
