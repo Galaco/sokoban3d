@@ -220,7 +220,7 @@ void SGraphics::drawEntity(CGraphics* it)
 		m_shaderProg.setUniform("textureDiffuse", 0);
 		m_shaderProg.setUniform("textureNormal", 1);
 	}
-	for (unsigned int i = 0; i < m[i].m_Entries.size(); i++)
+	for (unsigned int i = 0; i < m[0].m_Entries.size(); i++)
 	{
 		glDrawElementsBaseVertex(GL_TRIANGLES,
 			m.at(i).m_Entries.at(i).NumIndices,
