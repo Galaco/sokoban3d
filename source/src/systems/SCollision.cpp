@@ -53,11 +53,36 @@ void SCollision::processCollideable(CCollision* pCollision, CTransform* pTransfo
 	}
 	if (gotCollision)
 	{
-		glm::vec3 mtd = calcMTD(box1, box2);
+
+		glm::vec3 mtd;
+
+		mtd = calcMTD(box1, box2);
+
+		
+		if (pTransform->getPosition() == pTransform->getOldPosition()) {
+			mtd = opTransform->getPosition() - opTransform->getOldPosition();
+		} else {
+			mtd = pTransform->getPosition() - pTransform->getOldPosition();
+		}
 
 		if (!opCollision->dynamic)	// If the second object is static, it should not be moved
 		{
-			pTransform->getPosition() += mtd;
+			glm::vec3 diff = opTransform->getPosition() - opTransform->getOldPosition();
+			glm::vec3 mult;
+			if (diff.x != 0) {
+				mtd.y = 0;
+				mtd.z = 0;
+			}
+			if (diff.y != 0) {
+				mtd.x = 0;
+				mtd.z = 0;
+			}
+			if (diff.z != 0) {
+				mtd.y = 0;
+				mtd.x = 0;
+			}
+
+			pTransform->setPosition(pTransform->getPosition() += mtd);
 			return;
 		}
 	}
@@ -74,31 +99,34 @@ glm::vec3 SCollision::calcMTD(std::vector<glm::vec3> bb1, std::vector<glm::vec3>
 
 	glm::vec3 mtd;
 
-	float left = (bmin.x - amax.x);
-	float right = (bmax.x - amin.x);
+	float left = (bmax.x - amin.x);
+	float right = (bmin.x - amax.x);
 	float top = (bmin.y - amax.y);
 	float bottom = (bmax.y - amin.y);
 	float front = (bmin.z - amax.z);
 	float back = (bmax.z - amin.z);
 
 	// box dont intersect   
-	if (left > 0 || right < 0) return mtd;
+	if (right > 0 || left < 0) return mtd;
 	if (top > 0 || bottom < 0) return mtd;
 	if (front > 0 || back < 0) return mtd;
 
+
 	// box intersect. work out the mtd on both x and y and z axes.
 	//X
-	if (abs(left) < right)
+	if (abs(left) < right) {
 		mtd.x = left;
-	else
+	}
+	else {
 		mtd.x = right;
-
+	}
 	//Y
-	if (abs(top) < bottom)
+	if (abs(top) < bottom) {
 		mtd.y = top;
-	else
+	}
+	else {
 		mtd.y = bottom;
-
+	}
 	//Z
 	if (abs(back) < front)
 		mtd.z = back;

@@ -26,7 +26,13 @@ glm::vec3& CTransform::getPosition() {
 	return m_position;
 }
 
+glm::vec3& CTransform::getOldPosition() {
+	return m_oldPosition;
+}
+
+
 void CTransform::setPosition(glm::vec3 pos) { 
+	m_oldPosition = m_position;
 	m_position = pos; 
 }
 

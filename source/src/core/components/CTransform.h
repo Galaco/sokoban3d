@@ -21,6 +21,7 @@ public:
 	~CTransform();
 
 	glm::vec3& getPosition();
+	glm::vec3& getOldPosition();
 	void setPosition(glm::vec3 pos);
 
 	glm::vec3& getOrientation();
@@ -33,6 +34,8 @@ private:
 	glm::vec3 m_position;
 	glm::vec3 m_orientation;
 	glm::vec3 m_scale;
+
+	glm::vec3 m_oldPosition;
 
 };
 #endif;
