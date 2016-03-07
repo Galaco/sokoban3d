@@ -223,10 +223,10 @@ void SGraphics::drawEntity(CGraphics* it)
 	for (unsigned int i = 0; i < m[0].m_Entries.size(); i++)
 	{
 		glDrawElementsBaseVertex(GL_TRIANGLES,
-			m.at(i).m_Entries.at(i).NumIndices,
+			m.at(0).m_Entries.at(i).NumIndices,
 			GL_UNSIGNED_INT,
-			(void*)(sizeof(unsigned int) * m.at(i).m_Entries.at(i).BaseIndex),
-			m.at(i).m_Entries.at(i).BaseVertex);
+			(void*)(sizeof(unsigned int) * m.at(0).m_Entries.at(i).BaseIndex),
+			m.at(0).m_Entries.at(i).BaseVertex);
 	}
 	glBindTexture(GL_TEXTURE_2D, 0);
 	

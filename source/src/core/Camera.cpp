@@ -112,22 +112,22 @@ void Camera::update(){
 
 		if (Keyboard::get("left"))
 		{
-			x = -0.1;
+			x = -0.1f;
 		}
 		else {
 			if (Keyboard::get("right"))
 			{
-				x = 0.1;
+				x = 0.1f;
 			}
 		}
 		if (Keyboard::get("up"))
 		{
-			y = -0.1;
+			y = -0.1f;
 		}
 		else {
 			if (Keyboard::get("down"))
 			{
-				y = 0.1;
+				y = 0.1f;
 			}
 		}
 		m_transform.getOrientation().y += x;
